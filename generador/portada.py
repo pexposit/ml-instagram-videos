@@ -27,6 +27,9 @@ def _captura_animacion(reel, draw, t):
         for a in list(rax.patches):
             a.remove()
     reel.ax.set_visible(True)
+    if not hasattr(reel.fig.canvas, "get_renderer"):  # la figura ya se cerró tras el render
+        from matplotlib.backends.backend_agg import FigureCanvasAgg
+        FigureCanvasAgg(reel.fig)
     draw(t)
     buf = io.BytesIO()
     reel.fig.savefig(buf, dpi=DPI, facecolor=BG, format="png")
