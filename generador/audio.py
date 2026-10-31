@@ -124,12 +124,21 @@ def efecto(tipo):
     if tipo == "error":
         tt = np.arange(int(0.35 * SR)) / SR
         return 0.5 * np.sign(np.sin(2 * np.pi * 140 * tt)) * np.exp(-tt * 8)
+    if tipo == "servo":  # zumbido corto de motor al mover una articulación
+        tt = np.arange(int(0.22 * SR)) / SR
+        f = 170 + 140 * tt / tt[-1]
+        onda = 2 * ((np.cumsum(f) / SR) % 1.0) - 1
+        onda = np.convolve(onda, np.ones(6) / 6, "same")
+        return 0.35 * onda * np.sin(np.pi * tt / tt[-1]) ** 0.5 * (1 + 0.3 * np.sin(2 * np.pi * 38 * tt))
     raise ValueError(tipo)
 
 
 # ---------------------------------------------------------------- mezcla
 def banda_sonora(duracion, voz, efectos, salida, musica_kw=None):
-    """voz: [(t, texto, t_max_fin)], efectos: [(t, tipo)]. Escribe un WAV en `salida`."""
+    """voz: [(t, texto, t_max_fin)], efectos: [(t, tipo)].
+
+    Escribe la mezcla en `salida` y devuelve la pista de voz sola (para mover la boca del robot).
+    """
     n = int(duracion * SR)
     pista_voz = np.zeros(n, np.float32)
     fin_anterior = 0.0
@@ -167,3 +176,4 @@ def banda_sonora(duracion, voz, efectos, salida, musica_kw=None):
     mezcla = pista_voz + gan_musica * musica(duracion, **(musica_kw or {})) + 0.18 * pista_fx
     mezcla = 0.95 * mezcla / (np.abs(mezcla).max() + 1e-9)
     escribir_wav(salida, mezcla)
+    return pista_voz

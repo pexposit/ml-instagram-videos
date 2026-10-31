@@ -98,6 +98,36 @@ class Reel:
         self.fig.text(0.5, 0.495, CANAL, ha="center", va="center", size=30, weight="black",
                       color=FG, alpha=0.07, rotation=28, zorder=10)
 
+    # ------------------------------------------------------------ robot presentador
+    S_GRANDE, S_PEQ = 0.29, 0.10
+    ALTO = H / W  # alto del fotograma en unidades de ancho
+
+    def robot_guion(self):
+        """Qué gesto hace el robot en cada momento (tiempos absolutos)."""
+        t_final = INTRO + self.escenas[-1][0]
+        g = [(0.0, "saludo", 0.4), (1.7, "explica", 0.5), (INTRO, "reposo", 0.3)]
+        for t0, t1, texto in self.escenas[:-1]:
+            if texto.startswith("!"):  # se asoma y señala la animación
+                g += [(INTRO + t0, "senala", 0.45), (INTRO + t1, "reposo", 0.3)]
+        g += [(t_final, "explica", 0.5), (t_final + 1.8, "saludo", 0.45)]
+        return sorted(g)
+
+    def robot_estado(self, ta):
+        """Dónde está el robot en el segundo absoluto `ta`. Devuelve (dict | None, grande)."""
+        t = ta - INTRO
+        grande = dict(cx=0.5, cy=0.47 * self.ALTO)
+        t_final = self.escenas[-1][0]
+        if ta < INTRO:  # presenta el gancho
+            s = self.S_GRANDE * ease(ta / 0.35) * (1 - ease((ta - INTRO + 0.35) / 0.35))
+            return dict(grande, s=s), True
+        if t >= t_final:  # despedida y llamada a la acción
+            return dict(grande, s=self.S_GRANDE * ease((t - t_final) / 0.35)), True
+        for t0, t1, texto in self.escenas[:-1]:  # se asoma en los momentos clave
+            if texto.startswith("!") and t0 <= t < t1:
+                s = self.S_PEQ * min(ease((t - t0) / 0.3), ease((t1 - t) / 0.25))
+                return dict(cx=0.13, cy=0.25 * self.ALTO, s=s), False
+        return None, False
+
     def subtitulo(self, t):
         for t0, t1, texto in self.escenas:
             if t0 <= t < t1:
@@ -117,36 +147,67 @@ class Reel:
                 lineas.append((INTRO + t0 + 0.1, hablado, INTRO + t1))
         return lineas
 
-    def render(self, draw, nombre, portada_t):
-        def update(i):
-            t = i / FPS - INTRO
-            draw(max(t, 0.0))
-            if t >= 0:
-                texto, alpha, color = self.subtitulo(t)
-            else:
-                texto, alpha, color = "", 0.0, FG
-            self.sub.set_text(texto)
-            self.sub.set_alpha(alpha)
-            self.sub.set_color(color)
-            self.barra.set_width(0.84 * (t + INTRO) / self.total)
-            return []
-
-        update(int((INTRO + portada_t) * FPS))
-        self.fig.savefig(ROOT / "portadas" / f"{nombre}.png", dpi=DPI, facecolor=BG)
-
+    def render(self, draw, nombre, portada_t=None):
         from audio import banda_sonora  # import tardío: solo hace falta al renderizar
+        from robot import Robot, pose_en
 
+        rax = self.fig.add_axes([0, 0, 1, 1], zorder=5)
+        rax.set_xlim(0, 1)
+        rax.set_ylim(0, self.ALTO)
+        rax.set_aspect("equal")
+        rax.axis("off")
+        rax.patch.set_alpha(0)
+        robot = Robot(rax)
+        guion = self.robot_guion()
         salida = ROOT / "videos" / f"{nombre}.mp4"
         with tempfile.TemporaryDirectory() as d:
             mudo, sonido = Path(d) / "mudo.mp4", Path(d) / "audio.wav"
+
+            # 1) audio primero: la boca del robot se mueve con la voz
+            efectos = [(INTRO + t, tipo) for t, tipo in self.efectos]
+            # zumbido de motor cuando el robot cambia de gesto y se le ve
+            efectos += [(tg, "servo") for tg, _g, _d in guion
+                        if self.robot_estado(tg + 0.05)[0] is not None and tg > 0]
+            voz = banda_sonora(self.total, self.pistas_voz(), efectos, sonido, self.musica)
+            spf = len(voz) // int(self.total * FPS)
+            rms = np.sqrt(np.mean(voz[: spf * int(self.total * FPS)].reshape(-1, spf) ** 2, 1))
+            boca = np.clip(rms / (np.percentile(rms[rms > 0.01], 90) + 1e-9), 0, 1) ** 0.7
+
+            # 2) vídeo
+            def update(i):
+                ta = i / FPS
+                t = ta - INTRO
+                estado, grande = self.robot_estado(ta)
+                self.ax.set_visible(not grande)
+                draw(max(t, 0.0))
+                b = boca[min(i, len(boca) - 1)]
+                if estado and estado["s"] > 0.003:
+                    robot.dibujar(ta, pose_en(ta, guion, b), boca=b, **estado)
+                else:
+                    for a in list(rax.patches):
+                        a.remove()
+                texto, alpha, color = self.subtitulo(t) if t >= 0 else ("", 0.0, FG)
+                if estado and not grande:  # robot asomado a la izquierda del subtítulo
+                    texto = wrap(texto.replace("\n", " "), 19)
+                    self.sub.set_x(0.58)
+                else:
+                    self.sub.set_x(0.5)
+                self.sub.set_text(texto)
+                self.sub.set_alpha(alpha)
+                self.sub.set_color(color)
+                self.barra.set_width(0.84 * ta / self.total)
+                return []
+
+            # portada: el robot presentando el gancho
+            update(int(1.2 * FPS))
+            self.fig.savefig(ROOT / "portadas" / f"{nombre}.png", dpi=DPI, facecolor=BG)
+
             anim = FuncAnimation(self.fig, update, frames=int(self.total * FPS), blit=False)
             writer = FFMpegWriter(fps=FPS, codec="libx264", bitrate=-1, extra_args=[
                 "-pix_fmt", "yuv420p", "-crf", "20", "-preset", "medium"])
             anim.save(mudo, writer=writer, dpi=DPI, savefig_kwargs={"facecolor": BG})
             plt.close(self.fig)
 
-            efectos = [(INTRO + t, tipo) for t, tipo in self.efectos]
-            banda_sonora(self.total, self.pistas_voz(), efectos, sonido, self.musica)
             subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", str(mudo), "-i", str(sonido),
                             "-c:v", "copy", "-af", "loudnorm=I=-14:TP=-1.5:LRA=11",
                             "-c:a", "aac", "-b:a", "192k", "-ar", "44100", "-shortest",

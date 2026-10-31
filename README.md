@@ -30,6 +30,11 @@ cd generador
 python3 v01_descenso_gradiente.py   # crea videos/01_... y portadas/01_...
 ```
 
+`generador/robot.py` es el robot presentador: un esqueleto articulado (columna, cuello,
+hombros, codos, muñecas, dedos, rodillas y tobillos) que se mueve como servos, con gestos
+de saludar, explicar, señalar, pensar y "¡bien!". Aparece grande al principio y al final de
+cada vídeo, y pequeño, señalando la animación, en los momentos clave.
+
 `generador/base.py` tiene la plantilla común: formato 1080×1920, gancho, subtítulos, barra de
 progreso y colores. `generador/audio.py` genera la voz, la música y los efectos, y los mezcla
 (la música baja cuando habla la voz). Cada vídeo nuevo solo define sus escenas, su animación,
