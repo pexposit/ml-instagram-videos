@@ -10,7 +10,9 @@ from pathlib import Path
 import numpy as np
 
 SR = 44100
-VOZ_MODELO = Path(__file__).resolve().parent / "voz" / "es-carlfm-x-low.onnx"
+# Voz "sharvard" de España (Piper), locutor masculino. Datos: Sharvard corpus, CC BY 3.0.
+VOZ_MODELO = Path(__file__).resolve().parent / "voz" / "es_ES-sharvard-medium.onnx"
+VOZ_LOCUTOR = "0"  # 0 = hombre, 1 = mujer
 
 
 # ---------------------------------------------------------------- utilidades
@@ -33,7 +35,7 @@ def tts(texto, velocidad=1.0):
     """Sintetiza `texto` y lo devuelve a 44,1 kHz (acelerado si velocidad > 1)."""
     with tempfile.TemporaryDirectory() as d:
         bruto, final = Path(d) / "v.wav", Path(d) / "f.wav"
-        subprocess.run(["python3", "-m", "piper", "-m", str(VOZ_MODELO), "-f", str(bruto),
+        subprocess.run(["python3", "-m", "piper", "-m", str(VOZ_MODELO), "-s", VOZ_LOCUTOR, "-f", str(bruto),
                         "--sentence-silence", "0.15"],
                        input=texto.encode(), check=True, capture_output=True)
         filtros = f"atempo={velocidad:.3f}," if abs(velocidad - 1) > 1e-3 else ""

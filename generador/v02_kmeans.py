@@ -33,7 +33,7 @@ for i in range(4):
 ESCENAS += [
     (18.4, 22.0, "Repite hasta que nada cambie: grupos encontrados SIN etiquetas"),
     (22.0, 25.4, "K-MEANS: así se agrupan clientes, canciones o píxeles"),
-    (25.4, 28.5, "!Envíaselo a quien esté estudiando IA"),
+    (25.4, 30.0, "!Envíaselo a quien esté estudiando IA"),
 ]
 
 VOZ = {
@@ -50,7 +50,7 @@ VOZ = {
 EFECTOS = [(3.2, "pop")] + [(T0_ITER + i * T_ITER + 1.5, "whoosh") for i in range(3)] \
     + [(18.4, "pop")]
 
-reel = Reel(2, "Nadie le dijo qué buscar… y lo encontró", ESCENAS, 28.5,
+reel = Reel(2, "Nadie le dijo qué buscar… y lo encontró", ESCENAS, 30.0,
             voz=VOZ, efectos=EFECTOS, musica={"bpm": 104,
             "progresion": ((50, 53, 57), (46, 50, 53), (53, 57, 60), (48, 52, 55))})
 ax = reel.ax
