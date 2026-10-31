@@ -25,25 +25,27 @@ ESCENAS = [
     (3.2, 8.2, "Modelo demasiado simple: no capta nada"),
     (8.2, 13.2, "Modelo justo: entiende la forma"),
     (13.2, 18.2, "Modelo que se lo MEMORIZA: pasa por TODOS los puntos"),
-    (18.2, 23.2, "!Llegan datos nuevos… y falla estrepitosamente"),
+    (18.2, 23.2, "!Llegan datos nuevos… ¡y fallo estrepitosamente! Qué vergüenza.", "piensa"),
     (23.2, 26.4, "Memorizar no es aprender. Por eso se separan TRAIN y TEST."),
-    (26.4, 29.5, "!Etiqueta a quien memoriza para el examen"),
+    (26.4, 30.8, "!¡Etiqueta a quien memoriza para el examen!"),
 ]
 FASES = [(3.2, 1, "INFRAAJUSTE", MUTED), (8.2, 3, "BIEN AJUSTADO", C3),
          (13.2, 11, "SOBREAJUSTE", C2)]
 
 VOZ = {
-    "gancho": "Tu IA saca un diez en casa, y un tres en el examen.",
+    "gancho": "¿Un diez en casa, y un tres en el examen?",
     3: "Modelo que se lo memoriza: pasa por todos los puntos.",
-    4: "Pero llegan datos nuevos. Y falla estrepitosamente.",
     5: "Memorizar no es aprender. Por eso se separan entrenamiento y prueba.",
 }
 EFECTOS = [(t0, "whoosh") for t0, *_r in FASES] + [(18.2, "pop")] \
     + [(19.0 + 0.25 * k, "error") for k in range(len(x_test))]
 
-reel = Reel(3, "Tu IA saca un 10\nen casa y un 3\nen el examen", ESCENAS, 29.5,
+PORTADA = dict(titulo=["Un 10 en casa,", "un 3 en el examen"], amarilla=1, t=21.0, gesto="piensa")
+
+reel = Reel(3, "Tu IA saca un 10\nen casa y un 3\nen el examen", ESCENAS, 30.8,
             voz=VOZ, efectos=EFECTOS, musica={"bpm": 90,
-            "progresion": ((52, 55, 59), (48, 52, 55), (55, 59, 62), (50, 54, 57))})
+            "progresion": ((52, 55, 59), (48, 52, 55), (55, 59, 62), (50, 54, 57))},
+            portada=PORTADA)
 ax = reel.ax
 ax.set_xlim(-0.03, 1.03)
 ax.set_ylim(-2.6, 2.6)

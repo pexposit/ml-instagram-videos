@@ -10,9 +10,26 @@ from pathlib import Path
 import numpy as np
 
 SR = 44100
-# Voz "sharvard" de España (Piper), locutor masculino. Datos: Sharvard corpus, CC BY 3.0.
-VOZ_MODELO = Path(__file__).resolve().parent / "voz" / "es_ES-sharvard-medium.onnx"
-VOZ_LOCUTOR = "0"  # 0 = hombre, 1 = mujer
+VOZ_DIR = Path(__file__).resolve().parent / "voz"
+
+# Dos voces: la narradora explica y el robot interviene con frases simpáticas.
+#  - Narradora: Piper es_MX "claude" (alta calidad, licencia Apache 2.0). Elegida por el usuario.
+#  - Robot: Piper es_ES "sharvard", locutora 1, más aguda y con brillo metálico
+#    (datos: corpus Sharvard, U. Edimburgo, CC BY 3.0 → hay que citarlo).
+VOCES = {
+    "narrador": dict(
+        modelo=VOZ_DIR / "es_MX-claude-high.onnx", locutor="0", length=0.95,
+        antes="",
+        despues=("highpass=f=70,equalizer=f=250:t=q:w=1:g=-2,equalizer=f=3200:t=q:w=1.2:g=3,"
+                 "equalizer=f=120:t=q:w=1:g=2,deesser,"
+                 "acompressor=threshold=-20dB:ratio=3:attack=5:release=80,"
+                 "aecho=0.85:0.6:28|47:0.10|0.06")),
+    "robot": dict(
+        modelo=VOZ_DIR / "es_ES-sharvard-medium.onnx", locutor="1", length=0.9,
+        antes="asetrate=22050*1.12,aresample=22050,atempo=0.93,",
+        despues=("aecho=0.8:0.85:5:0.45,equalizer=f=2500:t=q:w=1:g=3,highpass=f=150,"
+                 "acompressor=threshold=-18dB:ratio=3")),
+}
 
 
 # ---------------------------------------------------------------- utilidades
@@ -31,16 +48,20 @@ def escribir_wav(path, x):
         w.writeframes((x * 32767).astype(np.int16).tobytes())
 
 
-def tts(texto, velocidad=1.0):
-    """Sintetiza `texto` y lo devuelve a 44,1 kHz (acelerado si velocidad > 1)."""
+def tts(texto, velocidad=1.0, quien="narrador"):
+    """Sintetiza `texto` con la voz de `quien` y lo devuelve a 44,1 kHz."""
+    v = VOCES[quien]
     with tempfile.TemporaryDirectory() as d:
         bruto, final = Path(d) / "v.wav", Path(d) / "f.wav"
-        subprocess.run(["python3", "-m", "piper", "-m", str(VOZ_MODELO), "-s", VOZ_LOCUTOR, "-f", str(bruto),
-                        "--sentence-silence", "0.15"],
+        subprocess.run(["python3", "-m", "piper", "-m", str(v["modelo"]), "-s", v["locutor"],
+                        "--length-scale", str(v["length"]), "--noise-scale", "0.75",
+                        "--noise-w-scale", "0.9", "--sentence-silence", "0.18",
+                        "-f", str(bruto)],
                        input=texto.encode(), check=True, capture_output=True)
-        filtros = f"atempo={velocidad:.3f}," if abs(velocidad - 1) > 1e-3 else ""
-        # un poco de grave y compresión para que suene más "de radio"
-        filtros += "highpass=f=80,bass=g=3:f=150,acompressor=threshold=-18dB:ratio=3"
+        filtros = v["antes"]
+        if abs(velocidad - 1) > 1e-3:
+            filtros += f"atempo={velocidad:.3f},"
+        filtros += v["despues"] + ",aresample=44100:resampler=soxr"
         subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", str(bruto), "-af", filtros,
                         "-ar", str(SR), "-ac", "1", str(final)], check=True)
         x = leer_wav(final)
@@ -135,25 +156,28 @@ def efecto(tipo):
 
 # ---------------------------------------------------------------- mezcla
 def banda_sonora(duracion, voz, efectos, salida, musica_kw=None):
-    """voz: [(t, texto, t_max_fin)], efectos: [(t, tipo)].
+    """voz: [(t, texto, t_max_fin, quien)], efectos: [(t, tipo)].
 
-    Escribe la mezcla en `salida` y devuelve la pista de voz sola (para mover la boca del robot).
+    Escribe la mezcla en `salida` y devuelve solo la voz del robot (para mover su boca).
     """
     n = int(duracion * SR)
     pista_voz = np.zeros(n, np.float32)
+    pista_robot = np.zeros(n, np.float32)
     fin_anterior = 0.0
-    for t, texto, t_fin in voz:
+    for t, texto, t_fin, quien in voz:
         inicio = max(t, fin_anterior + 0.1)
-        x = tts(texto)
+        x = tts(texto, quien=quien)
         hueco = t_fin - inicio
         if len(x) / SR > hueco:  # acelera un poco si no cabe
-            vel = min(1.25, (len(x) / SR) / max(hueco, 0.5))
-            x = tts(texto, vel)
+            vel = min(1.2, (len(x) / SR) / max(hueco, 0.5))
+            x = tts(texto, vel, quien)
         if inicio - t > 0.6:
             print(f"  aviso: «{texto}» empieza {inicio - t:.1f}s tarde")
         a = int(inicio * SR)
         b = min(n, a + len(x))
         pista_voz[a:b] += x[: b - a]
+        if quien == "robot":
+            pista_robot[a:b] += x[: b - a]
         fin_anterior = inicio + len(x) / SR
     if fin_anterior > duracion - 0.3:
         print(f"  aviso: la voz termina en {fin_anterior:.1f}s y el vídeo dura {duracion:.1f}s")
@@ -176,4 +200,4 @@ def banda_sonora(duracion, voz, efectos, salida, musica_kw=None):
     mezcla = pista_voz + gan_musica * musica(duracion, **(musica_kw or {})) + 0.18 * pista_fx
     mezcla = 0.95 * mezcla / (np.abs(mezcla).max() + 1e-9)
     escribir_wav(salida, mezcla)
-    return pista_voz
+    return pista_robot
