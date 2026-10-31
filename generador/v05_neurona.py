@@ -11,24 +11,23 @@ UMBRAL = 4
 NEURONA = np.array([6.1, 3.9])
 SALIDA = np.array([8.85, 3.9])
 
-ESCENAS = [
+ESCENAS = [  # "!" = habla el robot (subtítulo amarillo); el resto, la narradora
     (0.0, 4.0, "Una neurona recibe datos: ¿hace sol? ¿calor? ¿trabajas?"),
     (4.0, 8.2, "Cada dato tiene un PESO: lo mucho que importa"),
     (8.2, 13.6, "Hoy hace sol y calor, y no trabajas: 3 + 2 + 0 = 5"),
-    (13.6, 17.2, "5 supera el umbral de 4… ¡SÍ, a la playa!"),
-    (17.2, 22.4, "!¿Y si trabajas? 3 + 2 − 5 = 0… NO hay playa"),
+    (13.6, 17.2, "!¡5 pasa el umbral de 4! ¡A la playa!", "pulgar"),
+    (17.2, 22.4, "!¿Que trabajo? 3 + 2 − 5 = 0… adiós, playa", "piensa"),
     (22.4, 27.0, "Aprender es ajustar esos pesos con muchos ejemplos"),
-    (27.0, 31.5, "!Sigue a @hacerlointeligente: en el próximo, una red entera"),
+    (27.0, 31.5, "!¡Sígueme! En el próximo, una red entera de neuronas"),
 ]
 VOZ = {
-    "gancho": "Así toma una decisión una neurona artificial.",
+    "gancho": "¿Playa o no playa? ¡Así decido yo!",
     0: "Una neurona recibe datos. ¿Hace sol? ¿Hace calor? ¿Trabajas?",
-    1: "Cada dato tiene un peso: lo mucho que le importa.",
+    1: "Cada dato tiene un peso: lo mucho que importa.",
     2: "Hoy hace sol y calor, y no trabajas. Tres, más dos, más cero: cinco.",
-    3: "Cinco supera el umbral de cuatro. ¡Sí, a la playa!",
-    4: "¿Y si trabajas? Tres, más dos, menos cinco: cero. No hay playa.",
-    5: "Aprender es ajustar esos pesos con muchos ejemplos.",
-    6: "Sigue a hacerlo inteligente. En el próximo, una red entera.",
+    3: "¡Cinco pasa el umbral de cuatro! ¡A la playa!",
+    4: "¿Que tengo que trabajar? Tres más dos, menos cinco: cero. Adiós, playa.",
+    6: "¡Sígueme! En el próximo, una red entera de neuronas.",
 }
 EFECTOS = ([(0.4 + 0.5 * k, "pop") for k in range(3)] + [(1.9, "pop")]
            + [(4.4 + 0.6 * k, "whoosh") for k in range(3)]

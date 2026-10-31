@@ -33,24 +33,21 @@ NUEVA = np.array([2.0, 4.0])                 # fruta nueva: una manzana
 T_APRENDE0, T_APRENDE1 = 11.4, 18.0
 T_PASO = (T_APRENDE1 - T_APRENDE0 - 0.6) / (len(fronteras) - 1)
 
-ESCENAS = [
+ESCENAS = [  # "!" = habla el robot (subtítulo amarillo); el resto, la narradora
     (0.0, 3.9, "Programar es escribir reglas: «si es roja, es manzana»"),
-    (3.9, 7.6, "Pero llega una manzana VERDE… y la regla falla"),
+    (3.9, 7.6, "!Pero llega una manzana VERDE… ¡y la regla falla!"),
     (7.6, 11.4, "La IA hace otra cosa: aprende de MUCHOS ejemplos"),
     (T_APRENDE0, T_APRENDE1, "Prueba una frontera, mira en qué falla y la corrige"),
-    (18.0, 22.2, "!Llega una fruta nueva… y la clasifica ella sola"),
+    (18.0, 22.2, "!Fruta nueva… ¡manzana! ¿A que soy listo?", "pulgar"),
     (22.2, 26.4, "Eso es aprender: sacar la regla a partir de ejemplos"),
-    (26.4, 31.0, "!Sigue a @hacerlointeligente para entender la IA desde cero"),
+    (26.4, 31.0, "!¡Sígueme y te enseño cómo funciono por dentro!"),
 ]
 VOZ = {
-    "gancho": "La inteligencia artificial no se programa. Se enseña.",
-    0: "Programar es escribir reglas. Por ejemplo: si es roja, es manzana.",
-    1: "Pero llega una manzana verde, y la regla falla.",
-    2: "La IA hace otra cosa: aprende de muchos ejemplos.",
+    "gancho": "¡A mí no me programaron! Me enseñaron.",
+    0: "Programar es escribir reglas: si es roja, es manzana.",
+    1: "Pero llega una manzana verde… ¡y la regla se rompe!",
     3: "Prueba una frontera, mira en qué se equivoca, y la corrige. Una y otra vez.",
-    4: "Llega una fruta nueva, y la clasifica ella sola.",
-    5: "Eso es aprender: sacar la regla a partir de ejemplos.",
-    6: "Sigue a hacerlo inteligente para entender la IA desde cero.",
+    4: "¡Fruta nueva… es una manzana! ¿A que soy listo?",
 }
 EFECTOS = ([(0.6, "pop"), (4.4, "pop"), (5.4, "error")]
            + [(7.9 + 0.11 * k, "pop") for k in range(0, len(X), 4)]

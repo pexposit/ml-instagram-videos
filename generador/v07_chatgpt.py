@@ -18,24 +18,18 @@ T_TECLEO = (0.3, 3.4)
 T_PASO = [4.6, 10.6, 12.6, 14.4, 16.2]    # inicio de cada paso (+ fin del último)
 T_RAPIDO0, T_RAPIDO_PASO = 18.8, 0.22
 
-ESCENAS = [
+ESCENAS = [  # "!" = habla el robot (subtítulo amarillo); el resto, la narradora
     (0.0, 4.4, "Le das un texto: «El gato se sentó en el…»"),
     (4.4, 9.2, "Calcula qué palabra es más probable que venga después"),
     (9.2, 12.6, "Elige una… y la añade al texto"),
     (12.6, 18.6, "Y repite. Palabra tras palabra."),
-    (18.6, 22.8, "!Así escribe respuestas enteras: de una palabra en una"),
+    (18.6, 22.8, "!¡Y así escribe respuestas enteras, palabra a palabra!", "explica"),
     (22.8, 27.0, "Lo aprendió leyendo muchísimos textos"),
-    (27.0, 31.5, "!Sigue a @hacerlointeligente para entender la IA desde cero"),
+    (27.0, 31.5, "!¡Sígueme para entender la IA desde cero! Te espero."),
 ]
 VOZ = {
-    "gancho": "ChatGPT no escribe la respuesta de golpe. La adivina, palabra a palabra.",
+    "gancho": "¿Sabes cómo escribe ChatGPT? ¡Adivinando!",
     0: "Le das un texto. El gato se sentó en el…",
-    1: "Calcula qué palabra es más probable que venga después.",
-    2: "Elige una, y la añade al texto.",
-    3: "Y repite. Palabra tras palabra.",
-    4: "Así escribe respuestas enteras: de una palabra en una.",
-    5: "Lo aprendió leyendo muchísimos textos.",
-    6: "Sigue a hacerlo inteligente para entender la IA desde cero.",
 }
 EFECTOS = ([(T_TECLEO[0] + k * 0.5, "pop") for k in range(len(PROMPT))]
            + [(T_PASO[0], "whoosh"), (9.8, "pop")]

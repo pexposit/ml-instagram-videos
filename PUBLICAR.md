@@ -23,7 +23,7 @@ cada vídeo y usarla en lugar de la que lleva.
 > #machinelearning #inteligenciaartificial #IA #aprendizajeautomatico #programacion
 > #ciencia #datascience #aprendeconreels #python #estudiantes
 >
-> © @hacerlointeligente · Voz: corpus Sharvard (U. Edimburgo, CC BY 3.0)
+> © @hacerlointeligente · Voz del robot: corpus Sharvard (U. Edimburgo, CC BY 3.0)
 
 **Voz (si quieres grabarla):** "Una IA no piensa. Hace esto millones de veces. Esta curva es
 su error: arriba se equivoca mucho, abajo acierta. Mira hacia dónde baja la pendiente y da un
@@ -48,7 +48,7 @@ descenso del gradiente."
 > #machinelearning #inteligenciaartificial #kmeans #clustering #datascience #IA
 > #aprendizajeautomatico #programacion #estudiantes #ciencia
 >
-> © @hacerlointeligente · Voz: corpus Sharvard (U. Edimburgo, CC BY 3.0)
+> © @hacerlointeligente · Voz del robot: corpus Sharvard (U. Edimburgo, CC BY 3.0)
 
 **Voz:** "Nadie le dijo qué buscar, y lo encontró. Tienes datos, pero sin etiquetas. Pones tres
 capitanes al azar. Cada punto se une a su capitán más cercano. Cada capitán se mueve al centro
@@ -72,7 +72,7 @@ de su grupo. Repites… hasta que nada cambia. Esto es K-means."
 > #machinelearning #overfitting #inteligenciaartificial #IA #datascience
 > #aprendizajeautomatico #estudiantes #universidad #programacion #ciencia
 >
-> © @hacerlointeligente · Voz: corpus Sharvard (U. Edimburgo, CC BY 3.0)
+> © @hacerlointeligente · Voz del robot: corpus Sharvard (U. Edimburgo, CC BY 3.0)
 
 **Voz:** "Tu IA saca un diez en casa y un tres en el examen. Modelo demasiado simple: no capta
 nada. Modelo justo: entiende la forma. Modelo que se lo memoriza: pasa por todos los puntos.
@@ -103,7 +103,7 @@ Recomendación: publica esta serie **antes** que la de «Machine learning en 30 
 > #inteligenciaartificial #IA #machinelearning #aprendeconreels #tecnologia
 > #divulgacion #ciencia #iaparatodos #educacion #curiosidades
 >
-> © @hacerlointeligente · Voz: corpus Sharvard (U. Edimburgo, CC BY 3.0)
+> © @hacerlointeligente · Voz del robot: corpus Sharvard (U. Edimburgo, CC BY 3.0)
 
 ---
 
@@ -123,7 +123,7 @@ Recomendación: publica esta serie **antes** que la de «Machine learning en 30 
 > #inteligenciaartificial #IA #redesneuronales #machinelearning #aprendeconreels
 > #tecnologia #divulgacion #ciencia #iaparatodos #educacion
 >
-> © @hacerlointeligente · Voz: corpus Sharvard (U. Edimburgo, CC BY 3.0)
+> © @hacerlointeligente · Voz del robot: corpus Sharvard (U. Edimburgo, CC BY 3.0)
 
 ---
 
@@ -143,7 +143,7 @@ Recomendación: publica esta serie **antes** que la de «Machine learning en 30 
 > #inteligenciaartificial #IA #redesneuronales #deeplearning #machinelearning
 > #aprendeconreels #tecnologia #divulgacion #iaparatodos #ciencia
 >
-> © @hacerlointeligente · Voz: corpus Sharvard (U. Edimburgo, CC BY 3.0)
+> © @hacerlointeligente · Voz del robot: corpus Sharvard (U. Edimburgo, CC BY 3.0)
 
 ---
 
@@ -165,7 +165,7 @@ Recomendación: publica esta serie **antes** que la de «Machine learning en 30 
 > #chatgpt #inteligenciaartificial #IA #machinelearning #aprendeconreels #tecnologia
 > #divulgacion #iaparatodos #ciencia #educacion
 >
-> © @hacerlointeligente · Voz: corpus Sharvard (U. Edimburgo, CC BY 3.0)
+> © @hacerlointeligente · Voz del robot: corpus Sharvard (U. Edimburgo, CC BY 3.0)
 
 ---
 

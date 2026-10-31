@@ -17,6 +17,8 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt  # noqa: E402
 from matplotlib import font_manager  # noqa: E402
 from matplotlib.animation import FuncAnimation, FFMpegWriter  # noqa: E402
+from matplotlib.colors import to_rgb  # noqa: E402
+from matplotlib.patches import FancyBboxPatch  # noqa: E402
 
 _INTER = Path("/usr/share/fonts/opentype/inter")
 for _f in ["Inter-Regular.otf", "Inter-SemiBold.otf", "Inter-Bold.otf",
@@ -32,6 +34,7 @@ MUTED = "#8B95A5"
 GRID = "#232A36"
 ACCENT = "#FFD23F"
 C1 = "#4CC9F0"
+PANEL = "#0B0F16"  # fondo del marco de la animación
 C2 = "#F72585"
 C3 = "#7BE495"
 
@@ -75,66 +78,103 @@ class Reel:
         self.portada = portada  # dict(titulo, amarilla, t, gesto); ver portada.py
         self.fig = plt.figure(figsize=(W / DPI, H / DPI), dpi=DPI, facecolor=BG)
 
-        # Zona segura: Instagram tapa ~12 % arriba y ~20 % abajo con su interfaz.
-        self.fig.text(0.5, 0.885, f"{serie} · #{numero}", ha="center", va="center",
-                      size=12, weight="bold", color=ACCENT)
-        self.fig.text(0.5, 0.865, wrap(gancho, 21), ha="center", va="top",
-                      size=26, weight="black", color=FG, linespacing=1.12)
+        # Fondo con halo azul (mismo estilo que las portadas)
+        fondo = self.fig.add_axes([0, 0, 1, 1], zorder=-10)
+        fondo.axis("off")
+        yy, xx = np.mgrid[0:1:200j, 0:1:120j]
+        d = np.clip(np.hypot((xx - 0.5) * 0.56, yy - 0.47) / 0.55, 0, 1)[..., None]
+        c0, c1 = np.array([0.10, 0.17, 0.30]), np.array(to_rgb(BG))
+        fondo.imshow(c0 * (1 - d) + c1 * d, extent=(0, 1, 0, 1), origin="lower",
+                     aspect="auto")
 
-        self.ax = self.fig.add_axes([0.08, 0.31, 0.84, 0.37])
-        self.ax.set_facecolor(BG)
+        # Zona segura: Instagram tapa ~12 % arriba y ~20 % abajo con su interfaz.
+        # Etiqueta amarilla de la serie
+        etiqueta = f"{serie}  ·  #{numero}"
+        ancho = 0.06 + 0.0172 * len(etiqueta)
+        self.fig.patches.append(FancyBboxPatch(
+            (0.5 - ancho / 2, 0.84), ancho, 0.03, boxstyle="round,pad=0,rounding_size=0.015",
+            transform=self.fig.transFigure, fc=ACCENT, ec="none", zorder=2))
+        self.fig.text(0.5, 0.855, etiqueta, ha="center", va="center", size=11,
+                      weight="black", color=BG, zorder=3)
+        # Título: el de la portada (una línea en amarillo) o, si no hay, el gancho
+        if portada:
+            lineas, amarilla = portada["titulo"], portada.get("amarilla", -1)
+        else:
+            lineas, amarilla = wrap(gancho, 21).split("\n"), -1
+        tam = 30 if max(len(x) for x in lineas) <= 15 else 27
+        paso = tam * 1.18 / 72 * DPI / H
+        y = 0.826
+        for k, linea in enumerate(lineas):
+            self.fig.text(0.5, y, linea, ha="center", va="top", size=tam, weight="black",
+                          color=ACCENT if k == amarilla else FG, zorder=3)
+            y -= paso
+
+        # Panel enmarcado donde va la animación
+        self.ax = self.fig.add_axes([0.08, 0.30, 0.84, 0.345])
+        self.ax.set_facecolor(PANEL)
         for s in self.ax.spines.values():
             s.set_visible(False)
         self.ax.set_xticks([])
         self.ax.set_yticks([])
+        self.marco = FancyBboxPatch((0, 0), 1, 1, boxstyle="round,pad=0,rounding_size=0.02",
+                                    transform=self.fig.transFigure, fc=PANEL, ec=C1, lw=2.5,
+                                    zorder=-5)
+        self.fig.patches.append(self.marco)
 
-        self.sub = self.fig.text(0.5, 0.29, "", ha="center", va="top", size=21,
+        self.sub = self.fig.text(0.5, 0.282, "", ha="center", va="top", size=21,
                                  weight="bold", color=FG, linespacing=1.2)
         # Barra de progreso: invita a ver hasta el final
         self.barra_fondo = self.fig.add_artist(plt.Rectangle(
-            (0.08, 0.715), 0.84, 0.006, transform=self.fig.transFigure, color=GRID))
+            (0.08, 0.676), 0.84, 0.006, transform=self.fig.transFigure, color=GRID))
         self.barra = self.fig.add_artist(plt.Rectangle(
-            (0.08, 0.715), 0.0, 0.006, transform=self.fig.transFigure, color=ACCENT))
+            (0.08, 0.676), 0.0, 0.006, transform=self.fig.transFigure, color=ACCENT))
 
         # Marca de agua: firma visible bajo la barra + marca diagonal sobre la animación
         # (en el centro, para que no se pueda recortar sin destrozar el vídeo).
-        self.fig.text(0.5, 0.699, CANAL, ha="center", va="center", size=11,
+        self.fig.text(0.5, 0.664, CANAL, ha="center", va="center", size=11,
                       weight="bold", color=MUTED)
-        self.fig.text(0.5, 0.495, CANAL, ha="center", va="center", size=30, weight="black",
+        self.fig.text(0.5, 0.475, CANAL, ha="center", va="center", size=30, weight="black",
                       color=FG, alpha=0.07, rotation=28, zorder=10)
 
     # ------------------------------------------------------------ robot presentador
-    S_GRANDE, S_PEQ = 0.29, 0.10
+    S_GRANDE, S_PEQ = 0.28, 0.10
     ALTO = H / W  # alto del fotograma en unidades de ancho
 
     def robot_guion(self):
         """Qué gesto hace el robot en cada momento (tiempos absolutos)."""
         t_final = INTRO + self.escenas[-1][0]
         g = [(0.0, "saludo", 0.4), (1.7, "explica", 0.5), (INTRO, "reposo", 0.3)]
-        for t0, t1, texto in self.escenas[:-1]:
-            if texto.startswith("!"):  # se asoma y señala la animación
-                g += [(INTRO + t0, "senala", 0.45), (INTRO + t1, "reposo", 0.3)]
+        for t0, t1, texto, *gesto in self.escenas[:-1]:
+            if texto.startswith("!"):  # se asoma y habla (por defecto, señalando la animación)
+                g += [(INTRO + t0, gesto[0] if gesto else "senala", 0.45),
+                      (INTRO + t1, "reposo", 0.3)]
         g += [(t_final, "explica", 0.5), (t_final + 1.8, "saludo", 0.45)]
         return sorted(g)
 
     def robot_estado(self, ta):
         """Dónde está el robot en el segundo absoluto `ta`. Devuelve (dict | None, grande)."""
         t = ta - INTRO
-        grande = dict(cx=0.5, cy=0.47 * self.ALTO)
+        grande = dict(cx=0.5, cy=0.46 * self.ALTO)
         t_final = self.escenas[-1][0]
         if ta < INTRO:  # presenta el gancho
             s = self.S_GRANDE * ease(ta / 0.35) * (1 - ease((ta - INTRO + 0.35) / 0.35))
             return dict(grande, s=s), True
         if t >= t_final:  # despedida y llamada a la acción
             return dict(grande, s=self.S_GRANDE * ease((t - t_final) / 0.35)), True
-        for t0, t1, texto in self.escenas[:-1]:  # se asoma en los momentos clave
+        for t0, t1, texto, *_g in self.escenas[:-1]:  # se asoma en los momentos clave
             if texto.startswith("!") and t0 <= t < t1:
                 s = self.S_PEQ * min(ease((t - t0) / 0.3), ease((t1 - t) / 0.25))
                 return dict(cx=0.13, cy=0.25 * self.ALTO, s=s), False
         return None, False
 
+    def ajustar_marco(self):
+        """Coloca el marco alrededor de la zona real de la animación (tras fijar su aspecto)."""
+        self.ax.apply_aspect()
+        x, y, w, h = self.ax.get_position().bounds
+        self.marco.set_bounds(x - 0.012, y - 0.007, w + 0.024, h + 0.014)
+
     def subtitulo(self, t):
-        for t0, t1, texto in self.escenas:
+        for t0, t1, texto, *_g in self.escenas:
             if t0 <= t < t1:
                 alpha = min(ease((t - t0) / 0.35), ease((t1 - t) / 0.25))
                 color = ACCENT if texto.startswith("!") else FG
@@ -142,14 +182,17 @@ class Reel:
         return "", 0.0, FG
 
     def pistas_voz(self):
+        # el gancho lo dice el robot; las escenas con "!" también (subtítulo amarillo);
+        # el resto, la narradora
         gancho = self.voz.get("gancho", self.gancho.replace("\n", " "))
-        lineas = [(0.15, gancho, INTRO - 0.1)]
-        for i, (t0, t1, texto) in enumerate(self.escenas):
+        lineas = [(0.15, gancho, INTRO - 0.05, "robot")]
+        for i, (t0, t1, texto, *_g) in enumerate(self.escenas):
             hablado = self.voz.get(i, texto.lstrip("!"))
             if isinstance(hablado, tuple):  # (texto, fin): la frase ocupa varias escenas
                 hablado, t1 = hablado
             if hablado:
-                lineas.append((INTRO + t0 + 0.1, hablado, INTRO + t1))
+                quien = "robot" if texto.startswith("!") else "narrador"
+                lineas.append((INTRO + t0 + 0.1, hablado, INTRO + t1, quien))
         return lineas
 
     def render(self, draw, nombre, portada_t=None):
@@ -163,6 +206,7 @@ class Reel:
         rax.axis("off")
         rax.patch.set_alpha(0)
         self._rax = rax
+        self.ajustar_marco()
         robot = Robot(rax)
         guion = self.robot_guion()
         salida = ROOT / "videos" / f"{nombre}.mp4"
@@ -177,7 +221,8 @@ class Reel:
             voz = banda_sonora(self.total, self.pistas_voz(), efectos, sonido, self.musica)
             spf = len(voz) // int(self.total * FPS)
             rms = np.sqrt(np.mean(voz[: spf * int(self.total * FPS)].reshape(-1, spf) ** 2, 1))
-            boca = np.clip(rms / (np.percentile(rms[rms > 0.01], 90) + 1e-9), 0, 1) ** 0.7
+            ref = np.percentile(rms[rms > 0.01], 90) if (rms > 0.01).any() else 1.0
+            boca = np.clip(rms / (ref + 1e-9), 0, 1) ** 0.7
 
             # 2) vídeo
             def update(i):
@@ -185,6 +230,7 @@ class Reel:
                 t = ta - INTRO
                 estado, grande = self.robot_estado(ta)
                 self.ax.set_visible(not grande)
+                self.marco.set_visible(not grande)
                 draw(max(t, 0.0))
                 b = boca[min(i, len(boca) - 1)]
                 if estado and estado["s"] > 0.003:

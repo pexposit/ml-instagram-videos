@@ -23,7 +23,7 @@ Reels verticales para Instagram que explican algoritmos de machine learning en u
 - [`PUBLICAR.md`](PUBLICAR.md): texto, hashtags y guion de voz de cada vídeo, más ideas para los siguientes.
 - `portadas/`: imagen de portada de cada reel.
 
-Los vídeos llevan **voz en off en castellano**, **música de fondo** y efectos de sonido.
+Los vídeos llevan **dos voces** (una narradora que explica y el robot, que interviene con frases simpáticas), **música de fondo** y efectos de sonido.
 Todo está generado aquí, así que no tiene derechos de autor: Instagram no los silenciará.
 Si prefieres una canción en tendencia, puedes bajar el volumen del audio original al subirlo
 y añadirla desde Instagram.
@@ -34,9 +34,12 @@ Necesita Python 3, `ffmpeg` y la fuente Inter.
 
 ```bash
 pip install -r requirements.txt
-# voz en castellano (Piper es_ES-sharvard); no se sube al repositorio por su tamaño
-curl -L https://github.com/k2-fsa/sherpa-onnx/releases/download/tts-models/vits-piper-es_ES-sharvard-medium.tar.bz2 | tar xj
-mkdir -p generador/voz && mv vits-piper-es_ES-sharvard-medium/es_ES-sharvard-medium.onnx* generador/voz/
+# voces (narradora es_MX-claude-high y robot es_ES-sharvard); no se suben al repositorio
+B=https://github.com/k2-fsa/sherpa-onnx/releases/download/tts-models
+mkdir -p generador/voz
+for v in es_ES-sharvard-medium es_MX-claude-high; do
+  curl -L $B/vits-piper-$v.tar.bz2 | tar xj && mv vits-piper-$v/$v.onnx* generador/voz/
+done
 cd generador
 python3 v01_descenso_gradiente.py   # crea videos/01_... y portadas/01_...
 ```
@@ -62,6 +65,8 @@ progreso y otra en diagonal sobre la animación, que no se puede recortar sin es
 
 ## Créditos
 
-- Voz: modelo Piper `es_ES-sharvard-medium`, entrenado con el corpus Sharvard
-  (Universidad de Edimburgo), licencia [CC BY 3.0](https://creativecommons.org/licenses/by/3.0/).
+- Voz de la narradora: modelo Piper `es_MX-claude-high`, licencia Apache 2.0.
+- Voz del robot: modelo Piper `es_ES-sharvard-medium` (locutora 1, procesada para sonar a
+  robot), entrenado con el corpus Sharvard (Universidad de Edimburgo), licencia
+  [CC BY 3.0](https://creativecommons.org/licenses/by/3.0/).
 - Música y efectos: generados por el propio código (`generador/audio.py`).

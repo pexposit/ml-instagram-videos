@@ -45,9 +45,18 @@ KNN, árbol de decisión, random forest).
 
 ## Decisiones tomadas con el usuario (no cambiarlas sin preguntar)
 
-- **Voz:** Piper `es_ES-sharvard-medium`, **locutor 0 (hombre)**, acento de España.
-  El usuario rechazó la voz `carlfm` y las de Kokoro por no sonar castellanas.
-  Licencia CC BY 3.0 → hay que citar: «Voz: corpus Sharvard (U. Edimburgo, CC BY 3.0)».
+- **Dos voces (diálogo):**
+  - **Narradora:** Piper `es_MX-claude-high` (acento mexicano, la más natural; el usuario
+    la eligió tras probar todas las de España: davefx, sharvard, css10). Apache 2.0.
+  - **Robot:** Piper `es_ES-sharvard-medium`, **locutora 1**, más aguda (×1,12) y con brillo
+    metálico ("robot simpático", la opción 2 de las muestras). CC BY 3.0 → citar siempre:
+    «Voz del robot: corpus Sharvard (U. Edimburgo, CC BY 3.0)».
+  - Configuración en `audio.py` (`VOCES`). Voces descartadas: carlfm, Kokoro, davefx,
+    sharvard hombre, css10, robot clásico y robot ciencia ficción.
+- **Guion en diálogo:** el robot dice el gancho (en primera persona, muy simpático) y las
+  escenas cuyo texto empieza por `!` (subtítulo amarillo); la narradora dice el resto
+  (subtítulo blanco). La boca del robot solo se mueve con su propia voz. Una escena con `!`
+  puede llevar un 4.º elemento con el gesto del robot (`"pulgar"`, `"piensa"`…).
 - **Música y efectos:** sintetizados en `audio.py` (sin derechos de autor). Nunca usar
   canciones con copyright.
 - **Robot:** diseño propio articulado (blanco y azul, visor oscuro con ojos LED, boca de
@@ -71,8 +80,9 @@ KNN, árbol de decisión, random forest).
 
 ## Estilo de los vídeos
 
-- 1080×1920, fondo `#0E1117`, acento amarillo `#FFD23F`, colores `C1/C2/C3` de `base.py`,
-  fuente Inter. Zona segura: Instagram tapa ~12 % arriba y ~20 % abajo.
+- 1080×1920, mismo estilo que las portadas: fondo con halo azul, etiqueta amarilla de la
+  serie, el título de la portada (`PORTADA["titulo"]`, una línea en amarillo) y la animación
+  dentro de un marco con borde azul. Acento amarillo `#FFD23F`, colores `C1/C2/C3`, fuente Inter. Zona segura: Instagram tapa ~12 % arriba y ~20 % abajo.
 - Gancho fijo arriba desde el primer fotograma; subtítulos grandes (se entienden sin
   sonido); una sola idea por vídeo con un ejemplo cotidiano; 30–35 s.
 - Escena con `!` delante = momento clave (subtítulo amarillo + robot pequeño señalando).
@@ -102,9 +112,12 @@ KNN, árbol de decisión, random forest).
 
 ```bash
 pip install numpy matplotlib piper-tts
-# Voz: Hugging Face está bloqueado en el entorno en la nube; usar el espejo de GitHub
-curl -L https://github.com/k2-fsa/sherpa-onnx/releases/download/tts-models/vits-piper-es_ES-sharvard-medium.tar.bz2 | tar xj
-mkdir -p generador/voz && mv vits-piper-es_ES-sharvard-medium/es_ES-sharvard-medium.onnx* generador/voz/
+# Voces: Hugging Face está bloqueado en el entorno en la nube; usar el espejo de GitHub
+B=https://github.com/k2-fsa/sherpa-onnx/releases/download/tts-models
+mkdir -p generador/voz
+for v in es_ES-sharvard-medium es_MX-claude-high; do
+  curl -L $B/vits-piper-$v.tar.bz2 | tar xj && mv vits-piper-$v/$v.onnx* generador/voz/
+done
 ```
 También hacen falta `ffmpeg` y la fuente Inter (`/usr/share/fonts/opentype/inter`).
 

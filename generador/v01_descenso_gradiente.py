@@ -23,23 +23,22 @@ BUENOS = pasos(-3.6, 0.9, 10)    # converge
 MALOS = pasos(0.2, 4.8, 5)     # se pasa de largo y diverge
 T_PASO = 0.65
 
-ESCENAS = [
+ESCENAS = [  # "!" = habla el robot (subtítulo amarillo); el resto, la narradora
     (0.0, 3.2, "Esta curva es el ERROR de la IA"),
-    (3.2, 6.4, "Arriba: se equivoca mucho. Abajo: acierta."),
+    (3.2, 6.4, "Arriba se equivoca mucho. Abajo, acierta."),
     (6.4, 9.4, "La IA mira hacia dónde baja la pendiente…"),
     (9.4, 16.4, "…y da un paso cuesta abajo. Una y otra vez."),
-    (16.4, 21.0, "!Pero si el paso es demasiado grande… se pasa de largo"),
-    (21.0, 25.0, "DESCENSO DEL GRADIENTE: así se entrenan casi todas las IAs"),
-    (25.0, 29.5, "!Guárdalo y sigue a @hacerlointeligente para el #2"),
+    (16.4, 21.0, "!¡Ojo! Si doy pasos muy grandes… ¡me paso de largo!"),
+    (21.0, 25.0, "Esto es el DESCENSO DEL GRADIENTE: así aprenden casi todas las IAs"),
+    (25.0, 29.5, "!¡Guárdalo y sígueme, que tengo más trucos!"),
 ]
 
 VOZ = {
-    "gancho": "Una IA no piensa. Hace esto, millones de veces.",
+    "gancho": "¡Te cuento un secreto: no pienso!",
     0: "Esta curva es el error de la IA.",
-    1: "Arriba, mucho error. Abajo, acierta.",
+    1: "Arriba, se equivoca mucho. Abajo, acierta.",
     3: "Y da un paso cuesta abajo. Y otro. Y otro. Una y otra vez.",
     5: "Esto es el descenso del gradiente: así aprenden casi todas las IAs.",
-    6: "Guárdalo, y sigue a hacerlo inteligente para el número dos.",
 }
 EFECTOS = ([(9.4 + k * T_PASO, "pop") for k in range(len(BUENOS) - 1)]
            + [(16.4 + k * T_PASO, "error") for k in range(len(MALOS) - 1)]
