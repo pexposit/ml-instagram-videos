@@ -30,10 +30,23 @@ ESCENAS = [
     (9.4, 16.4, "…y da un paso cuesta abajo. Una y otra vez."),
     (16.4, 21.0, "!Pero si el paso es demasiado grande… se pasa de largo"),
     (21.0, 25.0, "DESCENSO DEL GRADIENTE: así se entrenan casi todas las IAs"),
-    (25.0, 28.5, "!Guárdalo para repasar y sígueme para el #2"),
+    (25.0, 29.5, "!Guárdalo para repasar y sígueme para el #2"),
 ]
 
-reel = Reel(1, "Una IA no piensa.\nHace ESTO millones\nde veces", ESCENAS, 28.5)
+VOZ = {
+    "gancho": "Una IA no piensa. Hace esto, millones de veces.",
+    0: "Esta curva es el error de la IA.",
+    1: "Arriba, mucho error. Abajo, acierta.",
+    3: "Y da un paso cuesta abajo. Y otro. Y otro. Una y otra vez.",
+    5: "Esto es el descenso del gradiente: así aprenden casi todas las IAs.",
+    6: "Guárdalo para repasar, y sígueme para el número dos.",
+}
+EFECTOS = ([(9.4 + k * T_PASO, "pop") for k in range(len(BUENOS) - 1)]
+           + [(16.4 + k * T_PASO, "error") for k in range(len(MALOS) - 1)]
+           + [(21.0, "whoosh")])
+
+reel = Reel(1, "Una IA no piensa.\nHace ESTO millones\nde veces", ESCENAS, 29.5,
+            voz=VOZ, efectos=EFECTOS)
 ax = reel.ax
 xs = np.linspace(-4.2, 6.2, 400)
 ax.plot(xs, f(xs), color=C1, lw=4, solid_capstyle="round")

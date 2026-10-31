@@ -1,6 +1,8 @@
 # Textos para publicar
 
-Copia y pega el texto de cada vídeo al subirlo. Añade el audio dentro de Instagram.
+Copia y pega el texto de cada vídeo al subirlo. Los vídeos ya llevan voz, música y efectos.
+La voz es sintética: si quieres un toque más personal, puedes grabar tu voz con el guion de
+cada vídeo y usarla en lugar de la que lleva.
 
 ---
 

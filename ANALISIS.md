@@ -57,10 +57,10 @@ Los tres primeros vídeos aplican todo lo anterior:
 
 ## 4. Recomendaciones al publicar
 
-- **Añade audio desde Instagram**: una canción en tendencia (de la biblioteca de Instagram) o
-  tu propia voz leyendo los subtítulos. Los vídeos se entregan **sin sonido** a propósito
-  para que elijas el audio dentro de la app, porque eso también ayuda al alcance. Tu voz
-  le da el toque "humano" que Instagram dice premiar.
+- **Audio**: los vídeos ya llevan voz en off, música propia (sin derechos de autor) y
+  efectos. Si quieres probar una canción en tendencia, añádela desde Instagram y baja el
+  volumen de la música original. Grabar tu propia voz con el guion de `PUBLICAR.md` le da
+  el toque "humano" que Instagram dice premiar.
 - Usa la **portada** de la carpeta `portadas/` para que el perfil quede ordenado.
 - Publica **2–3 veces por semana** con constancia, mejor que muchos de golpe.
 - Responde a los comentarios la primera hora: si alguien pregunta, haz un reel respondiendo.

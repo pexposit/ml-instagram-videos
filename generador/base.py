@@ -5,6 +5,8 @@ Cada vídeo define:
   - una lista de escenas (inicio, fin, subtítulo),
   - una función draw(t) que actualiza la animación central en el segundo t.
 """
+import subprocess
+import tempfile
 import textwrap
 from pathlib import Path
 
@@ -37,6 +39,7 @@ FPS = 30
 W, H, DPI = 1080, 1920, 180
 ROOT = Path(__file__).resolve().parent.parent
 SERIE = "MACHINE LEARNING EN 30 s"
+INTRO = 3.2  # segundos iniciales en los que la voz lee el gancho
 
 
 def ease(x):
@@ -50,9 +53,20 @@ def wrap(text, width):
 
 
 class Reel:
-    def __init__(self, numero, gancho, escenas, duracion):
+    def __init__(self, numero, gancho, escenas, duracion, voz=None, efectos=(), musica=None):
+        """Los tiempos de escenas, voz y efectos son relativos al final de la intro.
+
+        voz: {índice de escena: texto hablado o (texto, t_fin)}; "" = silencio;
+             "gancho" = cómo se lee el gancho. Por defecto se lee el subtítulo.
+        efectos: [(t, "pop" | "whoosh" | "error")].
+        """
         self.escenas = escenas
         self.duracion = duracion
+        self.total = INTRO + duracion
+        self.gancho = gancho
+        self.voz = voz or {}
+        self.efectos = efectos
+        self.musica = musica
         self.fig = plt.figure(figsize=(W / DPI, H / DPI), dpi=DPI, facecolor=BG)
 
         # Zona segura: Instagram tapa ~12 % arriba y ~20 % abajo con su interfaz.
@@ -84,25 +98,49 @@ class Reel:
                 return wrap(texto.lstrip("!"), 26), alpha, color
         return "", 0.0, FG
 
+    def pistas_voz(self):
+        gancho = self.voz.get("gancho", self.gancho.replace("\n", " "))
+        lineas = [(0.15, gancho, INTRO - 0.1)]
+        for i, (t0, t1, texto) in enumerate(self.escenas):
+            hablado = self.voz.get(i, texto.lstrip("!"))
+            if isinstance(hablado, tuple):  # (texto, fin): la frase ocupa varias escenas
+                hablado, t1 = hablado
+            if hablado:
+                lineas.append((INTRO + t0 + 0.1, hablado, INTRO + t1))
+        return lineas
+
     def render(self, draw, nombre, portada_t):
         def update(i):
-            t = i / FPS
-            draw(t)
-            texto, alpha, color = self.subtitulo(t)
+            t = i / FPS - INTRO
+            draw(max(t, 0.0))
+            if t >= 0:
+                texto, alpha, color = self.subtitulo(t)
+            else:
+                texto, alpha, color = "", 0.0, FG
             self.sub.set_text(texto)
             self.sub.set_alpha(alpha)
             self.sub.set_color(color)
-            self.barra.set_width(0.84 * t / self.duracion)
+            self.barra.set_width(0.84 * (t + INTRO) / self.total)
             return []
 
-        update(int(portada_t * FPS))
+        update(int((INTRO + portada_t) * FPS))
         self.fig.savefig(ROOT / "portadas" / f"{nombre}.png", dpi=DPI, facecolor=BG)
 
-        anim = FuncAnimation(self.fig, update, frames=int(self.duracion * FPS), blit=False)
-        writer = FFMpegWriter(fps=FPS, codec="libx264", bitrate=-1, extra_args=[
-            "-pix_fmt", "yuv420p", "-crf", "20", "-preset", "medium",
-            "-movflags", "+faststart"])
+        from audio import banda_sonora  # import tardío: solo hace falta al renderizar
+
         salida = ROOT / "videos" / f"{nombre}.mp4"
-        anim.save(salida, writer=writer, dpi=DPI, savefig_kwargs={"facecolor": BG})
-        plt.close(self.fig)
+        with tempfile.TemporaryDirectory() as d:
+            mudo, sonido = Path(d) / "mudo.mp4", Path(d) / "audio.wav"
+            anim = FuncAnimation(self.fig, update, frames=int(self.total * FPS), blit=False)
+            writer = FFMpegWriter(fps=FPS, codec="libx264", bitrate=-1, extra_args=[
+                "-pix_fmt", "yuv420p", "-crf", "20", "-preset", "medium"])
+            anim.save(mudo, writer=writer, dpi=DPI, savefig_kwargs={"facecolor": BG})
+            plt.close(self.fig)
+
+            efectos = [(INTRO + t, tipo) for t, tipo in self.efectos]
+            banda_sonora(self.total, self.pistas_voz(), efectos, sonido, self.musica)
+            subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", str(mudo), "-i", str(sonido),
+                            "-c:v", "copy", "-af", "loudnorm=I=-14:TP=-1.5:LRA=11",
+                            "-c:a", "aac", "-b:a", "192k", "-ar", "44100", "-shortest",
+                            "-movflags", "+faststart", str(salida)], check=True)
         print("OK", salida)

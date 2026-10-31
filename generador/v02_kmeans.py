@@ -36,7 +36,23 @@ ESCENAS += [
     (25.4, 28.5, "!Envíaselo a quien esté estudiando IA"),
 ]
 
-reel = Reel(2, "Nadie le dijo qué buscar… y lo encontró", ESCENAS, 28.5)
+VOZ = {
+    1: "Pon tres capitanes al azar.",
+    2: ("Cada punto se une a su capitán más cercano. "
+        "Y cada capitán se mueve al centro de su grupo.", 12.4),
+    3: "", 4: "", 5: "",
+    6: ("Y se repite. Otra vez. Y otra.", 18.4),
+    7: "", 8: "", 9: "",
+    10: "Hasta que nada cambia. Grupos encontrados, sin etiquetas.",
+    11: "Esto es ca mins: así se agrupan clientes o canciones.",
+    12: "Envíaselo a quien esté estudiando inteligencia artificial.",
+}
+EFECTOS = [(3.2, "pop")] + [(T0_ITER + i * T_ITER + 1.5, "whoosh") for i in range(3)] \
+    + [(18.4, "pop")]
+
+reel = Reel(2, "Nadie le dijo qué buscar… y lo encontró", ESCENAS, 28.5,
+            voz=VOZ, efectos=EFECTOS, musica={"bpm": 104,
+            "progresion": ((50, 53, 57), (46, 50, 53), (53, 57, 60), (48, 52, 55))})
 ax = reel.ax
 ax.set_xlim(-5, 5)
 ax.set_ylim(-4.6, 4.2)
