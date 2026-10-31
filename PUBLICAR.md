@@ -169,6 +169,89 @@ Recomendación: publica esta serie **antes** que la de «Machine learning en 30 
 
 ---
 
+## IA desde cero #5 · Así decide Instagram qué ves después
+**Vídeo:** `videos/08_recomendaciones.mp4` · **Portada:** `portadas/08_recomendaciones.png`
+
+**Texto:**
+> ¿Por qué ves lo que ves en Instagram? 👀
+>
+> Cada vídeo está en un «mapa»: los parecidos, juntos. Y tú también estás en ese mapa,
+> según lo que miras y lo que te gusta. Instagram te enseña lo que tienes cerca… y lo que
+> vieron personas parecidas a ti.
+>
+> Se llama sistema de recomendación (versión simplificada: el de verdad usa muchísimas señales).
+>
+> ❤️ Dale a «me gusta» si quieres más vídeos como este (literalmente, así funciona 😉)
+>
+> #inteligenciaartificial #IA #instagram #algoritmo #redessociales #aprendeconreels
+> #tecnologia #divulgacion #iaparatodos #curiosidades
+>
+> © @hacerlointeligente · Voz del robot: corpus Sharvard (U. Edimburgo, CC BY 3.0)
+
+---
+
+## IA desde cero #6 · ¿Por qué la IA se inventa cosas?
+**Vídeo:** `videos/09_alucinaciones.mp4` · **Portada:** `portadas/09_alucinaciones.png`
+
+**Texto:**
+> La IA no miente a propósito… pero a veces se lo inventa todo 🤥
+>
+> Un chat de IA no busca la verdad: elige la palabra que SUENA más probable. Si no sabe
+> algo, rellena el hueco con algo que suena bien. A eso se le llama «alucinación».
+>
+> ✅ Pide fuentes · ✅ Comprueba los datos importantes · ✅ Pregúntale «¿estás seguro?»
+>
+> 📩 Envíaselo a quien se cree todo lo que dice ChatGPT
+>
+> #chatgpt #inteligenciaartificial #IA #alucinaciones #aprendeconreels #tecnologia
+> #divulgacion #iaparatodos #pensamientocritico #curiosidades
+>
+> © @hacerlointeligente · Voz del robot: corpus Sharvard (U. Edimburgo, CC BY 3.0)
+
+---
+
+## IA desde cero #7 · Así crea una IA una imagen de la nada
+**Vídeo:** `videos/10_imagenes.mp4` · **Portada:** `portadas/10_imagenes.png`
+
+**Texto:**
+> Las imágenes hechas con IA empiezan siendo… puro ruido 📺
+>
+> Una red neuronal mira el ruido y quita un poquito. Y otra vez. Y otra. Paso a paso, el
+> ruido se convierte en la imagen que le has pedido. Lo aprendió viendo millones de
+> imágenes con su descripción.
+>
+> Así funcionan los generadores de imágenes (se llaman «modelos de difusión»).
+>
+> 📌 Guárdalo para cuando alguien te pregunte cómo lo hace la IA
+>
+> #inteligenciaartificial #IA #arteconia #imagenesia #aprendeconreels #tecnologia
+> #divulgacion #iaparatodos #ciencia #curiosidades
+>
+> © @hacerlointeligente · Voz del robot: corpus Sharvard (U. Edimburgo, CC BY 3.0)
+
+---
+
+## IA desde cero #8 · Una IA aprendiendo a andar
+**Vídeo:** `videos/11_aprende_a_andar.mp4` · **Portada:** `portadas/11_aprende_a_andar.png`
+
+**Texto:**
+> Mi robot aprendiendo a andar 🤖🦿 (spoiler: se cae mucho)
+>
+> Nadie le dice cómo se anda. Prueba, si se cae pierde puntos y si avanza los gana. Después
+> de miles de intentos… ¡anda solo!
+>
+> Esto es aprendizaje por refuerzo: aprender probando, con premios y castigos. Así aprenden
+> robots de verdad y las IA que ganan a videojuegos.
+>
+> 💬 ¿Cuántos intentos crees que necesitaste tú para andar? 😂
+>
+> #robotica #inteligenciaartificial #IA #robot #machinelearning #aprendeconreels
+> #tecnologia #divulgacion #iaparatodos #curiosidades
+>
+> © @hacerlointeligente · Voz del robot: corpus Sharvard (U. Edimburgo, CC BY 3.0)
+
+---
+
 ## Encuesta de Instagram (solo en «IA desde cero #2 · Neurona»)
 
 Solo este vídeo lleva encuesta. Se añade **en la app, al subir el reel**:
@@ -186,9 +269,9 @@ Solo este vídeo lleva encuesta. Se añade **en la app, al subir el reel**:
 
 | Gancho | Tema | Qué se anima |
 |---|---|---|
+| "Cómo entiende la IA lo que significa una palabra" | Embeddings | Palabras como puntos en un mapa: rey − hombre + mujer = reina |
 | "La IA es tan buena como sus datos" | Sesgo en los datos | El mismo modelo, entrenado con datos incompletos, se equivoca |
 | "Así ve una foto una IA" | Convolución (CNN) | Un filtro deslizándose sobre una imagen pixelada |
 | "Cómo sabe Gmail que es spam (sin leerlo como tú)" | Naive Bayes | Palabras sumando probabilidad a una barra |
-| "Dime con quién andas y te diré quién eres (literalmente)" | k vecinos más cercanos (KNN) | Un punto nuevo, un círculo que crece y los vecinos votan |
-| "La IA que juega a 'Quién es quién'" | Árbol de decisión | El plano dividiéndose con cortes y el árbol creciendo |
-| "100 árboles tontos > 1 árbol listo" | Random forest | Muchos árboles votando |
+| "Cómo te reconoce la cara el móvil" | Reconocimiento facial | Tu cara convertida en números y la distancia a la guardada |
+| "Por qué importa cómo le preguntas a ChatGPT" | Prompts | La misma pregunta mal y bien hecha, y sus resultados |

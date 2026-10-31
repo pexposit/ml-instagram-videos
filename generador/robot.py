@@ -14,6 +14,7 @@ fuera del cuerpo (cada lado en espejo). Codo, muñeca: positivo = se dobla hacia
 """
 import numpy as np
 from matplotlib.patches import Circle, Polygon
+from matplotlib.transforms import Affine2D
 
 # ------------------------------------------------------------------ paleta
 BLANCO = "#EEF3F8"
@@ -138,6 +139,8 @@ def _ik(cadera, tobillo, l1, l2, signo):
 class Robot:
     def __init__(self, ax):
         self.ax = ax
+        self._mios = []          # piezas dibujadas por el robot (para no borrar las ajenas)
+        self.pies = (0.0, 0.0, 0.0, 0.0)  # desplazamiento (dx_izq, dy_izq, dx_der, dy_der)
 
     # ---------------------------------------------------------- primitivas
     def _tr(self, p):
@@ -234,7 +237,8 @@ class Robot:
     def _piernas(self, cadera_c):
         for sx in (-1, 1):
             cadera = cadera_c + np.array([0.13 * sx, -0.04])
-            tobillo = np.array([PIE_X * sx, TOBILLO_Y])
+            dx, dy = (self.pies[2], self.pies[3]) if sx > 0 else (self.pies[0], self.pies[1])
+            tobillo = np.array([PIE_X * sx + dx, TOBILLO_Y + dy])
             rodilla = _ik(cadera, tobillo, MUSLO, ESPINILLA, signo=sx)
             self._capsula(cadera, rodilla, 0.085, 0.07, BLANCO)
             self._capsula(cadera + np.array([0.05 * sx, -0.05]),
@@ -287,9 +291,17 @@ class Robot:
             caja(dx, -0.17, 0.022, alto, LED, r=0.008, borde=0, alpha=min(1.0, 0.4 + luz))
 
     # ---------------------------------------------------------- dibujo completo
-    def dibujar(self, t, pose, cx, cy, s, boca=0.0):
-        for a in list(self.ax.patches):
+    def borrar(self):
+        for a in self._mios:
             a.remove()
+        self._mios = []
+
+    def dibujar(self, t, pose, cx, cy, s, boca=0.0, pies=None, giro=0.0, pivote=None):
+        """pies: desplazamiento de los tobillos (para andar); giro: grados de inclinación de
+        todo el cuerpo alrededor de `pivote` (unidades del robot), para caerse."""
+        self.borrar()
+        antes = set(map(id, self.ax.patches))
+        self.pies = pies or (0.0, 0.0, 0.0, 0.0)
         self.cx, self.cy, self.s = cx, cy, s
         self.torso_ang = pose["torso"]
 
@@ -321,3 +333,10 @@ class Robot:
         # brazos (por delante del cuerpo)
         self._brazo(pose, "i", -1)
         self._brazo(pose, "d", 1)
+
+        self._mios = [a for a in self.ax.patches if id(a) not in antes]
+        if giro:
+            px, py = self._tr(pivote if pivote is not None else (0.0, TOBILLO_Y - 0.1))
+            tr = Affine2D().rotate_deg_around(px, py, giro) + self.ax.transData
+            for a in self._mios:
+                a.set_transform(tr)

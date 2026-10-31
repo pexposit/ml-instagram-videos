@@ -36,10 +36,17 @@ Serie **«IA desde cero»** (para principiantes, publicar PRIMERO), `serie=SERIE
 2. `05_neurona` · "Así decide una neurona artificial" (¿voy a la playa? pesos y umbral)
 3. `06_red_neuronal` · "Cómo reconoce una IA un número escrito a mano"
 4. `07_chatgpt` · "ChatGPT escribe adivinando palabra a palabra"
+5. `08_recomendaciones` · "Así decide Instagram qué ves después"
+6. `09_alucinaciones` · "¿Por qué la IA se inventa cosas?"
+7. `10_imagenes` · "Así crea una IA una imagen de la nada" (difusión)
+8. `11_aprende_a_andar` · "Una IA aprendiendo a andar" (aprendizaje por refuerzo; el robot
+   sale DENTRO de la animación: `Robot(ax).dibujar(..., pies=…, giro=…, pivote=…)` y
+   `Reel(..., asoma=False)` para que no se asome además junto al subtítulo)
 
 Serie **«Machine learning en 30 s»** (más técnica): `01_descenso_gradiente`,
 `02_kmeans`, `03_sobreajuste`.
 
+Encuesta de Instagram: solo en «IA desde cero #2» (el usuario no quiere en todos).
 Ideas pendientes: al final de `PUBLICAR.md` (sesgo en los datos, CNN, spam/Naive Bayes,
 KNN, árbol de decisión, random forest).
 

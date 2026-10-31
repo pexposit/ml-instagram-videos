@@ -18,6 +18,10 @@ Reels verticales para Instagram que explican algoritmos de machine learning en u
 | 2 | [`videos/05_neurona.mp4`](videos/05_neurona.mp4) | Así decide una neurona artificial |
 | 3 | [`videos/06_red_neuronal.mp4`](videos/06_red_neuronal.mp4) | Cómo reconoce una IA un número escrito a mano |
 | 4 | [`videos/07_chatgpt.mp4`](videos/07_chatgpt.mp4) | ChatGPT escribe adivinando palabra a palabra |
+| 5 | [`videos/08_recomendaciones.mp4`](videos/08_recomendaciones.mp4) | Así decide Instagram qué ves después |
+| 6 | [`videos/09_alucinaciones.mp4`](videos/09_alucinaciones.mp4) | ¿Por qué la IA se inventa cosas? |
+| 7 | [`videos/10_imagenes.mp4`](videos/10_imagenes.mp4) | Así crea una IA una imagen de la nada |
+| 8 | [`videos/11_aprende_a_andar.mp4`](videos/11_aprende_a_andar.mp4) | Una IA aprendiendo a andar |
 
 - [`ANALISIS.md`](ANALISIS.md): qué tipo de vídeos funciona en Instagram y por qué están hechos así.
 - [`PUBLICAR.md`](PUBLICAR.md): texto, hashtags y guion de voz de cada vídeo, más ideas para los siguientes.

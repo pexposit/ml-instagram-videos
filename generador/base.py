@@ -59,7 +59,7 @@ def wrap(text, width):
 
 class Reel:
     def __init__(self, numero, gancho, escenas, duracion, voz=None, efectos=(), musica=None,
-                 serie=SERIE, portada=None):
+                 serie=SERIE, portada=None, asoma=True):
         """Los tiempos de escenas, voz y efectos son relativos al final de la intro.
 
         voz: {índice de escena: texto hablado o (texto, t_fin)}; "" = silencio;
@@ -76,6 +76,9 @@ class Reel:
         self.serie = serie
         self.numero = numero
         self.portada = portada  # dict(titulo, amarilla, t, gesto); ver portada.py
+        self.asoma = asoma      # False: el robot no se asoma junto al subtítulo (p. ej. si
+        #                         ya sale dentro de la animación); sigue hablando igual
+        self.boca_t = 0.0       # apertura de la boca del robot en el fotograma actual
         self.fig = plt.figure(figsize=(W / DPI, H / DPI), dpi=DPI, facecolor=BG)
 
         # Fondo con halo azul (mismo estilo que las portadas)
@@ -145,7 +148,7 @@ class Reel:
         t_final = INTRO + self.escenas[-1][0]
         g = [(0.0, "saludo", 0.4), (1.7, "explica", 0.5), (INTRO, "reposo", 0.3)]
         for t0, t1, texto, *gesto in self.escenas[:-1]:
-            if texto.startswith("!"):  # se asoma y habla (por defecto, señalando la animación)
+            if texto.startswith("!") and self.asoma:  # se asoma y habla (por defecto, señalando la animación)
                 g += [(INTRO + t0, gesto[0] if gesto else "senala", 0.45),
                       (INTRO + t1, "reposo", 0.3)]
         g += [(t_final, "explica", 0.5), (t_final + 1.8, "saludo", 0.45)]
@@ -162,7 +165,7 @@ class Reel:
         if t >= t_final:  # despedida y llamada a la acción
             return dict(grande, s=self.S_GRANDE * ease((t - t_final) / 0.35)), True
         for t0, t1, texto, *_g in self.escenas[:-1]:  # se asoma en los momentos clave
-            if texto.startswith("!") and t0 <= t < t1:
+            if texto.startswith("!") and self.asoma and t0 <= t < t1:
                 s = self.S_PEQ * min(ease((t - t0) / 0.3), ease((t1 - t) / 0.25))
                 return dict(cx=0.13, cy=0.25 * self.ALTO, s=s), False
         return None, False
@@ -231,13 +234,13 @@ class Reel:
                 estado, grande = self.robot_estado(ta)
                 self.ax.set_visible(not grande)
                 self.marco.set_visible(not grande)
-                draw(max(t, 0.0))
                 b = boca[min(i, len(boca) - 1)]
+                self.boca_t = b  # por si la animación dibuja al robot dentro de la escena
+                draw(max(t, 0.0))
                 if estado and estado["s"] > 0.003:
                     robot.dibujar(ta, pose_en(ta, guion, b), boca=b, **estado)
                 else:
-                    for a in list(rax.patches):
-                        a.remove()
+                    robot.borrar()
                 texto, alpha, color = self.subtitulo(t) if t >= 0 else ("", 0.0, FG)
                 if estado and not grande:  # robot asomado a la izquierda del subtítulo
                     texto = wrap(texto.replace("\n", " "), 19)
