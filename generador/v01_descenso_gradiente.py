@@ -45,8 +45,11 @@ EFECTOS = ([(9.4 + k * T_PASO, "pop") for k in range(len(BUENOS) - 1)]
            + [(16.4 + k * T_PASO, "error") for k in range(len(MALOS) - 1)]
            + [(21.0, "whoosh")])
 
+PORTADA = dict(titulo=["Una IA no piensa.", "Hace ESTO", "millones de veces"], amarilla=1, t=13.0, gesto="senala")
+
 reel = Reel(1, "Una IA no piensa.\nHace ESTO millones\nde veces", ESCENAS, 29.5,
-            voz=VOZ, efectos=EFECTOS)
+            voz=VOZ, efectos=EFECTOS,
+            portada=PORTADA)
 ax = reel.ax
 xs = np.linspace(-4.2, 6.2, 400)
 ax.plot(xs, f(xs), color=C1, lw=4, solid_capstyle="round")

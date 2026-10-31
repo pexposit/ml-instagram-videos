@@ -50,9 +50,12 @@ VOZ = {
 EFECTOS = [(3.2, "pop")] + [(T0_ITER + i * T_ITER + 1.5, "whoosh") for i in range(3)] \
     + [(18.4, "pop")]
 
+PORTADA = dict(titulo=["Nadie le dijo", "qué buscar…", "y lo encontró"], amarilla=2, t=18.5, gesto="piensa")
+
 reel = Reel(2, "Nadie le dijo qué buscar… y lo encontró", ESCENAS, 30.0,
             voz=VOZ, efectos=EFECTOS, musica={"bpm": 104,
-            "progresion": ((50, 53, 57), (46, 50, 53), (53, 57, 60), (48, 52, 55))})
+            "progresion": ((50, 53, 57), (46, 50, 53), (53, 57, 60), (48, 52, 55))},
+            portada=PORTADA)
 ax = reel.ax
 ax.set_xlim(-5, 5)
 ax.set_ylim(-4.6, 4.2)

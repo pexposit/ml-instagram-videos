@@ -57,8 +57,11 @@ EFECTOS = ([(0.6, "pop"), (4.4, "pop"), (5.4, "error")]
            + [(T_APRENDE0 + 0.3 + k * T_PASO, "whoosh") for k in range(len(fronteras) - 1)]
            + [(18.4, "pop"), (19.6, "pop")])
 
+PORTADA = dict(titulo=["La IA no", "se programa.", "Se ENSEÑA."], amarilla=2, t=20.5, gesto="senala")
+
 reel = Reel(1, "La IA no se programa.\nSe ENSEÑA.", ESCENAS, 31.0, voz=VOZ, efectos=EFECTOS,
-            serie=SERIE_CERO, musica={"bpm": 98})
+            serie=SERIE_CERO, musica={"bpm": 98},
+            portada=PORTADA)
 ax = reel.ax
 ax.set_xlim(0, 10)
 ax.set_ylim(0, 7.8)

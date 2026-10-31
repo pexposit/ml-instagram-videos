@@ -19,6 +19,7 @@ generador/
   robot.py       Robot presentador articulado (esqueleto + gestos tipo servo).
   audio.py       Voz (Piper TTS), música sintetizada, efectos y mezcla con "ducking".
   icono.py       Genera la foto de perfil (perfil/icono_*.png).
+  portada.py     Genera las portadas (título + captura del algoritmo + robot).
   v01_…v07_…py   Un archivo por vídeo: escenas, voz, efectos y función draw(t).
   voz/           Modelo de voz (NO se sube a git; ver "Instalación").
 videos/          MP4 finales (1080×1920, 30 fps, AAC). portadas/: portada de cada vídeo.
@@ -91,6 +92,11 @@ KNN, árbol de decisión, random forest).
 4. Render: `cd generador && python3 vNN_nombre.py` (5–10 min por vídeo; lanzar en
    segundo plano y en paralelo). Genera `videos/NN_nombre.mp4` y `portadas/NN_nombre.png`.
 5. Añade su texto a `PUBLICAR.md` y la fila al `README.md`.
+6. Portada: cada vídeo define `PORTADA = dict(titulo=[líneas], amarilla=i, t=segundo de la
+   animación, gesto=pose del robot)` y la pasa con `portada=PORTADA`. El usuario quiere que
+   en la portada **se vea el algoritmo**. Se genera al final del render, o sin renderizar con
+   `python3 portada.py v01_descenso_gradiente v02_kmeans …`. Todo lo importante debe quedar
+   en la franja 3:4 central (y de 0.125 a 0.875), que es lo que enseña la cuadrícula del perfil.
 
 ## Instalación (entorno nuevo)
 

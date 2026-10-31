@@ -35,8 +35,11 @@ EFECTOS = ([(0.4 + 0.5 * k, "pop") for k in range(3)] + [(1.9, "pop")]
            + [(9.0, "pop"), (10.4, "whoosh"), (14.0, "pop"), (17.8, "pop"), (18.6, "whoosh"),
               (19.8, "error")])
 
+PORTADA = dict(titulo=["Así decide", "una neurona", "artificial"], amarilla=1, t=15.0, gesto="pulgar")
+
 reel = Reel(2, "Así decide una\nneurona artificial", ESCENAS, 31.5, voz=VOZ, efectos=EFECTOS,
-            serie=SERIE_CERO, musica={"bpm": 92})
+            serie=SERIE_CERO, musica={"bpm": 92},
+            portada=PORTADA)
 ax = reel.ax
 ax.set_xlim(0, 10)
 ax.set_ylim(0, 7.8)

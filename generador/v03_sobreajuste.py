@@ -41,9 +41,12 @@ VOZ = {
 EFECTOS = [(t0, "whoosh") for t0, *_r in FASES] + [(18.2, "pop")] \
     + [(19.0 + 0.25 * k, "error") for k in range(len(x_test))]
 
+PORTADA = dict(titulo=["Un 10 en casa,", "un 3 en el examen"], amarilla=1, t=21.0, gesto="piensa")
+
 reel = Reel(3, "Tu IA saca un 10\nen casa y un 3\nen el examen", ESCENAS, 29.5,
             voz=VOZ, efectos=EFECTOS, musica={"bpm": 90,
-            "progresion": ((52, 55, 59), (48, 52, 55), (55, 59, 62), (50, 54, 57))})
+            "progresion": ((52, 55, 59), (48, 52, 55), (55, 59, 62), (50, 54, 57))},
+            portada=PORTADA)
 ax = reel.ax
 ax.set_xlim(-0.03, 1.03)
 ax.set_ylim(-2.6, 2.6)

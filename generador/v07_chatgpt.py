@@ -43,8 +43,11 @@ EFECTOS = ([(T_TECLEO[0] + k * 0.5, "pop") for k in range(len(PROMPT))]
            + [(T_RAPIDO0 + k * T_RAPIDO_PASO * 2, "pop") for k in range(len(EXTRA) // 2)]
            + [(22.9, "whoosh")])
 
+PORTADA = dict(titulo=["Así escribe", "ChatGPT"], amarilla=1, t=13.4, gesto="explica")
+
 reel = Reel(4, "ChatGPT escribe\nadivinando palabra\na palabra", ESCENAS, 31.5, voz=VOZ,
-            efectos=EFECTOS, serie=SERIE_CERO, musica={"bpm": 94})
+            efectos=EFECTOS, serie=SERIE_CERO, musica={"bpm": 94},
+            portada=PORTADA)
 ax = reel.ax
 ax.set_xlim(0, 10)
 ax.set_ylim(0, 7.8)

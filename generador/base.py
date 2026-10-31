@@ -56,7 +56,7 @@ def wrap(text, width):
 
 class Reel:
     def __init__(self, numero, gancho, escenas, duracion, voz=None, efectos=(), musica=None,
-                 serie=SERIE):
+                 serie=SERIE, portada=None):
         """Los tiempos de escenas, voz y efectos son relativos al final de la intro.
 
         voz: {índice de escena: texto hablado o (texto, t_fin)}; "" = silencio;
@@ -70,6 +70,9 @@ class Reel:
         self.voz = voz or {}
         self.efectos = efectos
         self.musica = musica
+        self.serie = serie
+        self.numero = numero
+        self.portada = portada  # dict(titulo, amarilla, t, gesto); ver portada.py
         self.fig = plt.figure(figsize=(W / DPI, H / DPI), dpi=DPI, facecolor=BG)
 
         # Zona segura: Instagram tapa ~12 % arriba y ~20 % abajo con su interfaz.
@@ -159,6 +162,7 @@ class Reel:
         rax.set_aspect("equal")
         rax.axis("off")
         rax.patch.set_alpha(0)
+        self._rax = rax
         robot = Robot(rax)
         guion = self.robot_guion()
         salida = ROOT / "videos" / f"{nombre}.mp4"
@@ -200,9 +204,6 @@ class Reel:
                 self.barra.set_width(0.84 * ta / self.total)
                 return []
 
-            # portada: el robot presentando el gancho
-            update(int(1.2 * FPS))
-            self.fig.savefig(ROOT / "portadas" / f"{nombre}.png", dpi=DPI, facecolor=BG)
 
             anim = FuncAnimation(self.fig, update, frames=int(self.total * FPS), blit=False)
             writer = FFMpegWriter(fps=FPS, codec="libx264", bitrate=-1, extra_args=[
@@ -214,4 +215,7 @@ class Reel:
                             "-c:v", "copy", "-af", "loudnorm=I=-14:TP=-1.5:LRA=11",
                             "-c:a", "aac", "-b:a", "192k", "-ar", "44100", "-shortest",
                             "-movflags", "+faststart", str(salida)], check=True)
+        if self.portada:
+            from portada import crear_portada
+            crear_portada(self, draw, nombre, self.portada)
         print("OK", salida)
