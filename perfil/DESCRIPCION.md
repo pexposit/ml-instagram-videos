@@ -2,7 +2,8 @@
 
 ## Foto de perfil
 
-`icono_oscuro.png`, `icono_amarillo.png` o `icono_azul.png` (1080×1080). Instagram la recorta
+**Elegida: `foto_perfil.png`** (fondo amarillo, el color de la marca). Las otras versiones
+(`icono_oscuro.png`, `icono_azul.png`) quedan de reserva. Todas miden 1080×1080. Instagram la recorta
 en círculo; el robot ya está colocado para que se vea entero dentro del círculo.
 
 ## Nombre (el campo "Nombre", no el usuario)
