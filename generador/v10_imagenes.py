@@ -53,7 +53,7 @@ VOZ = {
 EFECTOS = ([(0.4, "pop"), (1.6, "whoosh"), (T_P0, "whoosh")]
            + [(T_P1 + k * 1.2, "whoosh") for k in range(5)]
            + [(T_FIN, "pop"), (19.8, "pop"), (24.2, "pop")])
-PORTADA = dict(titulo=["Así crea una IA", "una imagen", "de la nada"], amarilla=1, t=13.0,
+PORTADA = dict(titulo=["Así crea una IA", "una imagen", "de la nada"], amarilla=1, t=14.6,
                gesto="explica")
 
 reel = Reel(7, "Así crea una IA\nuna imagen de la nada", ESCENAS, 32.5, voz=VOZ,
