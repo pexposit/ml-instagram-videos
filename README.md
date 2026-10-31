@@ -1,4 +1,4 @@
-# ml-instagram-videos
+# ml-instagram-videos · @hacerlointeligente
 
 Reels verticales para Instagram que explican algoritmos de machine learning en unos 30 segundos.
 
@@ -34,6 +34,15 @@ python3 v01_descenso_gradiente.py   # crea videos/01_... y portadas/01_...
 progreso y colores. `generador/audio.py` genera la voz, la música y los efectos, y los mezcla
 (la música baja cuando habla la voz). Cada vídeo nuevo solo define sus escenas, su animación,
 qué dice la voz y en qué momentos suenan los efectos.
+
+## Licencia
+
+© 2026 @hacerlointeligente. **Todos los derechos reservados.** No se permite volver a
+publicar, modificar ni usar comercialmente los vídeos, guiones o código sin permiso. Sí se
+pueden compartir los reels originales desde Instagram. Detalles en [`LICENSE`](LICENSE).
+
+Todos los vídeos llevan la marca de agua `@hacerlointeligente`: una firma bajo la barra de
+progreso y otra en diagonal sobre la animación, que no se puede recortar sin estropear el vídeo.
 
 ## Créditos
 

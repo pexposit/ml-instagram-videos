@@ -39,6 +39,7 @@ FPS = 30
 W, H, DPI = 1080, 1920, 180
 ROOT = Path(__file__).resolve().parent.parent
 SERIE = "MACHINE LEARNING EN 30 s"
+CANAL = "@hacerlointeligente"
 INTRO = 3.2  # segundos iniciales en los que la voz lee el gancho
 
 
@@ -89,6 +90,13 @@ class Reel:
             (0.08, 0.715), 0.84, 0.006, transform=self.fig.transFigure, color=GRID))
         self.barra = self.fig.add_artist(plt.Rectangle(
             (0.08, 0.715), 0.0, 0.006, transform=self.fig.transFigure, color=ACCENT))
+
+        # Marca de agua: firma visible bajo la barra + marca diagonal sobre la animación
+        # (en el centro, para que no se pueda recortar sin destrozar el vídeo).
+        self.fig.text(0.5, 0.699, CANAL, ha="center", va="center", size=11,
+                      weight="bold", color=MUTED)
+        self.fig.text(0.5, 0.495, CANAL, ha="center", va="center", size=30, weight="black",
+                      color=FG, alpha=0.07, rotation=28, zorder=10)
 
     def subtitulo(self, t):
         for t0, t1, texto in self.escenas:

@@ -18,10 +18,12 @@ cada vídeo y usarla en lugar de la que lleva.
 >
 > ⚠️ Si el paso es demasiado grande, se pasa de largo y nunca aprende.
 >
-> 📌 Guárdalo para repasar · Sígueme para el #2
+> 📌 Guárdalo para repasar · Sigue a @hacerlointeligente para el #2
 >
 > #machinelearning #inteligenciaartificial #IA #aprendizajeautomatico #programacion
 > #ciencia #datascience #aprendeconreels #python #estudiantes
+>
+> © @hacerlointeligente · Voz: corpus Sharvard (U. Edimburgo, CC BY 3.0)
 
 **Voz (si quieres grabarla):** "Una IA no piensa. Hace esto millones de veces. Esta curva es
 su error: arriba se equivoca mucho, abajo acierta. Mira hacia dónde baja la pendiente y da un
@@ -41,10 +43,12 @@ descenso del gradiente."
 >
 > Así se agrupan clientes, canciones de Spotify o colores de una imagen, sin etiquetas.
 >
-> 📩 Envíaselo a quien esté estudiando IA
+> 📩 Envíaselo a quien esté estudiando IA · Más en @hacerlointeligente
 >
 > #machinelearning #inteligenciaartificial #kmeans #clustering #datascience #IA
 > #aprendizajeautomatico #programacion #estudiantes #ciencia
+>
+> © @hacerlointeligente · Voz: corpus Sharvard (U. Edimburgo, CC BY 3.0)
 
 **Voz:** "Nadie le dijo qué buscar, y lo encontró. Tienes datos, pero sin etiquetas. Pones tres
 capitanes al azar. Cada punto se une a su capitán más cercano. Cada capitán se mueve al centro
@@ -63,10 +67,12 @@ de su grupo. Repites… hasta que nada cambia. Esto es K-means."
 >
 > Por eso siempre se separan los datos en entrenamiento (train) y prueba (test).
 >
-> 🏷️ Etiqueta a quien memoriza para el examen
+> 🏷️ Etiqueta a quien memoriza para el examen · Más en @hacerlointeligente
 >
 > #machinelearning #overfitting #inteligenciaartificial #IA #datascience
 > #aprendizajeautomatico #estudiantes #universidad #programacion #ciencia
+>
+> © @hacerlointeligente · Voz: corpus Sharvard (U. Edimburgo, CC BY 3.0)
 
 **Voz:** "Tu IA saca un diez en casa y un tres en el examen. Modelo demasiado simple: no capta
 nada. Modelo justo: entiende la forma. Modelo que se lo memoriza: pasa por todos los puntos.

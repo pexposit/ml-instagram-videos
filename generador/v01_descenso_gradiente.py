@@ -30,7 +30,7 @@ ESCENAS = [
     (9.4, 16.4, "…y da un paso cuesta abajo. Una y otra vez."),
     (16.4, 21.0, "!Pero si el paso es demasiado grande… se pasa de largo"),
     (21.0, 25.0, "DESCENSO DEL GRADIENTE: así se entrenan casi todas las IAs"),
-    (25.0, 29.5, "!Guárdalo para repasar y sígueme para el #2"),
+    (25.0, 29.5, "!Guárdalo y sigue a @hacerlointeligente para el #2"),
 ]
 
 VOZ = {
@@ -39,7 +39,7 @@ VOZ = {
     1: "Arriba, mucho error. Abajo, acierta.",
     3: "Y da un paso cuesta abajo. Y otro. Y otro. Una y otra vez.",
     5: "Esto es el descenso del gradiente: así aprenden casi todas las IAs.",
-    6: "Guárdalo para repasar, y sígueme para el número dos.",
+    6: "Guárdalo, y sigue a hacerlo inteligente para el número dos.",
 }
 EFECTOS = ([(9.4 + k * T_PASO, "pop") for k in range(len(BUENOS) - 1)]
            + [(16.4 + k * T_PASO, "error") for k in range(len(MALOS) - 1)]
