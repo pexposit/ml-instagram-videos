@@ -5,7 +5,9 @@ Instagram muestra la portada en la cuadrícula del perfil recortada a 3:4 (franj
 
 Uso: crear_portada(reel, draw, nombre, PORTADA) con
   PORTADA = dict(titulo=["línea 1", "línea 2", ...], amarilla=índice de la línea destacada,
-                 t=segundo de la animación que se enseña, gesto="senala" | "piensa" | ...)
+                 t=segundo de la animación que se enseña, gesto="senala" | "piensa" | ...,
+                 robot_x=posición horizontal del robot (0.81 por defecto; ponerlo donde no
+                 tape lo más importante de la gráfica))
 """
 import io
 
@@ -92,12 +94,16 @@ def crear_portada(reel, draw, nombre, conf):
     rax.patch.set_alpha(0)
     gesto = conf.get("gesto", "saludo")
     pose = pose_en(2.0, [(0.0, gesto, 0.01)])
-    # debajo de la imagen, señalándola, sin tapar el algoritmo
-    Robot(rax).dibujar(2.0, pose, cx=0.83, cy=(y_img - 0.075) * ALTO, s=0.14, boca=0.3)
+    # asomando por delante de la esquina inferior derecha de la gráfica (gusta al usuario)
+    Robot(rax).dibujar(2.0, pose, cx=conf.get("robot_x", 0.81), cy=(y_img + 0.035) * ALTO,
+                       s=0.16, boca=0.3)
 
-    fig.text(0.07, y_img - 0.035, CANAL, ha="left", va="center", size=15, weight="black",
+    # firma del canal en el lado contrario al robot
+    izq = conf.get("robot_x", 0.81) > 0.5
+    xf, ha = (0.07, "left") if izq else (0.93, "right")
+    fig.text(xf, y_img - 0.035, CANAL, ha=ha, va="center", size=15, weight="black",
              color=FG, zorder=3)
-    fig.text(0.07, y_img - 0.06, "La IA explicada fácil", ha="left", va="center", size=12,
+    fig.text(xf, y_img - 0.06, "La IA explicada fácil", ha=ha, va="center", size=12,
              weight="bold", color=MUTED, zorder=3)
 
     fig.savefig(ROOT / "portadas" / f"{nombre}.png", dpi=DPI, facecolor=BG)

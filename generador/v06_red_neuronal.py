@@ -77,7 +77,8 @@ VOZ = {
 EFECTOS = ([(2.0, "pop"), (4.6, "whoosh")] + [(tc, "pop") for tc in T_CAPA]
            + [(18.2, "pop")] + [(T_CICLO0 + k * T_CICLO_PASO, "pop") for k in range(len(CICLO))])
 
-PORTADA = dict(titulo=["Cómo lee una IA", "un número", "escrito a mano"], amarilla=1, t=19.5, gesto="senala")
+PORTADA = dict(titulo=["Cómo lee una IA", "un número", "escrito a mano"], amarilla=1, t=19.5, gesto="senala",
+               robot_x=0.17)
 
 reel = Reel(3, "Cómo reconoce una IA\nun número escrito\na mano", ESCENAS, 31.2, voz=VOZ,
             efectos=EFECTOS, serie=SERIE_CERO, musica={"bpm": 100},
