@@ -1,0 +1,33 @@
+Copyright © 2026 @hacerlointeligente. Todos los derechos reservados.
+
+Todo el contenido de este repositorio (vídeos, portadas, animaciones, guiones, textos de
+publicación, música y efectos de sonido generados, y el código que los produce) es obra de
+@hacerlointeligente y está protegido por la legislación de propiedad intelectual.
+
+SIN PERMISO PREVIO Y POR ESCRITO DEL TITULAR NO SE PERMITE:
+  - descargar y volver a publicar los vídeos, total o parcialmente, en Instagram, TikTok,
+    YouTube o cualquier otra plataforma o web;
+  - recortar, tapar o eliminar la marca de agua "@hacerlointeligente";
+  - modificar, traducir, doblar o hacer obras derivadas de los vídeos o de los guiones;
+  - usar el contenido o el código con fines comerciales;
+  - copiar o redistribuir el código fuente.
+
+SÍ SE PERMITE:
+  - ver los vídeos y compartirlos con las funciones de la propia plataforma (enviar,
+    compartir o reenviar la publicación original de @hacerlointeligente);
+  - citar brevemente el contenido mencionando y enlazando a @hacerlointeligente.
+
+Para cualquier otro uso, escribe por mensaje directo a @hacerlointeligente en Instagram.
+
+------------------------------------------------------------------------------------------
+COMPONENTES DE TERCEROS (no están cubiertos por la reserva de derechos anterior y se rigen
+por sus propias licencias):
+
+  - Voz en off: sintetizada con el modelo Piper "es_ES-sharvard-medium", entrenado con el
+    corpus Sharvard (Universidad de Edimburgo), licencia Creative Commons Atribución 3.0
+    (https://creativecommons.org/licenses/by/3.0/). El modelo no se incluye en este
+    repositorio.
+  - Piper TTS: software de síntesis de voz que se instala aparte con pip; tiene su propia
+    licencia y no se distribuye aquí.
+  - Fuente tipográfica Inter: SIL Open Font License 1.1 (https://openfontlicense.org).
+  - Bibliotecas de Python (numpy, matplotlib): cada una con su propia licencia.
