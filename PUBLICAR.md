@@ -186,17 +186,17 @@ a que Instagram lo recomiende. Se añaden **en la app, al subir el reel**:
 
 | Vídeo | Tipo | Pregunta | Opciones (✅ = correcta) | Cuándo |
 |---|---|---|---|---|
-| IA desde cero #1 · Programar vs. aprender | Cuestionario | ¿Qué es la fruta nueva? | Manzana ✅ · Naranja | 0:18 → 0:23 |
+| IA desde cero #1 · Programar vs. aprender | Cuestionario | ¿Qué será la fruta nueva verde? | Manzana ✅ · Naranja | 0:20 → 0:23 |
 | IA desde cero #2 · Neurona | Encuesta | ¿Te irías a la playa si tienes que trabajar? | Sí, ¡a la playa! 🏖️ · No, a trabajar 💼 | 0:20 → 0:26 |
-| IA desde cero #3 · Red neuronal | Cuestionario | ¿Qué número ha escrito? | 1 · 7 ✅ · 4 | 0:04 → 0:21 |
-| IA desde cero #4 · ChatGPT | Cuestionario | ¿Qué palabra elegirá? «El gato se sentó en el…» | sofá ✅ · suelo · tejado · coche | 0:04 → 0:13 |
+| IA desde cero #3 · Red neuronal | Cuestionario | ¿Qué número ha escrito? | 1 · 7 ✅ · 4 | 0:04 → 0:17 |
+| IA desde cero #4 · ChatGPT | Cuestionario | ¿Qué palabra elegirá? «El gato se sentó en el…» | sofá ✅ · suelo · tejado · coche | 0:04 → 0:08 |
 | IA desde cero #4 · ChatGPT (final) | Encuesta | ¿Qué explico en el próximo vídeo? | Cómo ve una IA una foto 📸 · Cómo detecta el spam 📧 | 0:30 → final |
 | ML en 30 s #1 · Descenso del gradiente | Encuesta | ¿Sabías que las IA aprenden así? | ¡Sí! · Ni idea 🤯 | 0:24 → final |
-| ML en 30 s #2 · K-means | Cuestionario | ¿Cuántos grupos encontrará? | 2 · 3 ✅ · 4 | 0:04 → 0:21 |
+| ML en 30 s #2 · K-means | Cuestionario | ¿Cuántos grupos encontrará? | 2 · 3 ✅ · 4 | 0:04 → 0:09 |
 | ML en 30 s #3 · Sobreajuste | Encuesta | ¿Tú también memorizas para los exámenes? | Sí 😅 · Nunca 😇 | 0:26 → final |
 
-Consejo: en los cuestionarios, la respuesta sale en el vídeo justo después de que desaparezca
-el sticker, así quien vota se queda a ver si ha acertado.
+Consejo: los tiempos están calculados para que el cuestionario desaparezca justo antes de que
+el vídeo enseñe la respuesta, así quien vota se queda a ver si ha acertado.
 
 ## Ideas para los próximos vídeos
 
