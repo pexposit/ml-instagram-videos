@@ -39,6 +39,7 @@ FPS = 30
 W, H, DPI = 1080, 1920, 180
 ROOT = Path(__file__).resolve().parent.parent
 SERIE = "MACHINE LEARNING EN 30 s"
+SERIE_CERO = "IA DESDE CERO"  # serie para quien empieza sin saber nada
 CANAL = "@hacerlointeligente"
 INTRO = 3.2  # segundos iniciales en los que la voz lee el gancho
 
@@ -54,7 +55,8 @@ def wrap(text, width):
 
 
 class Reel:
-    def __init__(self, numero, gancho, escenas, duracion, voz=None, efectos=(), musica=None):
+    def __init__(self, numero, gancho, escenas, duracion, voz=None, efectos=(), musica=None,
+                 serie=SERIE):
         """Los tiempos de escenas, voz y efectos son relativos al final de la intro.
 
         voz: {índice de escena: texto hablado o (texto, t_fin)}; "" = silencio;
@@ -71,7 +73,7 @@ class Reel:
         self.fig = plt.figure(figsize=(W / DPI, H / DPI), dpi=DPI, facecolor=BG)
 
         # Zona segura: Instagram tapa ~12 % arriba y ~20 % abajo con su interfaz.
-        self.fig.text(0.5, 0.885, f"{SERIE} · #{numero}", ha="center", va="center",
+        self.fig.text(0.5, 0.885, f"{serie} · #{numero}", ha="center", va="center",
                       size=12, weight="bold", color=ACCENT)
         self.fig.text(0.5, 0.865, wrap(gancho, 21), ha="center", va="top",
                       size=26, weight="black", color=FG, linespacing=1.12)

@@ -80,16 +80,102 @@ Y cuando llegan datos nuevos… falla. Memorizar no es aprender."
 
 ---
 
-## Próximos vídeos (mismo formato)
+# Serie «IA desde cero» (para quien no sabe nada de IA)
 
-| # | Gancho | Algoritmo | Qué se anima |
-|---|---|---|---|
-| 4 | "Dime con quién andas y te diré quién eres (literalmente)" | k vecinos más cercanos (KNN) | Un punto nuevo, círculo que crece, votación de vecinos |
-| 5 | "La IA que juega a 'Quién es quién'" | Árbol de decisión | Plano dividiéndose con cortes, árbol creciendo |
-| 6 | "Cómo sabe Gmail que es spam (sin leerlo como tú)" | Naive Bayes | Palabras sumando probabilidad a una barra |
-| 7 | "Así ve una foto una IA" | Convolución (CNN) | Filtro deslizándose sobre una imagen pixelada |
-| 8 | "100 árboles tontos > 1 árbol listo" | Random forest | Muchos árboles votando |
-| 9 | "Una neurona es solo ESTO" | Perceptrón | Recta que gira hasta separar dos colores |
-| 10 | "Por qué ChatGPT no 'sabe' nada" | Predicción de la siguiente palabra | Barras de probabilidad de palabras |
+Recomendación: publica esta serie **antes** que la de «Machine learning en 30 s», que es más técnica.
 
-Dímelo y los genero igual que los tres primeros.
+---
+
+## IA desde cero #1 · Programar vs. aprender
+**Vídeo:** `videos/04_programar_vs_aprender.mp4` · **Portada:** `portadas/04_programar_vs_aprender.png`
+
+**Texto:**
+> La IA no se programa. Se ENSEÑA. 🍎🍊
+>
+> Un programa normal sigue reglas que escribe una persona: «si es roja, es manzana». Pero
+> en cuanto aparece una manzana verde, la regla falla.
+>
+> Una IA aprende de otra forma: le das muchos ejemplos y ella sola encuentra la regla que
+> los separa. Luego la usa con cosas que nunca ha visto.
+>
+> 👉 Esta es la parte 1 de «IA desde cero». Sígueme para no perderte la 2.
+>
+> #inteligenciaartificial #IA #machinelearning #aprendeconreels #tecnologia
+> #divulgacion #ciencia #iaparatodos #educacion #curiosidades
+>
+> © @hacerlointeligente · Voz: corpus Sharvard (U. Edimburgo, CC BY 3.0)
+
+---
+
+## IA desde cero #2 · Una neurona artificial
+**Vídeo:** `videos/05_neurona.mp4` · **Portada:** `portadas/05_neurona.png`
+
+**Texto:**
+> ¿Playa o no playa? Así decide una neurona artificial 🏖️
+>
+> Recibe datos (¿hace sol? ¿calor? ¿trabajas?), multiplica cada uno por su PESO (lo que le
+> importa), lo suma todo y, si pasa de un umbral, dice que sí.
+>
+> Y aprender, para una IA, es justo eso: ajustar los pesos a base de ejemplos.
+>
+> 💬 ¿Qué peso le darías tú al «trabajas»? Te leo en comentarios.
+>
+> #inteligenciaartificial #IA #redesneuronales #machinelearning #aprendeconreels
+> #tecnologia #divulgacion #ciencia #iaparatodos #educacion
+>
+> © @hacerlointeligente · Voz: corpus Sharvard (U. Edimburgo, CC BY 3.0)
+
+---
+
+## IA desde cero #3 · Una red neuronal
+**Vídeo:** `videos/06_red_neuronal.mp4` · **Portada:** `portadas/06_red_neuronal.png`
+
+**Texto:**
+> Para una IA, una foto es una tabla de números 🔢
+>
+> Cada píxel es un número. Esos números pasan por capas de neuronas: las primeras detectan
+> trazos, las siguientes esquinas y formas… y al final cada neurona «vota» por un número.
+>
+> Así reconoce tu móvil la letra escrita a mano, las matrículas o tu cara.
+>
+> 📩 Envíaselo a quien siempre pregunta «¿pero cómo lo sabe la IA?»
+>
+> #inteligenciaartificial #IA #redesneuronales #deeplearning #machinelearning
+> #aprendeconreels #tecnologia #divulgacion #iaparatodos #ciencia
+>
+> © @hacerlointeligente · Voz: corpus Sharvard (U. Edimburgo, CC BY 3.0)
+
+---
+
+## IA desde cero #4 · Cómo escribe ChatGPT
+**Vídeo:** `videos/07_chatgpt.mp4` · **Portada:** `portadas/07_chatgpt.png`
+
+**Texto:**
+> ChatGPT no escribe la respuesta de golpe: la adivina palabra a palabra ✍️
+>
+> Mira el texto que lleva escrito, calcula qué palabra es más probable que venga después,
+> elige una, la añade… y repite. Miles de veces por respuesta.
+>
+> Lo aprendió leyendo muchísimos textos: libros, webs, artículos…
+>
+> (Para los puristas: en realidad trabaja con trozos de palabra llamados «tokens» 😉)
+>
+> 📌 Guárdalo y sígueme para más «IA desde cero».
+>
+> #chatgpt #inteligenciaartificial #IA #machinelearning #aprendeconreels #tecnologia
+> #divulgacion #iaparatodos #ciencia #educacion
+>
+> © @hacerlointeligente · Voz: corpus Sharvard (U. Edimburgo, CC BY 3.0)
+
+---
+
+## Ideas para los próximos vídeos
+
+| Gancho | Tema | Qué se anima |
+|---|---|---|
+| "La IA es tan buena como sus datos" | Sesgo en los datos | El mismo modelo, entrenado con datos incompletos, se equivoca |
+| "Así ve una foto una IA" | Convolución (CNN) | Un filtro deslizándose sobre una imagen pixelada |
+| "Cómo sabe Gmail que es spam (sin leerlo como tú)" | Naive Bayes | Palabras sumando probabilidad a una barra |
+| "Dime con quién andas y te diré quién eres (literalmente)" | k vecinos más cercanos (KNN) | Un punto nuevo, un círculo que crece y los vecinos votan |
+| "La IA que juega a 'Quién es quién'" | Árbol de decisión | El plano dividiéndose con cortes y el árbol creciendo |
+| "100 árboles tontos > 1 árbol listo" | Random forest | Muchos árboles votando |

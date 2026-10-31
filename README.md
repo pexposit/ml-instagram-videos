@@ -2,11 +2,22 @@
 
 Reels verticales para Instagram que explican algoritmos de machine learning en unos 30 segundos.
 
+**Serie «Machine learning en 30 s»:**
+
 | # | Vídeo | Gancho |
 |---|---|---|
 | 1 | [`videos/01_descenso_gradiente.mp4`](videos/01_descenso_gradiente.mp4) | Una IA no piensa. Hace ESTO millones de veces |
 | 2 | [`videos/02_kmeans.mp4`](videos/02_kmeans.mp4) | Nadie le dijo qué buscar… y lo encontró |
 | 3 | [`videos/03_sobreajuste.mp4`](videos/03_sobreajuste.mp4) | Tu IA saca un 10 en casa y un 3 en el examen |
+
+**Serie «IA desde cero»** (para quien no sabe nada de IA):
+
+| # | Vídeo | Gancho |
+|---|---|---|
+| 1 | [`videos/04_programar_vs_aprender.mp4`](videos/04_programar_vs_aprender.mp4) | La IA no se programa. Se ENSEÑA. |
+| 2 | [`videos/05_neurona.mp4`](videos/05_neurona.mp4) | Así decide una neurona artificial |
+| 3 | [`videos/06_red_neuronal.mp4`](videos/06_red_neuronal.mp4) | Cómo reconoce una IA un número escrito a mano |
+| 4 | [`videos/07_chatgpt.mp4`](videos/07_chatgpt.mp4) | ChatGPT escribe adivinando palabra a palabra |
 
 - [`ANALISIS.md`](ANALISIS.md): qué tipo de vídeos funciona en Instagram y por qué están hechos así.
 - [`PUBLICAR.md`](PUBLICAR.md): texto, hashtags y guion de voz de cada vídeo, más ideas para los siguientes.
