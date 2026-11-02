@@ -20,7 +20,7 @@ generador/
   audio.py       Voz (Piper TTS), música sintetizada, efectos y mezcla con "ducking".
   icono.py       Genera la foto de perfil (perfil/icono_*.png).
   portada.py     Genera las portadas (título + captura del algoritmo + robot).
-  v01_…v15_…py   Un archivo por vídeo: escenas, voz, efectos y función draw(t).
+  v01_…v18_…py   Un archivo por vídeo: escenas, voz, efectos y función draw(t).
   voz/           Modelo de voz (NO se sube a git; ver "Instalación").
 videos/          MP4 finales (1080×1920, 30 fps, AAC). portadas/: portada de cada vídeo.
 perfil/          Foto de perfil (foto_perfil.png = la elegida, amarilla) y DESCRIPCION.md.
@@ -46,13 +46,18 @@ Serie **«IA desde cero»** (para principiantes, publicar PRIMERO), `serie=SERIE
 10. `13_sesgo` · "Una IA es tan buena como sus datos" (la manzana verde)
 11. `14_vision` · "Así ve una foto una IA" (filtros / red convolucional)
 12. `15_spam` · "Cómo sabe tu correo que es spam" (palabras que suman sospecha)
+13. `16_montanas_3d` · "Una IA aprende bajando montañas" (paisaje de error en 3D)
+14. `17_truco_3d` · "El truco de la tercera dimensión" (kernel trick: un plano separa en 3D)
+15. `18_caras_3d` · "Cómo te reconoce la cara el móvil" (cara de puntos → huella en 3D)
+   Los vídeos 3D usan `Reel(..., tres_d=True)` (ejes `projection="3d"`, cámara con
+   `ax.view_init`, `ax.computed_zorder = False` y `zorder` a mano, textos con `ax.text2D`).
 
 Serie **«Machine learning en 30 s»** (más técnica): `01_descenso_gradiente`,
 `02_kmeans`, `03_sobreajuste`.
 
 Encuesta de Instagram: solo en «IA desde cero #2» (el usuario no quiere en todos).
-Ideas pendientes: al final de `PUBLICAR.md` (reconocimiento facial, prompts, KNN, árbol de
-decisión, clonación de voz, energía de la IA).
+Ideas pendientes: al final de `PUBLICAR.md` (prompts, KNN, árbol de decisión, clonación de
+voz, energía de la IA).
 
 ## Decisiones tomadas con el usuario (no cambiarlas sin preguntar)
 

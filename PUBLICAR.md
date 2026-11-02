@@ -337,6 +337,68 @@ Recomendación: publica esta serie **antes** que la de «Machine learning en 30 
 
 ---
 
+## IA desde cero #13 · Una IA aprende bajando montañas (3D)
+**Vídeo:** `videos/16_montanas_3d.mp4` · **Portada:** `portadas/16_montanas_3d.png`
+
+**Texto:**
+> Aprender, para una IA, es bajar una montaña… con los ojos cerrados ⛰️
+>
+> El error es un paisaje: arriba se equivoca mucho, en el fondo del valle acierta. La IA no
+> ve el paisaje: solo nota hacia dónde baja y da un paso. A veces se queda en un valle
+> pequeño, por eso se prueba desde muchos sitios.
+>
+> Se llama descenso del gradiente y así se entrenan casi todas las IAs.
+>
+> 📌 Guárdalo para tu próximo examen de IA
+>
+> #inteligenciaartificial #IA #machinelearning #3D #matematicas #aprendeconreels
+> #tecnologia #divulgacion #iaparatodos #ciencia
+>
+> © @hacerlointeligente · Voz del robot: corpus Sharvard (U. Edimburgo, CC BY 3.0)
+
+---
+
+## IA desde cero #14 · El truco de la tercera dimensión (3D)
+**Vídeo:** `videos/17_truco_3d.mp4` · **Portada:** `portadas/17_truco_3d.png`
+
+**Texto:**
+> ¿Separar los azules de los rosas con UNA línea recta? Imposible… en 2D 🤯
+>
+> Truco: le damos altura a cada punto según lo lejos que está del centro. En 3D, un simple
+> plano los separa. Y visto desde arriba, ese plano dibuja un círculo perfecto.
+>
+> Es el «truco del núcleo» (kernel trick): subir de dimensión para separar lo inseparable.
+>
+> 📩 Envíaselo a quien diga que las mates no son bonitas
+>
+> #inteligenciaartificial #IA #machinelearning #3D #matematicas #aprendeconreels
+> #tecnologia #divulgacion #iaparatodos #ciencia
+>
+> © @hacerlointeligente · Voz del robot: corpus Sharvard (U. Edimburgo, CC BY 3.0)
+
+---
+
+## IA desde cero #15 · Cómo te reconoce la cara el móvil (3D)
+**Vídeo:** `videos/18_caras_3d.mp4` · **Portada:** `portadas/18_caras_3d.png`
+
+**Texto:**
+> Tu móvil no «ve» tu cara: la convierte en números 📱
+>
+> Esos números son tu «huella facial»: un punto en un espacio donde las caras parecidas
+> quedan cerca. Tus fotos de ayer, de hoy o con gafas caen juntas, dentro de tu burbuja. Si
+> el punto cae dentro… se desbloquea. Si cae lejos… no.
+>
+> (En la vida real son cientos de números, no tres. La idea es la misma.)
+>
+> 💬 ¿Tu móvil te ha reconocido alguna vez con mascarilla?
+>
+> #inteligenciaartificial #IA #reconocimientofacial #movil #3D #aprendeconreels
+> #tecnologia #divulgacion #iaparatodos #privacidad
+>
+> © @hacerlointeligente · Voz del robot: corpus Sharvard (U. Edimburgo, CC BY 3.0)
+
+---
+
 ## Encuesta de Instagram (solo en «IA desde cero #2 · Neurona»)
 
 Solo este vídeo lleva encuesta. Se añade **en la app, al subir el reel**:
@@ -354,7 +416,6 @@ Solo este vídeo lleva encuesta. Se añade **en la app, al subir el reel**:
 
 | Gancho | Tema | Qué se anima |
 |---|---|---|
-| "Cómo te reconoce la cara el móvil" | Reconocimiento facial | Tu cara convertida en números y la distancia a la guardada |
 | "Por qué importa cómo le preguntas a ChatGPT" | Prompts | La misma pregunta mal y bien hecha, y sus resultados |
 | "Dime con quién andas y te diré quién eres (literalmente)" | k vecinos más cercanos (KNN) | Un punto nuevo, un círculo que crece y los vecinos votan |
 | "La IA que juega a 'Quién es quién'" | Árbol de decisión | El plano dividiéndose con cortes y el árbol creciendo |

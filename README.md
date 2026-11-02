@@ -26,6 +26,9 @@ Reels verticales para Instagram que explican algoritmos de machine learning en u
 | 10 | [`videos/13_sesgo.mp4`](videos/13_sesgo.mp4) | Una IA es tan buena como sus datos |
 | 11 | [`videos/14_vision.mp4`](videos/14_vision.mp4) | Así ve una foto una IA |
 | 12 | [`videos/15_spam.mp4`](videos/15_spam.mp4) | Cómo sabe tu correo que es spam |
+| 13 | [`videos/16_montanas_3d.mp4`](videos/16_montanas_3d.mp4) | Una IA aprende bajando montañas (3D) |
+| 14 | [`videos/17_truco_3d.mp4`](videos/17_truco_3d.mp4) | El truco de la tercera dimensión (3D) |
+| 15 | [`videos/18_caras_3d.mp4`](videos/18_caras_3d.mp4) | Cómo te reconoce la cara el móvil (3D) |
 
 - [`ANALISIS.md`](ANALISIS.md): qué tipo de vídeos funciona en Instagram y por qué están hechos así.
 - [`PUBLICAR.md`](PUBLICAR.md): texto, hashtags y guion de voz de cada vídeo, más ideas para los siguientes.

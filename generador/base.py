@@ -59,7 +59,7 @@ def wrap(text, width):
 
 class Reel:
     def __init__(self, numero, gancho, escenas, duracion, voz=None, efectos=(), musica=None,
-                 serie=SERIE, portada=None, asoma=True):
+                 serie=SERIE, portada=None, asoma=True, tres_d=False):
         """Los tiempos de escenas, voz y efectos son relativos al final de la intro.
 
         voz: {índice de escena: texto hablado o (texto, t_fin)}; "" = silencio;
@@ -113,12 +113,19 @@ class Reel:
             y -= paso
 
         # Panel enmarcado donde va la animación
-        self.ax = self.fig.add_axes([0.08, 0.30, 0.84, 0.345])
-        self.ax.set_facecolor(PANEL)
-        for s in self.ax.spines.values():
-            s.set_visible(False)
-        self.ax.set_xticks([])
-        self.ax.set_yticks([])
+        # tres_d=True: la animación es una escena 3D (cámara que gira, superficies…)
+        if tres_d:
+            self.ax = self.fig.add_axes([0.08, 0.30, 0.84, 0.345], projection="3d")
+            self.ax.set_facecolor(PANEL)
+            self.ax.set_axis_off()
+            self.ax.set_box_aspect((1, 1, 0.75), zoom=1.25)
+        else:
+            self.ax = self.fig.add_axes([0.08, 0.30, 0.84, 0.345])
+            self.ax.set_facecolor(PANEL)
+            for s in self.ax.spines.values():
+                s.set_visible(False)
+            self.ax.set_xticks([])
+            self.ax.set_yticks([])
         self.marco = FancyBboxPatch((0, 0), 1, 1, boxstyle="round,pad=0,rounding_size=0.02",
                                     transform=self.fig.transFigure, fc=PANEL, ec=C1, lw=2.5,
                                     zorder=-5)
