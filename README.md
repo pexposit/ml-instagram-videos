@@ -22,6 +22,10 @@ Reels verticales para Instagram que explican algoritmos de machine learning en u
 | 6 | [`videos/09_alucinaciones.mp4`](videos/09_alucinaciones.mp4) | ¿Por qué la IA se inventa cosas? |
 | 7 | [`videos/10_imagenes.mp4`](videos/10_imagenes.mp4) | Así crea una IA una imagen de la nada |
 | 8 | [`videos/11_aprende_a_andar.mp4`](videos/11_aprende_a_andar.mp4) | Una IA aprendiendo a andar |
+| 9 | [`videos/12_palabras.mp4`](videos/12_palabras.mp4) | Para una IA, las palabras son coordenadas |
+| 10 | [`videos/13_sesgo.mp4`](videos/13_sesgo.mp4) | Una IA es tan buena como sus datos |
+| 11 | [`videos/14_vision.mp4`](videos/14_vision.mp4) | Así ve una foto una IA |
+| 12 | [`videos/15_spam.mp4`](videos/15_spam.mp4) | Cómo sabe tu correo que es spam |
 
 - [`ANALISIS.md`](ANALISIS.md): qué tipo de vídeos funciona en Instagram y por qué están hechos así.
 - [`PUBLICAR.md`](PUBLICAR.md): texto, hashtags y guion de voz de cada vídeo, más ideas para los siguientes.

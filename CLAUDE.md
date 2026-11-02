@@ -20,7 +20,7 @@ generador/
   audio.py       Voz (Piper TTS), música sintetizada, efectos y mezcla con "ducking".
   icono.py       Genera la foto de perfil (perfil/icono_*.png).
   portada.py     Genera las portadas (título + captura del algoritmo + robot).
-  v01_…v07_…py   Un archivo por vídeo: escenas, voz, efectos y función draw(t).
+  v01_…v15_…py   Un archivo por vídeo: escenas, voz, efectos y función draw(t).
   voz/           Modelo de voz (NO se sube a git; ver "Instalación").
 videos/          MP4 finales (1080×1920, 30 fps, AAC). portadas/: portada de cada vídeo.
 perfil/          Foto de perfil (foto_perfil.png = la elegida, amarilla) y DESCRIPCION.md.
@@ -42,13 +42,17 @@ Serie **«IA desde cero»** (para principiantes, publicar PRIMERO), `serie=SERIE
 8. `11_aprende_a_andar` · "Una IA aprendiendo a andar" (aprendizaje por refuerzo; el robot
    sale DENTRO de la animación: `Robot(ax).dibujar(..., pies=…, giro=…, pivote=…)` y
    `Reel(..., asoma=False)` para que no se asome además junto al subtítulo)
+9. `12_palabras` · "Para una IA, las palabras son coordenadas" (embeddings)
+10. `13_sesgo` · "Una IA es tan buena como sus datos" (la manzana verde)
+11. `14_vision` · "Así ve una foto una IA" (filtros / red convolucional)
+12. `15_spam` · "Cómo sabe tu correo que es spam" (palabras que suman sospecha)
 
 Serie **«Machine learning en 30 s»** (más técnica): `01_descenso_gradiente`,
 `02_kmeans`, `03_sobreajuste`.
 
 Encuesta de Instagram: solo en «IA desde cero #2» (el usuario no quiere en todos).
-Ideas pendientes: al final de `PUBLICAR.md` (sesgo en los datos, CNN, spam/Naive Bayes,
-KNN, árbol de decisión, random forest).
+Ideas pendientes: al final de `PUBLICAR.md` (reconocimiento facial, prompts, KNN, árbol de
+decisión, clonación de voz, energía de la IA).
 
 ## Decisiones tomadas con el usuario (no cambiarlas sin preguntar)
 

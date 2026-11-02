@@ -252,6 +252,91 @@ Recomendación: publica esta serie **antes** que la de «Machine learning en 30 
 
 ---
 
+## IA desde cero #9 · Para una IA, las palabras son coordenadas
+**Vídeo:** `videos/12_palabras.mp4` · **Portada:** `portadas/12_palabras.png`
+
+**Texto:**
+> rey − hombre + mujer = reina 🤯 (y nadie se lo explicó)
+>
+> Para una IA cada palabra es un punto en un mapa. Las parecidas quedan cerca (perro y gato)
+> y hasta las direcciones significan algo: de «hombre» a «rey» hay la misma flecha que de
+> «mujer» a «reina».
+>
+> Así entiende la IA que «can» y «perro» significan casi lo mismo. Se llama «embeddings».
+>
+> 💬 Inventa tú una: ¿París − Francia + España = …?
+>
+> #inteligenciaartificial #IA #chatgpt #lenguaje #palabras #aprendeconreels
+> #tecnologia #divulgacion #iaparatodos #curiosidades
+>
+> © @hacerlointeligente · Voz del robot: corpus Sharvard (U. Edimburgo, CC BY 3.0)
+
+---
+
+## IA desde cero #10 · Una IA es tan buena como sus datos
+**Vídeo:** `videos/13_sesgo.mp4` · **Portada:** `portadas/13_sesgo.png`
+
+**Texto:**
+> Una IA vio una manzana verde y dijo: «¡naranja!» 🍏🍊
+>
+> No era tonta: solo la habían entrenado con manzanas rojas. Cuando le dimos ejemplos
+> variados, aprendió la regla buena.
+>
+> Eso es el sesgo, y pasa con cosas mucho más serias: caras, voces o currículums. Por eso
+> importa tanto con qué datos se entrena una IA.
+>
+> 📩 Envíaselo a quien piensa que «la IA es objetiva»
+>
+> #inteligenciaartificial #IA #sesgo #datos #etica #aprendeconreels #tecnologia
+> #divulgacion #iaparatodos #pensamientocritico
+>
+> © @hacerlointeligente · Voz del robot: corpus Sharvard (U. Edimburgo, CC BY 3.0)
+
+---
+
+## IA desde cero #11 · Así ve una foto una IA
+**Vídeo:** `videos/14_vision.mp4` · **Portada:** `portadas/14_vision.png`
+
+**Texto:**
+> Así ve una foto tu móvil 📸 (spoiler: solo ve números)
+>
+> La IA pasa pequeños filtros por la imagen, trocito a trocito. Uno encuentra bordes
+> verticales, otro horizontales… y capa tras capa, de los bordes salen formas y de las
+> formas, objetos: «¡una casa!».
+>
+> Se llama red convolucional y está detrás del reconocimiento de caras, matrículas o
+> fotos en tu galería.
+>
+> 📌 Guárdalo y sígueme para más «IA desde cero»
+>
+> #inteligenciaartificial #IA #visionartificial #fotografia #deeplearning
+> #aprendeconreels #tecnologia #divulgacion #iaparatodos #curiosidades
+>
+> © @hacerlointeligente · Voz del robot: corpus Sharvard (U. Edimburgo, CC BY 3.0)
+
+---
+
+## IA desde cero #12 · Cómo sabe tu correo que es spam
+**Vídeo:** `videos/15_spam.mp4` · **Portada:** `portadas/15_spam.png`
+
+**Texto:**
+> «¡¡ENHORABUENA!! Has GANADO un PREMIO GRATIS» 🚨
+>
+> Tu correo lee cada palabra y le suma o le resta sospecha. «GRATIS» o «PREMIO» suman mucho;
+> «examen» o «quedamos» restan. Si pasa el límite… a la carpeta de spam.
+>
+> ¿Cómo lo sabe? Contando en qué correos sale cada palabra, en millones de correos
+> marcados como spam.
+>
+> 💬 ¿Cuál es el spam más absurdo que te ha llegado?
+>
+> #inteligenciaartificial #IA #spam #email #ciberseguridad #aprendeconreels
+> #tecnologia #divulgacion #iaparatodos #curiosidades
+>
+> © @hacerlointeligente · Voz del robot: corpus Sharvard (U. Edimburgo, CC BY 3.0)
+
+---
+
 ## Encuesta de Instagram (solo en «IA desde cero #2 · Neurona»)
 
 Solo este vídeo lleva encuesta. Se añade **en la app, al subir el reel**:
@@ -269,9 +354,9 @@ Solo este vídeo lleva encuesta. Se añade **en la app, al subir el reel**:
 
 | Gancho | Tema | Qué se anima |
 |---|---|---|
-| "Cómo entiende la IA lo que significa una palabra" | Embeddings | Palabras como puntos en un mapa: rey − hombre + mujer = reina |
-| "La IA es tan buena como sus datos" | Sesgo en los datos | El mismo modelo, entrenado con datos incompletos, se equivoca |
-| "Así ve una foto una IA" | Convolución (CNN) | Un filtro deslizándose sobre una imagen pixelada |
-| "Cómo sabe Gmail que es spam (sin leerlo como tú)" | Naive Bayes | Palabras sumando probabilidad a una barra |
 | "Cómo te reconoce la cara el móvil" | Reconocimiento facial | Tu cara convertida en números y la distancia a la guardada |
 | "Por qué importa cómo le preguntas a ChatGPT" | Prompts | La misma pregunta mal y bien hecha, y sus resultados |
+| "Dime con quién andas y te diré quién eres (literalmente)" | k vecinos más cercanos (KNN) | Un punto nuevo, un círculo que crece y los vecinos votan |
+| "La IA que juega a 'Quién es quién'" | Árbol de decisión | El plano dividiéndose con cortes y el árbol creciendo |
+| "¿Puede una IA copiar tu voz?" | Clonación de voz y deepfakes | Una onda de voz convertida en «huella» y cómo detectar falsos |
+| "¿Cuánta energía gasta una pregunta a la IA?" | Coste de la IA | Una pregunta frente a una búsqueda, una bombilla y un centro de datos |
