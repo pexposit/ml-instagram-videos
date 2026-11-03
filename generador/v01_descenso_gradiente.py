@@ -26,19 +26,18 @@ T_PASO = 0.65
 ESCENAS = [  # "!" = habla el robot (subtítulo amarillo); el resto, la narradora
     (0.0, 3.2, "Esta curva es el ERROR de la IA"),
     (3.2, 6.4, "Arriba se equivoca mucho. Abajo, acierta."),
-    (6.4, 9.4, "La IA mira hacia dónde baja la pendiente…"),
+    (6.4, 9.4, "P:¿Y por qué no baja de golpe?"),
     (9.4, 16.4, "…y da un paso cuesta abajo. Una y otra vez."),
     (16.4, 21.0, "!¡Ojo! Si doy pasos muy grandes… ¡me paso de largo!"),
-    (21.0, 25.0, "Esto es el DESCENSO DEL GRADIENTE: así aprenden casi todas las IAs"),
+    (21.0, 25.0, "V:¡DESCENSO DEL GRADIENTE! ¡Así aprenden casi todas las IAs!"),
     (25.0, 29.5, "!¡Guárdalo y sígueme, que tengo más trucos!"),
 ]
 
 VOZ = {
-    "gancho": "¡Te cuento un secreto: no pienso!",
+    "gancho": "¡Un paso de más… y me vuelvo loco!",
     0: "Esta curva es el error de la IA.",
     1: "Arriba, se equivoca mucho. Abajo, acierta.",
     3: "Y da un paso cuesta abajo. Y otro. Y otro. Una y otra vez.",
-    5: "Esto es el descenso del gradiente: así aprenden casi todas las IAs.",
 }
 EFECTOS = ([(9.4 + k * T_PASO, "pop") for k in range(len(BUENOS) - 1)]
            + [(16.4 + k * T_PASO, "error") for k in range(len(MALOS) - 1)]
@@ -46,9 +45,12 @@ EFECTOS = ([(9.4 + k * T_PASO, "pop") for k in range(len(BUENOS) - 1)]
 
 PORTADA = dict(titulo=["Una IA no piensa.", "Hace ESTO", "millones de veces"], amarilla=1, t=13.0, gesto="senala")
 
+TEASER = {'t': 18.5, 'texto': 'Un paso de más y la IA se vuelve loca', 'pregunta': '◀◀  ¿Qué ha pasado?', 'y': 0.62}
+
 reel = Reel(1, "Una IA no piensa.\nHace ESTO millones\nde veces", ESCENAS, 29.5,
             voz=VOZ, efectos=EFECTOS,
-            portada=PORTADA)
+            portada=PORTADA,
+            teaser=TEASER, retratos=True)
 ax = reel.ax
 xs = np.linspace(-4.2, 6.2, 400)
 ax.plot(xs, f(xs), color=C1, lw=4, solid_capstyle="round")

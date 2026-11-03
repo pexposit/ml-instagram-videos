@@ -57,15 +57,15 @@ T_CICLO0, T_CICLO_PASO = 22.4, 0.65
 
 ESCENAS = [  # "!" = habla el robot (subtítulo amarillo); el resto, la narradora
     (0.0, 4.2, "Para una IA, una imagen son números: uno por cada píxel"),
-    (4.2, 8.0, "Esos números entran en una red de neuronas"),
+    (4.2, 8.0, "P:¿Números? Yo ahí veo un siete y punto"),
     (8.0, 14.0, "Cada capa detecta algo: trazos, esquinas… formas"),
     (14.0, 18.0, "Al final, cada neurona vota por un número"),
     (18.0, 22.0, "!¡Gana el 7, con un 94 %! Lo sabía.", "pulgar"),
-    (22.0, 26.6, "Lo aprendió viendo miles de números escritos a mano"),
+    (22.0, 26.6, "V:¡Lo aprendió viendo miles de números escritos a mano!"),
     (26.6, 32.0, "!¡Sígueme! En el próximo: cómo escribe ChatGPT"),
 ]
 VOZ = {
-    "gancho": "¿Cómo leo un número escrito a mano? ¡Mira!",
+    "gancho": "¡He leído tu letra a la primera!",
     2: "Cada capa detecta algo. Trazos. Esquinas. Formas.",
     4: "¡Gana el siete, con un noventa y cuatro por ciento! Lo sabía.",
     6: "¡Sígueme! En el próximo: cómo escribe ChatGPT.",
@@ -76,9 +76,12 @@ EFECTOS = ([(2.0, "pop"), (4.6, "whoosh")] + [(tc, "pop") for tc in T_CAPA]
 PORTADA = dict(titulo=["Cómo lee una IA", "un número", "escrito a mano"], amarilla=1, t=19.5, gesto="senala",
                robot_x=0.17)
 
+TEASER = {'t': 19.0, 'texto': 'Esta IA ha leído tu letra', 'pregunta': '◀◀  ¿Cómo lo ha hecho?', 'y': 0.6}
+
 reel = Reel(3, "Cómo reconoce una IA\nun número escrito\na mano", ESCENAS, 32.0, voz=VOZ,
             efectos=EFECTOS, serie=SERIE_CERO, musica={"bpm": 100},
-            portada=PORTADA)
+            portada=PORTADA,
+            teaser=TEASER, retratos=True)
 ax = reel.ax
 ax.set_xlim(0, 10)
 ax.set_ylim(0, 7.8)

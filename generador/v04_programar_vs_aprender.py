@@ -36,14 +36,14 @@ T_PASO = (T_APRENDE1 - T_APRENDE0 - 0.6) / (len(fronteras) - 1)
 ESCENAS = [  # "!" = habla el robot (subtítulo amarillo); el resto, la narradora
     (0.0, 3.9, "Programar es escribir reglas: «si es roja, es manzana»"),
     (3.9, 7.6, "!Pero llega una manzana VERDE… ¡y la regla falla!"),
-    (7.6, 11.4, "La IA hace otra cosa: aprende de MUCHOS ejemplos"),
+    (7.6, 11.4, "P:¿Y no es más fácil escribir más reglas?"),
     (T_APRENDE0, T_APRENDE1, "Prueba una frontera, mira en qué falla y la corrige"),
     (18.0, 22.2, "!Fruta nueva… ¡manzana! ¿A que soy listo?", "pulgar"),
-    (22.2, 26.4, "Eso es aprender: sacar la regla a partir de ejemplos"),
+    (22.2, 26.4, "V:¡Eso es aprender! ¡Sacar la regla de los ejemplos!"),
     (26.4, 31.0, "!¡Sígueme y te enseño cómo funciono por dentro!"),
 ]
 VOZ = {
-    "gancho": "¡A mí no me programaron! Me enseñaron.",
+    "gancho": "¡Nunca vi esta fruta… y acerté!",
     0: "Programar es escribir reglas: si es roja, es manzana.",
     1: "Pero llega una manzana verde… ¡y la regla se rompe!",
     3: "Prueba una frontera, mira en qué se equivoca, y la corrige. Una y otra vez.",
@@ -56,9 +56,12 @@ EFECTOS = ([(0.6, "pop"), (4.4, "pop"), (5.4, "error")]
 
 PORTADA = dict(titulo=["La IA no", "se programa.", "Se ENSEÑA."], amarilla=2, t=20.5, gesto="senala")
 
+TEASER = {'t': 19.8, 'texto': 'Nunca vio esta fruta… y acierta', 'pregunta': '◀◀  ¿Cómo lo sabe?', 'y': 0.6}
+
 reel = Reel(1, "La IA no se programa.\nSe ENSEÑA.", ESCENAS, 31.0, voz=VOZ, efectos=EFECTOS,
             serie=SERIE_CERO, musica={"bpm": 98},
-            portada=PORTADA)
+            portada=PORTADA,
+            teaser=TEASER, retratos=True)
 ax = reel.ax
 ax.set_xlim(0, 10)
 ax.set_ylim(0, 7.8)

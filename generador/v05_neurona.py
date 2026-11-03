@@ -16,17 +16,17 @@ ESCENAS = [  # "!" = habla el robot (subtítulo amarillo); el resto, la narrador
     (4.0, 8.2, "Cada dato tiene un PESO: lo mucho que importa"),
     (8.2, 13.6, "Hoy hace sol y calor, y no trabajas: 3 + 2 + 0 = 5"),
     (13.6, 17.2, "!¡5 pasa el umbral de 4! ¡A la playa!", "pulgar"),
-    (17.2, 22.4, "!¿Que trabajo? 3 + 2 − 5 = 0… adiós, playa", "piensa"),
-    (22.4, 27.0, "Aprender es ajustar esos pesos con muchos ejemplos"),
+    (17.2, 22.4, "P:¿Y si trabajo? 3 + 2 − 5 = 0… ¡adiós, playa!"),
+    (22.4, 27.0, "V:¡Aprender es ajustar esos pesos! ¡Con muchos ejemplos!"),
     (27.0, 31.5, "!¡Sígueme! En el próximo, una red entera de neuronas"),
 ]
 VOZ = {
-    "gancho": "¿Playa o no playa? ¡Así decido yo!",
+    "gancho": "¡Te he cancelado la playa!",
     0: "Una neurona recibe datos. ¿Hace sol? ¿Hace calor? ¿Trabajas?",
     1: "Cada dato tiene un peso: lo mucho que importa.",
     2: "Hoy hace sol y calor, y no trabajas. Tres, más dos, más cero: cinco.",
     3: "¡Cinco pasa el umbral de cuatro! ¡A la playa!",
-    4: "¿Que tengo que trabajar? Tres más dos, menos cinco: cero. Adiós, playa.",
+    4: "¿Y si tengo que trabajar? Tres más dos, menos cinco: cero. ¡Adiós, playa!",
     6: "¡Sígueme! En el próximo, una red entera de neuronas.",
 }
 EFECTOS = ([(0.4 + 0.5 * k, "pop") for k in range(3)] + [(1.9, "pop")]
@@ -36,9 +36,12 @@ EFECTOS = ([(0.4 + 0.5 * k, "pop") for k in range(3)] + [(1.9, "pop")]
 
 PORTADA = dict(titulo=["Así decide", "una neurona", "artificial"], amarilla=1, t=15.0, gesto="pulgar")
 
+TEASER = {'t': 19.9, 'texto': 'Esta neurona te ha cancelado la playa', 'pregunta': '◀◀  ¿Cómo lo ha decidido?', 'y': 0.62}
+
 reel = Reel(2, "Así decide una\nneurona artificial", ESCENAS, 31.5, voz=VOZ, efectos=EFECTOS,
             serie=SERIE_CERO, musica={"bpm": 92},
-            portada=PORTADA)
+            portada=PORTADA,
+            teaser=TEASER, retratos=True)
 ax = reel.ax
 ax.set_xlim(0, 10)
 ax.set_ylim(0, 7.8)

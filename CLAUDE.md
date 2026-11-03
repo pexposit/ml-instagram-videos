@@ -109,8 +109,7 @@ voz, energía de la IA).
   `V:` Voltio (verde), sin prefijo la narradora (blanco). Voces en `audio.py` (`VOCES`):
   Paco = davefx más grave; Voltio = sharvard hombre rápido (provisionales, el usuario aún no
   las ha elegido).
-- Aplicado a: `07_chatgpt` y los 10 siguientes (`08`…`17`). Pendiente: `04`, `05`, `06`,
-  `18` y la serie técnica `01`–`03`. En `11_aprende_a_andar` el robot de dentro de la
+- Aplicado a TODOS los vídeos (`01`…`18`). En `11_aprende_a_andar` el robot de dentro de la
   animación sigue siendo el vectorial articulado (el de plastilina aún no anda).
 
 ## Estilo de los vídeos

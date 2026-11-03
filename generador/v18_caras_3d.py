@@ -37,19 +37,17 @@ T_IN0, T_IN1, T_OUT0, T_OUT1 = 14.0, 15.4, 18.4, 19.8
 ESCENAS = [  # "!" = habla el robot (subtítulo amarillo); el resto, la narradora
     (0.0, 4.4, "El móvil convierte tu cara en números: tu «huella facial»"),
     (4.4, 9.0, "Cada cara es un punto en un espacio: las parecidas, cerca"),
-    (9.0, 13.6, "Tus fotos de ayer, de hoy, con gafas… caen todas muy juntas"),
+    (9.0, 13.6, "P:¿Y si me pongo gafas? A que no me reconoce"),
     (13.6, 18.0, "!¡Intento desbloquear… dentro de la burbuja: eres tú!", "pulgar"),
     (18.0, 23.0, "Otra persona cae lejos de tu burbuja: el móvil no se abre"),
-    (23.0, 27.6, "En la vida real usa cientos de números, no tres. Pero la idea es la misma"),
+    (23.0, 27.6, "V:¡En la realidad son cientos de números! La idea es la misma"),
     (27.6, 32.0, "!¡Sígueme para más IA en 3D!"),
 ]
 VOZ = {
-    "gancho": "¿Cómo sé que eres tú? ¡Por tus números!",
+    "gancho": "¡Sé que eres tú… por tus números!",
     0: "El móvil convierte tu cara en números: tu huella facial.",
     1: "Cada cara es un punto en un espacio. Las parecidas, cerca.",
-    2: "Tus fotos de ayer, de hoy, con gafas… caen todas muy juntas.",
     3: "¡Intento desbloquear… dentro de la burbuja: eres tú!",
-    5: "En la vida real usa cientos de números, no tres. Pero la idea es la misma.",
 }
 EFECTOS = ([(0.4, "pop"), (T_NUM, "pop"), (T_JUNTA0, "whoosh"), (T_OTROS, "pop"),
             (T_FOTOS, "pop"), (T_BURBUJA, "whoosh"), (T_IN0, "whoosh"), (T_IN1 + 0.2, "pop"),
@@ -57,8 +55,11 @@ EFECTOS = ([(0.4, "pop"), (T_NUM, "pop"), (T_JUNTA0, "whoosh"), (T_OTROS, "pop")
 PORTADA = dict(titulo=["Cómo te reconoce", "la cara", "el móvil"], amarilla=1, t=16.5,
                gesto="pulgar")
 
+TEASER = {'t': 15.9, 'texto': 'Así sabe tu móvil que eres tú', 'pregunta': '◀◀  ¿Cómo lo sabe?', 'y': 0.36}
+
 reel = Reel(15, "Cómo te reconoce\nla cara el móvil", ESCENAS, 32.0, voz=VOZ, efectos=EFECTOS,
-            serie=SERIE_CERO, musica={"bpm": 96}, portada=PORTADA, tres_d=True)
+            serie=SERIE_CERO, musica={"bpm": 96}, portada=PORTADA, tres_d=True,
+            teaser=TEASER, retratos=True)
 ax = reel.ax
 ax.computed_zorder = False
 ax.set_xlim(-2, 2)
