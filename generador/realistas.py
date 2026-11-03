@@ -66,11 +66,22 @@ class Escena:
         self.C = np.zeros((tam, tam, 3))
         self.ID = np.full((tam, tam), -1)
         self.material = []        # (brillo, intensidad especular, textura)
+        self.k, self.ox, self.oy = 1.0, 0.0, 0.0
+
+    def escala(self, k, ox=0.0, oy=0.0):
+        """A partir de aquí, todo lo que se dibuje se escala por k y se desplaza (ox, oy)."""
+        self.k, self.ox, self.oy = k, ox, oy
+
+    def _p(self, x, y):
+        return self.ox + self.k * x, self.oy + self.k * y
 
     def elipsoide(self, c, r, color, rot=0.0, brillo=12, esp=0.12, textura=None,
                   recorte=None):
         """c=(x,y,z), r=(a,b,cz). rot: giro en el plano de la imagen (grados).
         recorte: función (X, Y) → máscara booleana para dibujar solo una parte."""
+        k = self.k
+        c = (*self._p(c[0], c[1]), c[2] * k)
+        r = (r[0] * k, r[1] * k, r[2] * k)
         ang = np.radians(rot)
         dx, dy = self.X - c[0], self.Y - c[1]
         u = dx * np.cos(ang) + dy * np.sin(ang)
@@ -133,6 +144,7 @@ class Escena:
 
     # detalles 2D sobre la imagen ya sombreada
     def mancha(self, img, c, r, color, alpha=1.0, rot=0.0, suave=0.02):
+        c, r, suave = self._p(*c), (r[0] * self.k, r[1] * self.k), suave * self.k
         ang = np.radians(rot)
         dx, dy = self.X - c[0], self.Y - c[1]
         u = dx * np.cos(ang) + dy * np.sin(ang)
@@ -143,13 +155,15 @@ class Escena:
         img[..., 3] = np.maximum(img[..., 3], a)
 
     def aro(self, img, c, r, grosor, color, alpha=1.0):
+        c, r, grosor = self._p(*c), (r[0] * self.k, r[1] * self.k), grosor * self.k
         d = np.sqrt(((self.X - c[0]) / r[0]) ** 2 + ((self.Y - c[1]) / r[1]) ** 2)
         a = np.clip(1 - np.abs(d - 1) / (grosor / min(r)), 0, 1) * alpha
         img[..., :3] = img[..., :3] * (1 - a[..., None]) + _hex(color) * a[..., None]
         img[..., 3] = np.maximum(img[..., 3], a)
 
     def linea(self, img, p0, p1, grosor, color, alpha=1.0):
-        p0, p1 = np.array(p0), np.array(p1)
+        p0, p1 = np.array(self._p(*p0)), np.array(self._p(*p1))
+        grosor = grosor * self.k
         d = p1 - p0
         t = np.clip(((self.X - p0[0]) * d[0] + (self.Y - p0[1]) * d[1]) / (d @ d), 0, 1)
         dist = np.hypot(self.X - p0[0] - t * d[0], self.Y - p0[1] - t * d[1])
@@ -162,10 +176,11 @@ def _ojo(E, img_ops, c, r, iris, mira, parpado, piel, z_par=0.03, ojeras=None):
     E.elipsoide(c, (r, r * 0.8, r * 0.9), "#F4F1EC", brillo=40, esp=0.5)
     abierto = np.clip(parpado, 0.05, 1)
     corte = c[1] + r * 0.8 * (2 * abierto * 0.72 - 1)
+    corte_p = E.oy + E.k * corte
     E.elipsoide((c[0], c[1] + 0.005, c[2] + z_par), (r * 1.12, r * 0.95, r * 0.9), piel,
-                textura="piel", recorte=lambda X, Y: Y > corte)
-    img_ops.append(("iris", (c[0] + mira[0] * r * 0.35, c[1] + mira[1] * r * 0.25), r, iris,
-                    corte))
+                textura="piel", recorte=lambda X, Y: Y > corte_p)
+    img_ops.append(("iris", E._p(c[0] + mira[0] * r * 0.35, c[1] + mira[1] * r * 0.25),
+                    r * E.k, iris, corte_p))
 
 
 def _pintar_ojos(E, img, ops):
@@ -187,7 +202,25 @@ def paco(t=0.0, boca=0.0, parpado=1.0, mira=(0.3, 0.0), tam=520):
     """El cuñado (60 y pico): entradas canosas, bigote gris, gafas de leer, polo rojo."""
     PIEL, PIEL_R, CANA = "#E2A882", "#D98A6C", "#C9CCD1"
     E = Escena(tam)
+    E.escala(0.55, 0.0, 0.5)          # cuerpo entero: la cabeza arriba, los pies abajo
     ops = []
+    # piernas (pantalón beis), cinturón y zapatos
+    for sx in (-1, 1):
+        _segmento(E, (sx * 0.27, -1.95), (sx * 0.3, -2.58), 0.19, "#C8B48C", z=-0.2,
+                  textura="tela", esp=0.05)
+        E.elipsoide((sx * 0.33, -2.68, -0.05), (0.24, 0.11, 0.2), "#5A3A26", esp=0.3,
+                    brillo=30)
+    E.elipsoide((0, -1.93, -0.15), (0.58, 0.07, 0.42), "#3B2A1E", esp=0.3)
+    # barriga y torso con el polo
+    E.elipsoide((0, -1.55, -0.12), (0.64, 0.5, 0.48), "#B0283A", textura="tela", esp=0.05)
+    # brazos: el izquierdo cuelga, el derecho sujeta el móvil
+    _segmento(E, (-0.66, -1.05), (-0.8, -1.5), 0.17, "#B0283A", z=-0.05, textura="tela")
+    _segmento(E, (-0.8, -1.5), (-0.84, -1.95), 0.12, PIEL, z=-0.05, textura="piel")
+    E.elipsoide((-0.85, -2.05, -0.02), (0.12, 0.13, 0.1), PIEL, textura="piel")
+    _segmento(E, (0.66, -1.05), (0.86, -1.45), 0.17, "#B0283A", z=-0.05, textura="tela")
+    _segmento(E, (0.86, -1.45), (0.78, -1.12), 0.12, PIEL, z=0.15, textura="piel")
+    E.elipsoide((0.78, -0.92, 0.32), (0.11, 0.2, 0.04), "#1E2229", esp=0.8, brillo=60)
+    E.elipsoide((0.76, -1.06, 0.3), (0.12, 0.12, 0.1), PIEL, textura="piel")
     # cuerpo y cuello
     E.elipsoide((0, -1.15, -0.4), (0.95, 0.62, 0.45), "#B0283A", textura="tela", esp=0.05)
     E.elipsoide((0.0, -0.55, -0.15), (0.17, 0.2, 0.2), PIEL, textura="piel")
@@ -242,7 +275,26 @@ def voltio(t=0.0, boca=0.0, parpado=1.0, mira=(0.0, 0.1), tam=520):
     ojo, pajarita morada y bata verde."""
     PIEL, PIEL_R, ROJO = "#EBC2A0", "#E0A487", "#C8541E"
     E = Escena(tam)
+    E.escala(0.52, 0.0, 0.5)
     ops = []
+    # piernas (pantalón oscuro) y zapatos
+    for sx in (-1, 1):
+        _segmento(E, (sx * 0.22, -2.2), (sx * 0.24, -2.62), 0.15, "#2F3540", z=-0.25,
+                  textura="tela")
+        E.elipsoide((sx * 0.27, -2.72, -0.1), (0.22, 0.1, 0.18), "#1B1E24", esp=0.5,
+                    brillo=40)
+    # bata larga verde
+    E.elipsoide((0, -2.0, -0.15), (0.66, 0.42, 0.38), "#4FAE80", textura="tela", esp=0.05)
+    E.elipsoide((0, -1.5, -0.08), (0.62, 0.62, 0.42), "#4FAE80", textura="tela", esp=0.05)
+    E.elipsoide((0, -1.85, 0.25), (0.03, 0.55, 0.03), "#3C8E66")              # abertura
+    # brazos: uno en jarra, el otro levanta una bombilla encendida
+    _segmento(E, (-0.62, -1.05), (-0.88, -1.55), 0.16, "#4FAE80", z=-0.05, textura="tela")
+    _segmento(E, (-0.88, -1.55), (-0.62, -1.8), 0.13, "#4FAE80", z=0.0, textura="tela")
+    E.elipsoide((-0.55, -1.84, 0.1), (0.12, 0.12, 0.1), "#FFD23F", esp=0.4, brillo=30)
+    _segmento(E, (0.62, -1.05), (0.92, -0.75), 0.16, "#4FAE80", z=-0.05, textura="tela")
+    _segmento(E, (0.92, -0.75), (0.98, -0.3), 0.13, "#4FAE80", z=0.0, textura="tela")
+    E.elipsoide((0.98, -0.2, 0.1), (0.12, 0.12, 0.1), "#FFD23F", esp=0.4, brillo=30)
+    E.elipsoide((0.98, 0.06, 0.12), (0.16, 0.18, 0.16), "#FFF3B0", esp=0.9, brillo=50)
     E.elipsoide((0, -1.18, -0.4), (0.92, 0.6, 0.45), "#4FAE80", textura="tela", esp=0.05)
     for sx in (-1, 1):   # solapas
         E.elipsoide((sx * 0.2, -0.78, 0.0), (0.09, 0.25, 0.05), "#3C8E66", rot=sx * 20,
@@ -276,6 +328,8 @@ def voltio(t=0.0, boca=0.0, parpado=1.0, mira=(0.0, 0.1), tam=520):
     E.elipsoide((0, 0.02, 0.38), (0.06, 0.1, 0.09), PIEL_R, textura="piel", esp=0.2)
     img = E.sombrear()
     _pintar_ojos(E, img, ops)
+    # halo de la bombilla
+    E.mancha(img, (0.98, 0.06), (0.36, 0.36), "#FFD23F", alpha=0.22, suave=0.25)
     # lupa de relojero: aro grueso metálico + cinta
     E.aro(img, (0.15, 0.15), (0.13, 0.13), 0.025, "#3A3F4B")
     E.aro(img, (0.15, 0.15), (0.115, 0.115), 0.006, "#9AA5B4")

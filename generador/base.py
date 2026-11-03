@@ -242,7 +242,7 @@ class Reel:
                 q = hablante(texto)
                 if q in ("paco", "voltio") and t0 <= t < t1:
                     s = self.S_PEQ * min(ease((t - t0) / 0.3), ease((t1 - t) / 0.25))
-                    actor, estado, grande = q, dict(cx=0.13, cy=0.25 * self.ALTO, s=s), False
+                    actor, estado, grande = q, dict(cx=0.2, cy=0.255 * self.ALTO, s=s), False
         if actor is None:
             self._sprite.set_visible(False)
             return estado, grande
@@ -251,9 +251,13 @@ class Reel:
         cerrado = (ta % 3.3) < 0.12
         saluda = actor == "robot" and grande and ta > self.total - 2.6
         img = sprites[(actor, nivel, cerrado, saluda)]
-        ancho = (0.62 * estado["s"] / self.S_GRANDE) if grande else (0.26 * estado["s"] / self.S_PEQ)
+        ancho = (0.6 * estado["s"] / self.S_GRANDE) if grande else (0.42 * estado["s"] / self.S_PEQ)
         alto = ancho * 1.1
         cx, cy = estado["cx"], estado["cy"] + 0.004 * np.sin(2 * np.pi * 0.8 * ta)
+        if grande:       # despedida: centrado y sin tapar el subtítulo
+            cy = 0.48 * self.ALTO + 0.004 * np.sin(2 * np.pi * 0.8 * ta)
+        if not grande:   # personaje de cuerpo entero, más grande, en la esquina inferior
+            cx, cy = 0.2, 0.255 * self.ALTO + 0.004 * np.sin(2 * np.pi * 0.8 * ta)
         self._sprite.set_data(img)
         self._sprite.set_extent((cx - ancho / 2, cx + ancho / 2, cy - alto / 2, cy + alto / 2))
         self._sprite.set_visible(ancho > 0.005)
@@ -385,9 +389,9 @@ class Reel:
                 else:
                     robot.borrar()
                 texto, alpha, color = self.subtitulo(t) if t >= 0 else ("", 0.0, FG)
-                if estado and not grande:  # robot asomado a la izquierda del subtítulo
-                    texto = wrap(texto.replace("\n", " "), 19)
-                    self.sub.set_x(0.58)
+                if estado and not grande:  # personaje a la izquierda del subtítulo
+                    texto = wrap(texto.replace("\n", " "), 16 if self.retratos else 19)
+                    self.sub.set_x(0.64 if self.retratos else 0.58)
                 else:
                     self.sub.set_x(0.5)
                 self.sub.set_text(texto)
