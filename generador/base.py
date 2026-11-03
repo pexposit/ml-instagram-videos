@@ -57,9 +57,33 @@ def wrap(text, width):
     return "\n".join(l for parte in text.split("\n") for l in textwrap.wrap(parte, width))
 
 
+# Quién habla en cada escena, según cómo empieza su texto:
+#   "!"  → el robot (amarillo) · "P:" → Paco, el cuñado · "V:" → el Profesor Voltio
+#   sin prefijo → la narradora (blanco)
+COLOR_HABLANTE = {"robot": ACCENT, "paco": "#FF8A65", "voltio": "#7BE495", "narrador": FG}
+
+
+def hablante(texto):
+    if texto.startswith("!"):
+        return "robot"
+    if texto.startswith("P:"):
+        return "paco"
+    if texto.startswith("V:"):
+        return "voltio"
+    return "narrador"
+
+
+def limpio(texto):
+    for pre in ("!", "P:", "V:"):
+        if texto.startswith(pre):
+            return texto[len(pre):].strip()
+    return texto
+
+
 class Reel:
     def __init__(self, numero, gancho, escenas, duracion, voz=None, efectos=(), musica=None,
-                 serie=SERIE, portada=None, asoma=True, tres_d=False, teaser=None):
+                 serie=SERIE, portada=None, asoma=True, tres_d=False, teaser=None,
+                 retratos=False):
         """Los tiempos de escenas, voz y efectos son relativos al final de la intro.
 
         voz: {índice de escena: texto hablado o (texto, t_fin)}; "" = silencio;
@@ -73,6 +97,9 @@ class Reel:
         #               momento (con el gancho en grande) y luego rebobina al principio, en
         #               lugar de la intro con el robot grande.
         self.teaser = teaser
+        # retratos=True: personajes con acabado de plastilina (realistas.py) en lugar del
+        # robot dibujado con vectores; además pueden intervenir Paco y el Profesor Voltio.
+        self.retratos = retratos
         self.intro = teaser.get("dur", 2.6) if teaser else INTRO
         self.total = self.intro + duracion
         self.gancho = gancho
@@ -189,6 +216,49 @@ class Reel:
                 return dict(cx=0.13, cy=0.25 * self.ALTO, s=s), False
         return None, False
 
+    # ------------------------------------------------------------ retratos de plastilina
+    def _preparar_retratos(self, rax):
+        """Pre-renderiza cada personaje con 5 aperturas de boca y ojos abiertos/cerrados."""
+        from realistas import robot as r_robot, paco, voltio
+        sprites = {}
+        for b in range(5):
+            for cerrado in (False, True):
+                par = 0.08 if cerrado else 1.0
+                for saluda in (False, True):
+                    sprites[("robot", b, cerrado, saluda)] = r_robot(
+                        t=0.0, boca=b / 4, parpado=par, saluda=saluda, tam=380)
+                sprites[("paco", b, cerrado, False)] = paco(boca=b / 4, parpado=par, tam=320)
+                sprites[("voltio", b, cerrado, False)] = voltio(boca=b / 4, parpado=par,
+                                                                tam=320)
+        self._sprite = rax.imshow(np.zeros((4, 4, 4)), extent=(0, 0.01, 0, 0.01), zorder=6,
+                                  interpolation="bilinear")
+        return sprites
+
+    def _retrato(self, ta, t, estado, grande, bocas, i, sprites):
+        """Coloca el personaje que toca (robot, Paco o Voltio). Devuelve (estado, grande)."""
+        actor = "robot" if estado and estado["s"] > 0.003 else None
+        if actor is None and t >= 0:
+            for t0, t1, texto, *_g in self.escenas:
+                q = hablante(texto)
+                if q in ("paco", "voltio") and t0 <= t < t1:
+                    s = self.S_PEQ * min(ease((t - t0) / 0.3), ease((t1 - t) / 0.25))
+                    actor, estado, grande = q, dict(cx=0.13, cy=0.25 * self.ALTO, s=s), False
+        if actor is None:
+            self._sprite.set_visible(False)
+            return estado, grande
+        b = bocas.get(actor, bocas["robot"])
+        nivel = int(round(4 * b[min(i, len(b) - 1)]))
+        cerrado = (ta % 3.3) < 0.12
+        saluda = actor == "robot" and grande and ta > self.total - 2.6
+        img = sprites[(actor, nivel, cerrado, saluda)]
+        ancho = (0.62 * estado["s"] / self.S_GRANDE) if grande else (0.26 * estado["s"] / self.S_PEQ)
+        alto = ancho * 1.1
+        cx, cy = estado["cx"], estado["cy"] + 0.004 * np.sin(2 * np.pi * 0.8 * ta)
+        self._sprite.set_data(img)
+        self._sprite.set_extent((cx - ancho / 2, cx + ancho / 2, cy - alto / 2, cy + alto / 2))
+        self._sprite.set_visible(ancho > 0.005)
+        return estado, grande
+
     # ------------------------------------------------------------ arranque "teaser"
     def _teaser(self, ta):
         """Primeros segundos: el momento más llamativo, el gancho en grande y un rebobinado.
@@ -235,8 +305,7 @@ class Reel:
         for t0, t1, texto, *_g in self.escenas:
             if t0 <= t < t1:
                 alpha = min(ease((t - t0) / 0.35), ease((t1 - t) / 0.25))
-                color = ACCENT if texto.startswith("!") else FG
-                return wrap(texto.lstrip("!"), 26), alpha, color
+                return wrap(limpio(texto), 26), alpha, COLOR_HABLANTE[hablante(texto)]
         return "", 0.0, FG
 
     def pistas_voz(self):
@@ -245,11 +314,11 @@ class Reel:
         gancho = self.voz.get("gancho", self.gancho.replace("\n", " "))
         lineas = [(0.15, gancho, self.intro - 0.05, "robot")]
         for i, (t0, t1, texto, *_g) in enumerate(self.escenas):
-            hablado = self.voz.get(i, texto.lstrip("!"))
+            hablado = self.voz.get(i, limpio(texto))
             if isinstance(hablado, tuple):  # (texto, fin): la frase ocupa varias escenas
                 hablado, t1 = hablado
             if hablado:
-                quien = "robot" if texto.startswith("!") else "narrador"
+                quien = hablante(texto)
                 lineas.append((self.intro + t0 + 0.1, hablado, self.intro + t1, quien))
         return lineas
 
@@ -281,11 +350,18 @@ class Reel:
             # zumbido de motor cuando el robot cambia de gesto y se le ve
             efectos += [(tg, "servo") for tg, _g, _d in guion
                         if self.robot_estado(tg + 0.05)[0] is not None and tg > 0]
-            voz = banda_sonora(self.total, self.pistas_voz(), efectos, sonido, self.musica)
-            spf = len(voz) // int(self.total * FPS)
-            rms = np.sqrt(np.mean(voz[: spf * int(self.total * FPS)].reshape(-1, spf) ** 2, 1))
-            ref = np.percentile(rms[rms > 0.01], 90) if (rms > 0.01).any() else 1.0
-            boca = np.clip(rms / (ref + 1e-9), 0, 1) ** 0.7
+            pistas = banda_sonora(self.total, self.pistas_voz(), efectos, sonido, self.musica)
+            nf = int(self.total * FPS)
+
+            def apertura(voz):
+                spf = len(voz) // nf
+                rms = np.sqrt(np.mean(voz[: spf * nf].reshape(-1, spf) ** 2, 1))
+                ref = np.percentile(rms[rms > 0.01], 90) if (rms > 0.01).any() else 1.0
+                return np.clip(rms / (ref + 1e-9), 0, 1) ** 0.7
+
+            bocas = {q: apertura(v) for q, v in pistas.items()}
+            boca = bocas["robot"]
+            sprites = self._preparar_retratos(rax) if self.retratos else None
 
             # 2) vídeo
             def update(i):
@@ -301,7 +377,10 @@ class Reel:
                 else:
                     self._ocultar_teaser()
                     draw(max(t, 0.0))
-                if estado and estado["s"] > 0.003:
+                if self.retratos:
+                    robot.borrar()
+                    estado, grande = self._retrato(ta, t, estado, grande, bocas, i, sprites)
+                elif estado and estado["s"] > 0.003:
                     robot.dibujar(ta, pose_en(ta, guion, b), boca=b, **estado)
                 else:
                     robot.borrar()

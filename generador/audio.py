@@ -29,6 +29,18 @@ VOCES = {
         antes="asetrate=22050*1.12,aresample=22050,atempo=0.93,",
         despues=("aecho=0.8:0.85:5:0.45,equalizer=f=2500:t=q:w=1:g=3,highpass=f=150,"
                  "acompressor=threshold=-18dB:ratio=3")),
+    # Paco, "el cuñado" (60 y pico): voz de hombre de España, más grave y pausada
+    "paco": dict(
+        modelo=VOZ_DIR / "es_ES-davefx-medium.onnx", locutor="0", length=1.05,
+        antes="asetrate=22050*0.93,aresample=22050,atempo=1.075,",
+        despues=("highpass=f=60,equalizer=f=180:t=q:w=1:g=3,equalizer=f=3000:t=q:w=1:g=2,"
+                 "acompressor=threshold=-20dB:ratio=3,aecho=0.85:0.5:25:0.08")),
+    # Profesor Voltio, "el científico loco": voz rápida, algo aguda y con energía
+    "voltio": dict(
+        modelo=VOZ_DIR / "es_ES-sharvard-medium.onnx", locutor="0", length=0.86,
+        antes="asetrate=22050*1.07,aresample=22050,atempo=0.935,",
+        despues=("highpass=f=90,equalizer=f=3500:t=q:w=1:g=4,"
+                 "acompressor=threshold=-18dB:ratio=3.5,aecho=0.8:0.55:18:0.12")),
 }
 
 
@@ -158,11 +170,11 @@ def efecto(tipo):
 def banda_sonora(duracion, voz, efectos, salida, musica_kw=None):
     """voz: [(t, texto, t_max_fin, quien)], efectos: [(t, tipo)].
 
-    Escribe la mezcla en `salida` y devuelve solo la voz del robot (para mover su boca).
+    Escribe la mezcla en `salida` y devuelve un dict {personaje: su voz sola} (para las bocas).
     """
     n = int(duracion * SR)
     pista_voz = np.zeros(n, np.float32)
-    pista_robot = np.zeros(n, np.float32)
+    pistas = {}                       # voz de cada personaje por separado (para sus bocas)
     fin_anterior = 0.0
     for t, texto, t_fin, quien in voz:
         inicio = max(t, fin_anterior + 0.1)
@@ -176,8 +188,7 @@ def banda_sonora(duracion, voz, efectos, salida, musica_kw=None):
         a = int(inicio * SR)
         b = min(n, a + len(x))
         pista_voz[a:b] += x[: b - a]
-        if quien == "robot":
-            pista_robot[a:b] += x[: b - a]
+        pistas.setdefault(quien, np.zeros(n, np.float32))[a:b] += x[: b - a]
         fin_anterior = inicio + len(x) / SR
     if fin_anterior > duracion - 0.3:
         print(f"  aviso: la voz termina en {fin_anterior:.1f}s y el vídeo dura {duracion:.1f}s")
@@ -200,4 +211,5 @@ def banda_sonora(duracion, voz, efectos, salida, musica_kw=None):
     mezcla = pista_voz + gan_musica * musica(duracion, **(musica_kw or {})) + 0.18 * pista_fx
     mezcla = 0.95 * mezcla / (np.abs(mezcla).max() + 1e-9)
     escribir_wav(salida, mezcla)
-    return pista_robot
+    pistas.setdefault("robot", np.zeros(n, np.float32))
+    return pistas
