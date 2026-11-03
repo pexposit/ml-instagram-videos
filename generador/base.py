@@ -59,7 +59,7 @@ def wrap(text, width):
 
 class Reel:
     def __init__(self, numero, gancho, escenas, duracion, voz=None, efectos=(), musica=None,
-                 serie=SERIE, portada=None, asoma=True, tres_d=False):
+                 serie=SERIE, portada=None, asoma=True, tres_d=False, teaser=None):
         """Los tiempos de escenas, voz y efectos son relativos al final de la intro.
 
         voz: {índice de escena: texto hablado o (texto, t_fin)}; "" = silencio;
@@ -68,7 +68,13 @@ class Reel:
         """
         self.escenas = escenas
         self.duracion = duracion
-        self.total = INTRO + duracion
+        # teaser = dict(t=segundo del momento más llamativo, texto="gancho en pantalla",
+        #               pregunta="◀◀ …", dur=segundos, y=altura del gancho en la pantalla). Si existe, el vídeo EMPIEZA por ese
+        #               momento (con el gancho en grande) y luego rebobina al principio, en
+        #               lugar de la intro con el robot grande.
+        self.teaser = teaser
+        self.intro = teaser.get("dur", 2.6) if teaser else INTRO
+        self.total = self.intro + duracion
         self.gancho = gancho
         self.voz = voz or {}
         self.efectos = efectos
@@ -152,22 +158,28 @@ class Reel:
 
     def robot_guion(self):
         """Qué gesto hace el robot en cada momento (tiempos absolutos)."""
-        t_final = INTRO + self.escenas[-1][0]
-        g = [(0.0, "saludo", 0.4), (1.7, "explica", 0.5), (INTRO, "reposo", 0.3)]
+        t_final = self.intro + self.escenas[-1][0]
+        if self.teaser:
+            g = [(0.0, "senala", 0.3), (self.intro, "reposo", 0.3)]
+        else:
+            g = [(0.0, "saludo", 0.4), (1.7, "explica", 0.5), (self.intro, "reposo", 0.3)]
         for t0, t1, texto, *gesto in self.escenas[:-1]:
             if texto.startswith("!") and self.asoma:  # se asoma y habla (por defecto, señalando la animación)
-                g += [(INTRO + t0, gesto[0] if gesto else "senala", 0.45),
-                      (INTRO + t1, "reposo", 0.3)]
+                g += [(self.intro + t0, gesto[0] if gesto else "senala", 0.45),
+                      (self.intro + t1, "reposo", 0.3)]
         g += [(t_final, "explica", 0.5), (t_final + 1.8, "saludo", 0.45)]
         return sorted(g)
 
     def robot_estado(self, ta):
         """Dónde está el robot en el segundo absoluto `ta`. Devuelve (dict | None, grande)."""
-        t = ta - INTRO
+        t = ta - self.intro
         grande = dict(cx=0.5, cy=0.46 * self.ALTO)
         t_final = self.escenas[-1][0]
-        if ta < INTRO:  # presenta el gancho
-            s = self.S_GRANDE * ease(ta / 0.35) * (1 - ease((ta - INTRO + 0.35) / 0.35))
+        if ta < self.intro and self.teaser:  # dice el gancho desde la esquina
+            s = self.S_PEQ * min(ease(ta / 0.25), ease((self.intro - ta) / 0.2))
+            return dict(cx=0.13, cy=0.25 * self.ALTO, s=s), False
+        if ta < self.intro:  # presenta el gancho
+            s = self.S_GRANDE * ease(ta / 0.35) * (1 - ease((ta - self.intro + 0.35) / 0.35))
             return dict(grande, s=s), True
         if t >= t_final:  # despedida y llamada a la acción
             return dict(grande, s=self.S_GRANDE * ease((t - t_final) / 0.35)), True
@@ -176,6 +188,42 @@ class Reel:
                 s = self.S_PEQ * min(ease((t - t0) / 0.3), ease((t1 - t) / 0.25))
                 return dict(cx=0.13, cy=0.25 * self.ALTO, s=s), False
         return None, False
+
+    # ------------------------------------------------------------ arranque "teaser"
+    def _teaser(self, ta):
+        """Primeros segundos: el momento más llamativo, el gancho en grande y un rebobinado.
+        Devuelve el segundo de la animación que hay que dibujar."""
+        tz = self.teaser
+        if not hasattr(self, "_tz_texto"):
+            self._tz_texto = self.fig.text(
+                0.5, tz.get("y", 0.475), "", ha="center", va="center", size=28, weight="black",
+                color=ACCENT, zorder=20, linespacing=1.1,
+                bbox=dict(boxstyle="round,pad=0.45", fc=BG, ec=ACCENT, lw=3, alpha=0.9))
+            self._tz_flash = self.fig.add_artist(plt.Rectangle(
+                (0.08, 0.30), 0.84, 0.345, transform=self.fig.transFigure, color="#FFFFFF",
+                zorder=19, alpha=0))
+        rebobina = self.intro - 0.6
+        self._tz_flash.set_alpha(0.35 * max(0.0, 1 - ta / 0.2))
+        if ta < rebobina:
+            palabras = tz["texto"].split()
+            n = min(int(ta / 0.16) + 1, len(palabras))
+            frac = (ta - (n - 1) * 0.16) / 0.16
+            self._tz_texto.set_text(wrap(" ".join(palabras[:n]), 17))
+            self._tz_texto.set_fontsize(28 * (1 + 0.18 * (1 - ease(frac))))
+            self._tz_texto.set_color(ACCENT)
+            self._tz_texto.set_visible(True)
+            return tz["t"] + 0.35 * ta              # el momento clave, moviéndose un poco
+        a = ease((ta - rebobina) / 0.55)
+        self._tz_texto.set_text(tz.get("pregunta", "◀◀  ¿Cómo ha pasado esto?"))
+        self._tz_texto.set_fontsize(24)
+        self._tz_texto.set_color(FG)
+        self._tz_texto.set_visible(True)
+        return (tz["t"] + 0.35 * rebobina) * (1 - a)  # rebobina hasta el principio
+
+    def _ocultar_teaser(self):
+        if hasattr(self, "_tz_texto"):
+            self._tz_texto.set_visible(False)
+            self._tz_flash.set_alpha(0)
 
     def ajustar_marco(self):
         """Coloca el marco alrededor de la zona real de la animación (tras fijar su aspecto)."""
@@ -195,14 +243,14 @@ class Reel:
         # el gancho lo dice el robot; las escenas con "!" también (subtítulo amarillo);
         # el resto, la narradora
         gancho = self.voz.get("gancho", self.gancho.replace("\n", " "))
-        lineas = [(0.15, gancho, INTRO - 0.05, "robot")]
+        lineas = [(0.15, gancho, self.intro - 0.05, "robot")]
         for i, (t0, t1, texto, *_g) in enumerate(self.escenas):
             hablado = self.voz.get(i, texto.lstrip("!"))
             if isinstance(hablado, tuple):  # (texto, fin): la frase ocupa varias escenas
                 hablado, t1 = hablado
             if hablado:
                 quien = "robot" if texto.startswith("!") else "narrador"
-                lineas.append((INTRO + t0 + 0.1, hablado, INTRO + t1, quien))
+                lineas.append((self.intro + t0 + 0.1, hablado, self.intro + t1, quien))
         return lineas
 
     def render(self, draw, nombre, portada_t=None):
@@ -224,7 +272,12 @@ class Reel:
             mudo, sonido = Path(d) / "mudo.mp4", Path(d) / "audio.wav"
 
             # 1) audio primero: la boca del robot se mueve con la voz
-            efectos = [(INTRO + t, tipo) for t, tipo in self.efectos]
+            efectos = [(self.intro + t, tipo) for t, tipo in self.efectos]
+            if self.teaser:  # golpe al empezar, "pop" por palabra y "rebobinado"
+                n_pal = len(self.teaser["texto"].split())
+                efectos += [(0.0, "whoosh"), (0.02, "pop")]
+                efectos += [(0.12 + 0.16 * k, "pop") for k in range(1, n_pal, 2)]
+                efectos += [(self.intro - 0.6, "whoosh")]
             # zumbido de motor cuando el robot cambia de gesto y se le ve
             efectos += [(tg, "servo") for tg, _g, _d in guion
                         if self.robot_estado(tg + 0.05)[0] is not None and tg > 0]
@@ -237,13 +290,17 @@ class Reel:
             # 2) vídeo
             def update(i):
                 ta = i / FPS
-                t = ta - INTRO
+                t = ta - self.intro
                 estado, grande = self.robot_estado(ta)
                 self.ax.set_visible(not grande)
                 self.marco.set_visible(not grande)
                 b = boca[min(i, len(boca) - 1)]
                 self.boca_t = b  # por si la animación dibuja al robot dentro de la escena
-                draw(max(t, 0.0))
+                if self.teaser and t < 0:
+                    draw(self._teaser(ta))
+                else:
+                    self._ocultar_teaser()
+                    draw(max(t, 0.0))
                 if estado and estado["s"] > 0.003:
                     robot.dibujar(ta, pose_en(ta, guion, b), boca=b, **estado)
                 else:

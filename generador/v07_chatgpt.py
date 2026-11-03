@@ -39,9 +39,14 @@ EFECTOS = ([(T_TECLEO[0] + k * 0.5, "pop") for k in range(len(PROMPT))]
 
 PORTADA = dict(titulo=["Así escribe", "ChatGPT"], amarilla=1, t=13.4, gesto="explica")
 
+# Arranque "teaser": empieza por el momento más llamativo, con el gancho en grande, y rebobina
+TEASER = dict(t=19.4, texto="ChatGPT no sabe lo que va a decir", dur=2.8, y=0.39,
+              pregunta="◀◀  ¿Entonces cómo escribe?")
+VOZ["gancho"] = "¡ChatGPT no sabe lo que va a decir!"
+
 reel = Reel(4, "ChatGPT escribe\nadivinando palabra\na palabra", ESCENAS, 31.5, voz=VOZ,
             efectos=EFECTOS, serie=SERIE_CERO, musica={"bpm": 94},
-            portada=PORTADA)
+            portada=PORTADA, teaser=TEASER)
 ax = reel.ax
 ax.set_xlim(0, 10)
 ax.set_ylim(0, 7.8)
