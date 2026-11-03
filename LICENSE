@@ -23,10 +23,11 @@ Para cualquier otro uso, escribe por mensaje directo a @hacerlointeligente en In
 COMPONENTES DE TERCEROS (no están cubiertos por la reserva de derechos anterior y se rigen
 por sus propias licencias):
 
-  - Voz en off: sintetizada con el modelo Piper "es_ES-sharvard-medium", entrenado con el
+  - Voz de la narradora: modelo Piper "es_MX-claude-high", licencia Apache 2.0.
+  - Voz del robot: sintetizada con el modelo Piper "es_ES-sharvard-medium", entrenado con el
     corpus Sharvard (Universidad de Edimburgo), licencia Creative Commons Atribución 3.0
-    (https://creativecommons.org/licenses/by/3.0/). El modelo no se incluye en este
-    repositorio.
+    (https://creativecommons.org/licenses/by/3.0/).
+    Los modelos de voz no se incluyen en este repositorio.
   - Piper TTS: software de síntesis de voz que se instala aparte con pip; tiene su propia
     licencia y no se distribuye aquí.
   - Fuente tipográfica Inter: SIL Open Font License 1.1 (https://openfontlicense.org).

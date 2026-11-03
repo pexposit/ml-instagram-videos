@@ -23,8 +23,8 @@ for _ in range(4):
 T_ITER = 3.0
 T0_ITER = 6.4
 ESCENAS = [
-    (0.0, 3.2, "Tienes datos… pero nadie te dice qué son"),
-    (3.2, 6.4, "Pon 3 'capitanes' al azar"),
+    (0.0, 3.2, "P:Unos puntos ahí tirados. ¿Y qué?"),
+    (3.2, 6.4, "!¡Pongo 3 capitanes al azar! Ahí, ahí y ahí."),
 ]
 for i in range(4):
     t = T0_ITER + i * T_ITER
@@ -32,27 +32,33 @@ for i in range(4):
                 (t + 1.5, t + T_ITER, "Cada capitán se mueve al centro de su grupo")]
 ESCENAS += [
     (18.4, 22.0, "Repite hasta que nada cambie: grupos encontrados SIN etiquetas"),
-    (22.0, 25.4, "K-MEANS: así se agrupan clientes, canciones o píxeles"),
-    (25.4, 30.0, "!Envíaselo a quien esté estudiando IA"),
+    (22.0, 25.4, "V:¡K-MEANS! Así se agrupan clientes o canciones"),
+    (25.4, 30.0, "!¡Envíaselo a quien estudie IA! Yo ya lo he hecho."),
 ]
 
 VOZ = {
-    1: "Pon tres capitanes al azar.",
+    "gancho": "¡Encontré los grupos yo solito!",
+    1: "¡Pongo tres capitanes al azar! Ahí, ahí, y ahí.",
     2: ("Cada punto se une a su capitán más cercano. "
         "Y cada capitán se mueve al centro de su grupo.", 12.4),
     3: "", 4: "", 5: "",
     6: ("Y se repite. Otra vez. Y otra.", 18.4),
     7: "", 8: "", 9: "",
     10: "Hasta que nada cambia. Grupos encontrados, sin etiquetas.",
-    11: "Esto es ca mins: así se agrupan clientes o canciones.",
-    12: "Envíaselo a quien esté estudiando inteligencia artificial.",
+    11: "¡Ca mins! Así se agrupan clientes o canciones.",
 }
 EFECTOS = [(3.2, "pop")] + [(T0_ITER + i * T_ITER + 1.5, "whoosh") for i in range(3)] \
     + [(18.4, "pop")]
 
+PORTADA = dict(titulo=["Nadie le dijo", "qué buscar…", "y lo encontró"], amarilla=2, t=18.5, gesto="piensa")
+
+TEASER = {'t': 18.6, 'texto': 'Encontró los grupos ella sola', 'pregunta': '◀◀  ¿Cómo lo hizo?', 'y': 0.36}
+
 reel = Reel(2, "Nadie le dijo qué buscar… y lo encontró", ESCENAS, 30.0,
             voz=VOZ, efectos=EFECTOS, musica={"bpm": 104,
-            "progresion": ((50, 53, 57), (46, 50, 53), (53, 57, 60), (48, 52, 55))})
+            "progresion": ((50, 53, 57), (46, 50, 53), (53, 57, 60), (48, 52, 55))},
+            portada=PORTADA,
+            teaser=TEASER, retratos=True)
 ax = reel.ax
 ax.set_xlim(-5, 5)
 ax.set_ylim(-4.6, 4.2)

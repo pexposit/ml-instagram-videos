@@ -18,12 +18,23 @@ Reels verticales para Instagram que explican algoritmos de machine learning en u
 | 2 | [`videos/05_neurona.mp4`](videos/05_neurona.mp4) | Así decide una neurona artificial |
 | 3 | [`videos/06_red_neuronal.mp4`](videos/06_red_neuronal.mp4) | Cómo reconoce una IA un número escrito a mano |
 | 4 | [`videos/07_chatgpt.mp4`](videos/07_chatgpt.mp4) | ChatGPT escribe adivinando palabra a palabra |
+| 5 | [`videos/08_recomendaciones.mp4`](videos/08_recomendaciones.mp4) | Así decide Instagram qué ves después |
+| 6 | [`videos/09_alucinaciones.mp4`](videos/09_alucinaciones.mp4) | ¿Por qué la IA se inventa cosas? |
+| 7 | [`videos/10_imagenes.mp4`](videos/10_imagenes.mp4) | Así crea una IA una imagen de la nada |
+| 8 | [`videos/11_aprende_a_andar.mp4`](videos/11_aprende_a_andar.mp4) | Una IA aprendiendo a andar |
+| 9 | [`videos/12_palabras.mp4`](videos/12_palabras.mp4) | Para una IA, las palabras son coordenadas |
+| 10 | [`videos/13_sesgo.mp4`](videos/13_sesgo.mp4) | Una IA es tan buena como sus datos |
+| 11 | [`videos/14_vision.mp4`](videos/14_vision.mp4) | Así ve una foto una IA |
+| 12 | [`videos/15_spam.mp4`](videos/15_spam.mp4) | Cómo sabe tu correo que es spam |
+| 13 | [`videos/16_montanas_3d.mp4`](videos/16_montanas_3d.mp4) | Una IA aprende bajando montañas (3D) |
+| 14 | [`videos/17_truco_3d.mp4`](videos/17_truco_3d.mp4) | El truco de la tercera dimensión (3D) |
+| 15 | [`videos/18_caras_3d.mp4`](videos/18_caras_3d.mp4) | Cómo te reconoce la cara el móvil (3D) |
 
 - [`ANALISIS.md`](ANALISIS.md): qué tipo de vídeos funciona en Instagram y por qué están hechos así.
 - [`PUBLICAR.md`](PUBLICAR.md): texto, hashtags y guion de voz de cada vídeo, más ideas para los siguientes.
 - `portadas/`: imagen de portada de cada reel.
 
-Los vídeos llevan **voz en off en castellano**, **música de fondo** y efectos de sonido.
+Los vídeos llevan **dos voces** (una narradora que explica y el robot, que interviene con frases simpáticas), **música de fondo** y efectos de sonido.
 Todo está generado aquí, así que no tiene derechos de autor: Instagram no los silenciará.
 Si prefieres una canción en tendencia, puedes bajar el volumen del audio original al subirlo
 y añadirla desde Instagram.
@@ -34,9 +45,12 @@ Necesita Python 3, `ffmpeg` y la fuente Inter.
 
 ```bash
 pip install -r requirements.txt
-# voz en castellano (Piper es_ES-sharvard); no se sube al repositorio por su tamaño
-curl -L https://github.com/k2-fsa/sherpa-onnx/releases/download/tts-models/vits-piper-es_ES-sharvard-medium.tar.bz2 | tar xj
-mkdir -p generador/voz && mv vits-piper-es_ES-sharvard-medium/es_ES-sharvard-medium.onnx* generador/voz/
+# voces (narradora es_MX-claude-high y robot es_ES-sharvard); no se suben al repositorio
+B=https://github.com/k2-fsa/sherpa-onnx/releases/download/tts-models
+mkdir -p generador/voz
+for v in es_ES-sharvard-medium es_MX-claude-high; do
+  curl -L $B/vits-piper-$v.tar.bz2 | tar xj && mv vits-piper-$v/$v.onnx* generador/voz/
+done
 cd generador
 python3 v01_descenso_gradiente.py   # crea videos/01_... y portadas/01_...
 ```
@@ -62,6 +76,8 @@ progreso y otra en diagonal sobre la animación, que no se puede recortar sin es
 
 ## Créditos
 
-- Voz: modelo Piper `es_ES-sharvard-medium`, entrenado con el corpus Sharvard
-  (Universidad de Edimburgo), licencia [CC BY 3.0](https://creativecommons.org/licenses/by/3.0/).
+- Voz de la narradora: modelo Piper `es_MX-claude-high`, licencia Apache 2.0.
+- Voz del robot: modelo Piper `es_ES-sharvard-medium` (locutora 1, procesada para sonar a
+  robot), entrenado con el corpus Sharvard (Universidad de Edimburgo), licencia
+  [CC BY 3.0](https://creativecommons.org/licenses/by/3.0/).
 - Música y efectos: generados por el propio código (`generador/audio.py`).
