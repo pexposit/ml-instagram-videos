@@ -286,3 +286,74 @@ def voltio(t=0.0, boca=0.0, parpado=1.0, mira=(0.0, 0.1), tam=520):
     E.mancha(img, (0, -0.16), (0.11, ab), "#4A1D22")
     E.mancha(img, (0, -0.16 + ab * 0.5), (0.085, 0.016), "#F2EEE6")
     return img
+
+
+# ----------------------------------------------------------------------- ROBOT
+def _segmento(E, p0, p1, r, color, z=0.0, **kw):
+    """Pieza alargada (brazo, pierna…) entre dos puntos, como un elipsoide girado."""
+    p0, p1 = np.array(p0), np.array(p1)
+    d = p1 - p0
+    largo = np.hypot(*d)
+    ang = np.degrees(np.arctan2(d[1], d[0]))
+    m = (p0 + p1) / 2
+    E.elipsoide((m[0], m[1], z), (largo / 2 + r * 0.35, r, r), color, rot=ang, **kw)
+
+
+def robot(t=0.0, boca=0.0, parpado=1.0, saluda=True, tam=560):
+    """El robot presentador con acabado de plastilina: cuerpo blanco y azul, visor oscuro con
+    ojos LED, boca de barras de luz, antena, orejas con luz y articulaciones grises."""
+    BL, AZ, AZ2, GR, GR2, VIS = "#EEF2F7", "#3D8BD9", "#2C6FB5", "#5B6573", "#3C434E", "#0E131B"
+    E = Escena(tam)
+    # piernas
+    for sx in (-1, 1):
+        cad, rod, tob = (sx * 0.12, -0.36), (sx * 0.15, -0.62), (sx * 0.15, -0.88)
+        _segmento(E, cad, rod, 0.075, BL, z=-0.02, esp=0.25, brillo=25)
+        _segmento(E, rod, tob, 0.065, AZ, z=-0.02, esp=0.3, brillo=30)
+        E.elipsoide((rod[0], rod[1], 0.05), (0.06, 0.06, 0.06), GR, esp=0.4, brillo=35)
+        E.elipsoide((tob[0] + sx * 0.02, -0.95, 0.04), (0.12, 0.07, 0.12), BL, esp=0.3)
+        E.elipsoide((tob[0] + sx * 0.02, -1.0, 0.04), (0.12, 0.025, 0.12), AZ2)
+    # pelvis y columna
+    E.elipsoide((0, -0.3, 0), (0.2, 0.08, 0.13), AZ, esp=0.3, brillo=30)
+    for k, y in enumerate((-0.2, -0.13)):
+        E.elipsoide((0, y, 0), (0.12 - 0.01 * k, 0.03, 0.09), GR2, esp=0.4, brillo=40)
+    # pecho
+    E.elipsoide((0, 0.04, 0), (0.3, 0.17, 0.18), BL, esp=0.3, brillo=28)
+    E.elipsoide((0, 0.02, 0.15), (0.13, 0.06, 0.04), AZ, esp=0.4, brillo=40)
+    # brazos
+    hombros = {-1: (-0.32, 0.13), 1: (0.32, 0.13)}
+    for sx, h in hombros.items():
+        if sx == 1 and saluda:
+            codo, mano = (0.5, 0.3), (0.55, 0.56 + 0.02 * np.sin(t * 9))
+        else:
+            codo, mano = (sx * 0.38, -0.1), (sx * 0.4, -0.32)
+        _segmento(E, h, codo, 0.055, BL, z=0.05, esp=0.25, brillo=25)
+        _segmento(E, codo, mano, 0.05, AZ, z=0.06, esp=0.3, brillo=30)
+        E.elipsoide((codo[0], codo[1], 0.1), (0.05, 0.05, 0.05), GR, esp=0.4, brillo=35)
+        E.elipsoide((mano[0], mano[1], 0.08), (0.075, 0.08, 0.07), BL, esp=0.3)
+        E.elipsoide((h[0], h[1], 0.06), (0.075, 0.075, 0.075), GR, esp=0.45, brillo=40)
+    # cuello y cabeza
+    E.elipsoide((0, 0.24, -0.02), (0.07, 0.06, 0.06), GR2, esp=0.4)
+    for sx in (-1, 1):
+        E.elipsoide((sx * 0.35, 0.55, -0.02), (0.07, 0.09, 0.08), GR, esp=0.45, brillo=40)
+    E.elipsoide((0, 0.55, 0), (0.34, 0.29, 0.28), BL, esp=0.35, brillo=30)
+    E.elipsoide((0, 0.79, 0.05), (0.15, 0.06, 0.1), AZ, esp=0.4, brillo=35)
+    E.elipsoide((0, 0.56, 0.17), (0.28, 0.13, 0.13), VIS, esp=0.9, brillo=60)
+    _segmento(E, (0.12, 0.8), (0.18, 0.98), 0.012, "#9AA5B4")
+    E.elipsoide((0.185, 1.0, 0.0), (0.035, 0.035, 0.035), "#FFD23F", esp=0.5, brillo=40)
+    img = E.sombrear()
+
+    # luces LED (con halo): ojos, boca, orejas y núcleo del pecho
+    def led(c, r, color, intensidad=1.0):
+        E.mancha(img, c, (r[0] * 2.2, r[1] * 2.2), color, alpha=0.25 * intensidad, suave=0.08)
+        E.mancha(img, c, r, color, alpha=intensidad, suave=0.012)
+    abierto = np.clip(parpado, 0.08, 1)
+    for sx in (-1, 1):
+        led((sx * 0.1, 0.58), (0.045, 0.045 * abierto), "#5AD8FF")
+        led((sx * 0.35, 0.55), (0.03, 0.04), "#5AD8FF", 0.8)
+    for k, dx in enumerate(np.linspace(-0.08, 0.08, 5)):
+        alto = 0.008 + 0.03 * boca * (0.6 + 0.4 * np.sin(t * 17 + k * 1.7) ** 2)
+        led((dx, 0.37), (0.012, alto), "#5AD8FF", 0.9)
+    led((0, 0.02), (0.035, 0.035), "#FFD23F", 0.6 + 0.4 * np.sin(t * 4) ** 2)
+    # reflejo del visor
+    E.linea(img, (-0.2, 0.64), (-0.08, 0.66), 0.012, "#FFFFFF", 0.35)
+    return img
