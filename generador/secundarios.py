@@ -1,7 +1,7 @@
 """Personajes secundarios originales de @hacerlointeligente (bocetos).
 
-- Paco, «el cuñado»: entiende la IA siempre al revés; el robot le corrige.
-- Dra. Chispa, «la científica chiflada»: lo explica todo con entusiasmo exagerado.
+- Paco, «el cuñado» (60 y pico años): entiende la IA siempre al revés; el robot le corrige.
+- Profesor Voltio, «el científico loco»: lo explica todo con entusiasmo exagerado.
 
 Ambos tienen la misma interfaz: dibujar(ax, t, cx, cy, s, boca=0..1, gesto=...).
 Unidades del personaje: mide unas 2 unidades de alto (de -1 a 1) y `s` escala.
@@ -67,105 +67,114 @@ def _ojos(L, y, sep, mira=0.0, parpado=1.0, grande=1.0):
 
 # ---------------------------------------------------------------------------- PACO
 def paco(ax, t, cx, cy, s, boca=0.0, gesto="confuso"):
-    """El cuñado: pelo rizado castaño, bigote, polo rojo y gafas de sol en la cabeza."""
-    PIEL, PIEL2, PELO, POLO, POLO2 = "#F1C19A", "#D99B72", "#6B3E26", "#D7263D", "#A61B2E"
-    L = _L(ax, cx, cy + 0.01 * s * np.sin(2 * np.pi * 0.8 * t), s)
-    # cuerpo (polo con cuello y botones)
-    L.caja(0, -0.78, 1.25, 0.75, POLO, r=0.3)
+    """El cuñado, ya mayor: entradas y pelo canoso rizado a los lados, bigote gris, arrugas,
+    gafas de leer en la punta de la nariz, papada y polo rojo."""
+    PIEL, PIEL2, PELO, POLO, POLO2 = "#EDBB96", "#D3946B", "#B8BCC4", "#C62F3E", "#9E2331"
+    ARRUGA = "#B9835F"
+    L = _L(ax, cx, cy + 0.01 * s * np.sin(2 * np.pi * 0.7 * t), s)
+    # cuerpo con algo de barriga
+    L.caja(0, -0.8, 1.4, 0.78, POLO, r=0.36)
     L.poli([(-0.22, -0.42), (0, -0.62), (0.22, -0.42)], "#FFFFFF", borde=1.6)
     L.circ(0, -0.7, 0.025, "#FFFFFF", borde=0)
     L.circ(0, -0.8, 0.025, "#FFFFFF", borde=0)
-    L.caja(0, -0.45, 0.24, 0.16, PIEL, r=0.06, borde=1.6)                    # cuello
-    # brazo con el móvil
+    L.caja(0, -0.45, 0.26, 0.16, PIEL, r=0.06, borde=1.6)
     if gesto == "movil":
-        L.caja(0.55, -0.55, 0.22, 0.42, POLO2, r=0.1)
-        L.caja(0.62, -0.2, 0.2, 0.34, "#22262E", r=0.04)
-        L.caja(0.62, -0.2, 0.15, 0.26, "#4CC9F0", r=0.02, borde=0)
-        L.circ(0.55, -0.32, 0.09, PIEL)
-    # cabeza
+        L.caja(0.6, -0.55, 0.24, 0.42, POLO2, r=0.1)
+        L.caja(0.67, -0.2, 0.2, 0.34, "#22262E", r=0.04)
+        L.caja(0.67, -0.2, 0.15, 0.26, "#4CC9F0", r=0.02, borde=0)
+        L.circ(0.6, -0.32, 0.09, PIEL)
+    # cabeza (más ancha abajo: papada)
     for sx in (-1, 1):
-        L.elip(sx * 0.47, 0.05, 0.16, 0.24, PIEL)                            # orejas
-    L.elip(0, 0.08, 0.92, 1.0, PIEL)
-    # pelo rizado
-    for k, x in enumerate(np.linspace(-0.4, 0.4, 7)):
-        L.circ(x, 0.5 + 0.05 * np.cos(k * 1.7), 0.13, PELO, borde=1.4)
-    for x in (-0.44, 0.44):
-        L.circ(x, 0.32, 0.1, PELO, borde=1.4)
-    # gafas de sol subidas a la cabeza
+        L.elip(sx * 0.48, 0.05, 0.17, 0.26, PIEL)
+    L.elip(0, 0.08, 0.94, 1.02, PIEL)
+    L.arco(0, -0.36, 0.42, 0.12, 200, 340, ARRUGA, 3)                      # papada
+    # entradas: pelo canoso rizado solo a los lados y un poco detrás
     for sx in (-1, 1):
-        L.caja(sx * 0.17, 0.5, 0.26, 0.13, "#1D1F26", r=0.05, borde=1.2)
-    L.linea([(-0.04, 0.52), (0.04, 0.52)], "#1D1F26", 5)
-    # cejas (una levantada si está confuso)
+        for k in range(3):
+            L.circ(sx * (0.42 - 0.03 * k), 0.38 - 0.12 * k, 0.1, PELO, borde=1.4)
+    L.arco(0, 0.42, 0.4, 0.14, 25, 155, ARRUGA, 3)                          # arrugas frente
+    L.arco(0, 0.36, 0.34, 0.1, 25, 155, ARRUGA, 3)
+    # cejas grises (una levantada si está confuso)
     ceja_d = 0.08 if gesto == "confuso" else 0.0
-    L.linea([(-0.3, 0.25), (-0.1, 0.27)], PELO, 9)
-    L.linea([(0.1, 0.27 + ceja_d), (0.3, 0.24 + ceja_d * 1.5)], PELO, 9)
-    parpado = 0.15 if (t % 3.1) < 0.12 else 1.0
+    L.linea([(-0.3, 0.25), (-0.1, 0.27)], "#8D929B", 10)
+    L.linea([(0.1, 0.27 + ceja_d), (0.3, 0.24 + ceja_d * 1.5)], "#8D929B", 10)
+    parpado = 0.15 if (t % 3.1) < 0.12 else 0.85
     _ojos(L, 0.13, 0.19, mira=0.6 if gesto == "confuso" else 0.0, parpado=parpado)
-    L.elip(0, -0.02, 0.17, 0.2, PIEL2, borde=1.6)                            # nariz
-    # bigote y boca
-    L.poli([(-0.27, -0.13), (-0.05, -0.08), (0, -0.11), (0.05, -0.08), (0.27, -0.13),
-            (0.2, -0.2), (0, -0.16), (-0.2, -0.2)], PELO, borde=1.4)
-    ab = 0.03 + 0.12 * boca
-    L.elip(0, -0.26, 0.2, ab, "#7A2533", borde=1.6)
-    if gesto == "confuso":
-        L.texto(0.62, 0.55, "?", "#FFD23F", 44)
-
-
-# ---------------------------------------------------------------------- DRA. CHISPA
-def chispa(ax, t, cx, cy, s, boca=0.0, gesto="eureka"):
-    """La científica: melena morada con un mechón blanco, gafas de laboratorio en la frente,
-    pecas, bata blanca y un matraz que burbujea."""
-    PIEL, PELO, PELO2, BATA, CAMISA = "#C98B62", "#7B2CBF", "#9D4EDD", "#F4F6FA", "#2EC4B6"
-    L = _L(ax, cx, cy + 0.012 * s * np.sin(2 * np.pi * 1.1 * t), s)
-    # melena por detrás
-    for k, a in enumerate(np.linspace(0, 2 * np.pi, 14, endpoint=False)):
-        L.circ(0.5 * np.cos(a), 0.12 + 0.55 * np.sin(a), 0.2 + 0.03 * np.sin(3 * k), PELO2
-               if k % 3 else PELO, borde=1.4)
-    # bata y camiseta
-    L.caja(0, -0.8, 1.3, 0.8, BATA, r=0.32)
-    L.poli([(-0.2, -0.42), (0.2, -0.42), (0, -0.85)], CAMISA, borde=1.6)
-    L.poli([(-0.2, -0.42), (-0.05, -0.75), (-0.32, -0.62)], "#DDE3EC", borde=1.4)   # solapas
-    L.poli([(0.2, -0.42), (0.05, -0.75), (0.32, -0.62)], "#DDE3EC", borde=1.4)
-    L.caja(-0.42, -0.9, 0.2, 0.14, "#DDE3EC", r=0.03, borde=1.2)                   # bolsillo
-    L.linea([(-0.46, -0.86), (-0.46, -0.76)], "#F72585", 5)                       # bolígrafo
-    L.caja(0, -0.45, 0.22, 0.16, PIEL, r=0.06, borde=1.6)
-    # cara
-    L.elip(0, 0.08, 0.86, 0.98, PIEL)
-    for x, y in ((-0.2, 0.0), (-0.26, -0.04), (-0.15, -0.05), (0.2, 0.0), (0.26, -0.04),
-                 (0.15, -0.05)):
-        L.circ(x, y, 0.014, "#8A5A3C", borde=0)                                  # pecas
-    # flequillo con mechón blanco
-    for k, x in enumerate(np.linspace(-0.36, 0.36, 6)):
-        L.circ(x, 0.5 - 0.03 * (k % 2), 0.13, "#FFFFFF" if k == 4 else PELO, borde=1.4)
-    # gafas de laboratorio en la frente
-    L.linea([(-0.44, 0.42), (0.44, 0.42)], "#3A3F4B", 7)
+    for sx in (-1, 1):                                                     # patas de gallo
+        L.linea([(sx * 0.31, 0.16), (sx * 0.37, 0.19)], ARRUGA, 3)
+        L.linea([(sx * 0.31, 0.12), (sx * 0.37, 0.11)], ARRUGA, 3)
+    L.elip(0, -0.02, 0.19, 0.22, PIEL2, borde=1.6)                          # nariz
+    # gafas de leer en la punta de la nariz
     for sx in (-1, 1):
-        L.circ(sx * 0.17, 0.42, 0.13, "#FF9F1C", borde=1.6)
-        L.circ(sx * 0.17, 0.42, 0.09, "#BDE8F5", borde=1.2)
-        L.circ(sx * 0.17 - 0.03, 0.45, 0.025, "#FFFFFF", borde=0)
-    # cejas y ojos grandes (entusiasmo)
-    L.arco(-0.19, 0.24, 0.2, 0.1, 20, 160, "#4A1A6B", 6)
-    L.arco(0.19, 0.24, 0.2, 0.1, 20, 160, "#4A1A6B", 6)
-    parpado = 0.15 if (t % 2.9) < 0.12 else 1.0
-    _ojos(L, 0.12, 0.19, parpado=parpado, grande=1.15)
-    L.arco(0, 0.0, 0.1, 0.08, 200, 340, "#8A5A3C", 4)                             # nariz
-    # boca: sonrisa enorme, abierta al hablar
-    ab = 0.08 + 0.12 * boca
-    L.poli([(-0.2, -0.17)] + [(0.2 * np.cos(a), -0.17 + ab * np.sin(a))
-                             for a in np.linspace(np.pi, 2 * np.pi, 16)] + [(0.2, -0.17)],
+        L.caja(sx * 0.13, -0.04, 0.2, 0.11, "none", r=0.04, borde=2.2)
+    # bigote gris y boca
+    L.poli([(-0.28, -0.13), (-0.05, -0.08), (0, -0.11), (0.05, -0.08), (0.28, -0.13),
+            (0.21, -0.21), (0, -0.16), (-0.21, -0.21)], PELO, borde=1.4)
+    ab = 0.03 + 0.12 * boca
+    L.elip(0, -0.27, 0.2, ab, "#7A2533", borde=1.6)
+    if gesto == "confuso":
+        L.texto(0.64, 0.55, "?", "#FFD23F", 44)
+
+
+# --------------------------------------------------------------- PROFESOR VOLTIO
+def voltio(ax, t, cx, cy, s, boca=0.0, gesto="eureka"):
+    """El científico loco: cabeza alargada y calva por arriba, barba pelirroja enorme y
+    alborotada, lupa de relojero en un ojo (que lo hace gigante), pajarita, bata VERDE y
+    guantes amarillos. Siempre hay alguna chispa eléctrica cerca."""
+    PIEL, BARBA, BARBA2 = "#F0C6A4", "#D9622B", "#F08A3E"
+    BATA, BATA2, GUANTE = "#5FBF8F", "#3E9A6E", "#FFD23F"
+    L = _L(ax, cx, cy + 0.012 * s * np.sin(2 * np.pi * 1.2 * t), s)
+    # bata verde
+    L.caja(0, -0.82, 1.3, 0.78, BATA, r=0.32)
+    L.poli([(-0.2, -0.42), (-0.05, -0.8), (-0.34, -0.62)], BATA2, borde=1.4)
+    L.poli([(0.2, -0.42), (0.05, -0.8), (0.34, -0.62)], BATA2, borde=1.4)
+    L.poli([(-0.16, -0.46), (0, -0.52), (0.16, -0.46), (0.16, -0.6), (0, -0.54),
+            (-0.16, -0.6)], "#7B2CBF", borde=1.4)                           # pajarita
+    L.circ(0, -0.53, 0.04, "#9D4EDD", borde=1.2)
+    # cabeza alargada (calva arriba)
+    for sx in (-1, 1):
+        L.elip(sx * 0.42, 0.1, 0.15, 0.24, PIEL)
+    L.elip(0, 0.18, 0.8, 1.15, PIEL)
+    L.elip(-0.12, 0.6, 0.18, 0.08, "#FFFFFF", borde=0, alpha=0.5)            # brillo calva
+    # mechones laterales disparados hacia fuera (pelirrojos)
+    for sx in (-1, 1):
+        for k, (dx, dy) in enumerate(((0.47, 0.35), (0.55, 0.25), (0.5, 0.45))):
+            L.poli([(sx * 0.36, 0.3 + 0.04 * k), (sx * (dx + 0.08), dy + 0.08),
+                    (sx * (dx + 0.02), dy - 0.02)], BARBA2, borde=1.2)
+    # barba enorme y alborotada
+    for k, a in enumerate(np.linspace(np.pi * 1.05, np.pi * 1.95, 9)):
+        L.circ(0.36 * np.cos(a), -0.12 + 0.34 * np.sin(a), 0.14 + 0.02 * (k % 2),
+               BARBA if k % 2 else BARBA2, borde=1.4)
+    L.elip(0, -0.2, 0.5, 0.36, BARBA, borde=0)
+    # cejas pelirrojas muy arqueadas
+    L.arco(-0.17, 0.3, 0.22, 0.14, 20, 160, BARBA, 8)
+    L.arco(0.17, 0.32, 0.22, 0.16, 20, 160, BARBA, 8)
+    parpado = 0.15 if (t % 2.7) < 0.12 else 1.0
+    # ojo izquierdo normal, ojo derecho tras la lupa de relojero (gigante)
+    L.elip(-0.17, 0.18, 0.16, 0.2 * parpado, "#FFFFFF", borde=1.6)
+    if parpado > 0.3:
+        L.circ(-0.16, 0.17, 0.045, TINTA, borde=0)
+    L.linea([(0.17, 0.33), (0.4, 0.42)], "#3A3F4B", 6)                       # cinta
+    L.circ(0.17, 0.18, 0.17, "#3A3F4B", borde=1.6)
+    L.circ(0.17, 0.18, 0.13, "#FFFFFF", borde=1.2)
+    if parpado > 0.3:
+        L.circ(0.18, 0.17, 0.08, TINTA, borde=0)
+        L.circ(0.21, 0.21, 0.025, "#FFFFFF", borde=0)
+    L.circ(0.12, 0.24, 0.04, "#FFFFFF", borde=0, alpha=0.6)
+    L.elip(0.0, 0.02, 0.13, 0.17, "#E3A882", borde=1.6)                     # nariz
+    # boca dentro de la barba: sonrisa enorme
+    ab = 0.07 + 0.13 * boca
+    L.poli([(-0.17, -0.12)] + [(0.17 * np.cos(a), -0.12 + ab * np.sin(a))
+                              for a in np.linspace(np.pi, 2 * np.pi, 16)] + [(0.17, -0.12)],
            "#7A2533", borde=1.6)
-    L.caja(0, -0.185, 0.24, 0.035, "#FFFFFF", r=0.01, borde=0)                     # dientes
-    # brazo con matraz que burbujea
+    L.caja(0, -0.135, 0.2, 0.03, "#FFFFFF", r=0.01, borde=0)
+    # brazo con una bombilla chisporroteando
     if gesto == "eureka":
-        L.caja(0.6, -0.48, 0.22, 0.5, BATA, r=0.1)
-        L.poli([(0.56, 0.02), (0.68, 0.02), (0.68, -0.08), (0.82, -0.32), (0.42, -0.32),
-                (0.56, -0.08)], "#E8F7FF", borde=1.6, alpha=0.95)
-        L.poli([(0.48, -0.22), (0.76, -0.22), (0.82, -0.32), (0.42, -0.32)], "#7BE495",
-               borde=0)
-        for k in range(4):
-            fase = (t * 0.8 + k * 0.27) % 1
-            L.circ(0.62 + 0.05 * np.sin(k * 2 + t * 3), -0.1 + 0.45 * fase, 0.03 + 0.02 * k % 2,
-                   "#7BE495", borde=1, alpha=1 - fase)
-        L.circ(0.62, -0.3, 0.09, PIEL)
-        L.texto(0.95, 0.35, "✦", "#FFD23F", 30)
-        L.texto(0.3, 0.75, "✦", "#FFD23F", 20)
+        L.caja(0.62, -0.5, 0.22, 0.48, BATA, r=0.1)
+        L.circ(0.66, 0.08, 0.15, "#FFF3B0", borde=1.6)
+        L.caja(0.66, -0.12, 0.12, 0.1, "#9AA5B4", r=0.02, borde=1.4)
+        brillo = 0.5 + 0.5 * np.sin(2 * np.pi * 3 * t)
+        L.circ(0.66, 0.08, 0.26, "#FFD23F", borde=0, alpha=0.25 * brillo)
+        L.circ(0.62, -0.22, 0.09, GUANTE)
+        L.linea([(0.88, 0.3), (0.98, 0.42), (0.92, 0.44), (1.04, 0.58)], "#4CC9F0", 5)
+        L.linea([(0.42, 0.34), (0.36, 0.46), (0.42, 0.47), (0.34, 0.6)], "#4CC9F0", 5)
