@@ -18,23 +18,21 @@ P = {k: np.array(v[:2]) for k, v in PALABRAS.items()}
 
 T_REALEZA, T_SUMA0, T_SUMA1 = 9.4, 14.6, 17.6
 
-ESCENAS = [  # "!" = habla el robot (subtítulo amarillo); el resto, la narradora
+ESCENAS = [  # "!" robot · "P:" Paco · "V:" Voltio · resto, narradora
     (0.0, 4.4, "La IA convierte cada palabra en números: un punto en un mapa"),
     (4.4, 9.0, "Las palabras parecidas quedan cerca: perro y gato, manzana y pera"),
     (9.0, 14.0, "Y hasta las DIRECCIONES significan algo: de hombre a rey… «realeza»"),
     (14.0, 18.6, "!Mira: rey − hombre + mujer = …", "explica"),
-    (18.6, 23.0, "¡Reina! Nadie se lo explicó: lo sacó de leer muchísimos textos"),
-    (23.0, 27.4, "Así sabe la IA que «can» y «perro» significan casi lo mismo"),
+    (18.6, 23.0, "V:¡REINA! Nadie se lo explicó: ¡lo sacó de leer textos!"),
+    (23.0, 27.4, "P:O sea, que para la IA un can y un perro… ¡son vecinos!"),
     (27.4, 32.0, "!¡Sígueme y te enseño más trucos de palabras!"),
 ]
 VOZ = {
-    "gancho": "¡Para mí, las palabras son coordenadas!",
+    "gancho": "¡Sé hacer cuentas con palabras!",
     0: "La IA convierte cada palabra en números: un punto en un mapa.",
     1: "Las palabras parecidas quedan cerca. Perro y gato. Manzana y pera.",
     2: "Y hasta las direcciones significan algo. De hombre a rey: realeza.",
     3: "Mira: rey, menos hombre, más mujer, es igual a…",
-    4: "¡Reina! Nadie se lo explicó: lo sacó de leer muchísimos textos.",
-    5: "Así sabe la IA que can y perro significan casi lo mismo.",
 }
 EFECTOS = ([(0.4 + 0.12 * k, "pop") for k in range(0, len(PALABRAS), 3)]
            + [(4.8, "whoosh"), (T_REALEZA, "whoosh"), (11.4, "whoosh"),
@@ -42,8 +40,11 @@ EFECTOS = ([(0.4 + 0.12 * k, "pop") for k in range(0, len(PALABRAS), 3)]
 PORTADA = dict(titulo=["Para una IA,", "las palabras", "son coordenadas"], amarilla=2, t=19.5,
                gesto="explica")
 
+TEASER = {'t': 19.0, 'texto': 'Esta IA hace cuentas con palabras', 'pregunta': '◀◀  ¿Cómo lo hace?', 'y': 0.36}
+
 reel = Reel(9, "Para una IA, las palabras\nson coordenadas", ESCENAS, 32.0, voz=VOZ,
-            efectos=EFECTOS, serie=SERIE_CERO, musica={"bpm": 96}, portada=PORTADA)
+            efectos=EFECTOS, serie=SERIE_CERO, musica={"bpm": 96}, portada=PORTADA,
+            teaser=TEASER, retratos=True)
 ax = reel.ax
 ax.set_xlim(0, 10)
 ax.set_ylim(0, 7.8)

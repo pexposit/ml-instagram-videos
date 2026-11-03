@@ -14,17 +14,17 @@ PRUEBA = np.array([6.2, 3.0])   # la manzana verde que llega
 T_REGLA, T_PRUEBA, T_NARANJA, T_ERROR = 4.8, 9.2, 10.6, 11.8
 T_VERDES, T_GIRO0, T_GIRO1, T_BIEN = 17.9, 19.4, 20.9, 21.2
 
-ESCENAS = [  # "!" = habla el robot (subtítulo amarillo); el resto, la narradora
+ESCENAS = [  # "!" robot · "P:" Paco · "V:" Voltio · resto, narradora
     (0.0, 4.4, "Entrenamos una IA con frutas… pero solo con manzanas ROJAS"),
-    (4.4, 8.8, "Aprende una regla fácil: se fija en el color"),
+    (4.4, 8.8, "P:Hombre, lo rojo es manzana. Eso lo sabe todo el mundo"),
     (8.8, 13.0, "!Llega una manzana verde… ¡es una naranja! Segurísimo.", "pulgar"),
     (13.0, 17.6, "No es tonta: nunca había visto una manzana verde"),
-    (17.6, 22.6, "Si le damos ejemplos variados… aprende la regla buena"),
+    (17.6, 22.6, "V:¡Solución científica: más ejemplos y más variados!"),
     (22.6, 27.2, "Esto es el SESGO: pasa con caras, voces o currículums"),
     (27.2, 31.8, "!¡Sígueme! Con buenos datos, aprendo mejor"),
 ]
 VOZ = {
-    "gancho": "¡Me equivoqué… por culpa de mis datos!",
+    "gancho": "¡Confundí una manzana con una naranja!",
     0: "Entrenamos una IA con frutas. Pero solo con manzanas rojas.",
     2: "Llega una manzana verde… ¡Es una naranja! Segurísimo.",
     5: "Esto se llama sesgo. Y pasa con caras, voces, o currículums.",
@@ -35,8 +35,11 @@ EFECTOS = ([(0.4 + 0.15 * k, "pop") for k in range(0, 18, 3)]
 PORTADA = dict(titulo=["Una IA es", "tan buena", "como sus datos"], amarilla=2, t=12.5,
                gesto="piensa")
 
+TEASER = {'t': 12.0, 'texto': 'Confundió una manzana con una naranja', 'pregunta': '◀◀  ¿Cómo pudo pasar?', 'y': 0.6}
+
 reel = Reel(10, "Una IA es tan buena\ncomo sus datos", ESCENAS, 31.8, voz=VOZ,
-            efectos=EFECTOS, serie=SERIE_CERO, musica={"bpm": 94}, portada=PORTADA)
+            efectos=EFECTOS, serie=SERIE_CERO, musica={"bpm": 94}, portada=PORTADA,
+            teaser=TEASER, retratos=True)
 ax = reel.ax
 ax.set_xlim(0, 10)
 ax.set_ylim(0, 7.8)

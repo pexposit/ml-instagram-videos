@@ -94,6 +94,25 @@ voz, energía de la IA).
 - **Cuenta:** el usuario reutilizará una cuenta antigua (se le aconsejó revisar
   *Estado de la cuenta*, archivar publicaciones viejas y pasarla a profesional/creador).
 
+## Formato nuevo (aprobado por el usuario con el vídeo de ChatGPT)
+
+- **Arranque "teaser"** (`Reel(..., teaser=TEASER)`): el vídeo empieza por el momento más
+  llamativo de la animación, con destello y golpe de sonido, el gancho nuevo apareciendo
+  palabra a palabra en grande (`TEASER["texto"]`, `y` = altura) y luego "◀◀ ¿…?" y
+  rebobinado al principio. Sustituye a la intro de 3,2 s con el robot grande.
+- **Personajes en plastilina** (`retratos=True`, `realistas.py`): robot, **Paco** («el
+  cuñado», 60 y pico, polo rojo, se equivoca y el robot le corrige) y el **Profesor Voltio**
+  (científico loco pelirrojo con lupa de relojero, bata verde, momento «¡Eureka!»). Diseños
+  propios: el usuario pidió Homer/Rick y se le explicó que no por derechos de autor.
+  Salen de cuerpo entero, grandes, abajo a la izquierda; el robot grande en la despedida.
+- **Quién habla**: prefijo del texto de la escena: `!` robot (amarillo), `P:` Paco (naranja),
+  `V:` Voltio (verde), sin prefijo la narradora (blanco). Voces en `audio.py` (`VOCES`):
+  Paco = davefx más grave; Voltio = sharvard hombre rápido (provisionales, el usuario aún no
+  las ha elegido).
+- Aplicado a: `07_chatgpt` y los 10 siguientes (`08`…`17`). Pendiente: `04`, `05`, `06`,
+  `18` y la serie técnica `01`–`03`. En `11_aprende_a_andar` el robot de dentro de la
+  animación sigue siendo el vectorial articulado (el de plastilina aún no anda).
+
 ## Estilo de los vídeos
 
 - 1080×1920, mismo estilo que las portadas: fondo con halo azul, etiqueta amarilla de la

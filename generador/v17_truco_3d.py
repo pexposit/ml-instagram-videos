@@ -15,20 +15,19 @@ T_SUBE0, T_SUBE1 = 9.2, 12.2
 T_PLANO = 13.6
 T_ARRIBA0, T_ARRIBA1 = 18.8, 20.8
 
-ESCENAS = [  # "!" = habla el robot (subtítulo amarillo); el resto, la narradora
+ESCENAS = [  # "!" robot · "P:" Paco · "V:" Voltio · resto, narradora
     (0.0, 4.4, "Puntos azules en el centro, rosas alrededor. Hay que separarlos"),
-    (4.4, 8.8, "Con una línea recta… es imposible"),
+    (4.4, 8.8, "P:Pues se tira una línea recta y listo… ¿no?"),
     (8.8, 13.4, "!¡Truco! Les doy altura: cuanto más lejos del centro, más arriba", "explica"),
     (13.4, 18.6, "Ahora un simple plano los separa"),
-    (18.6, 23.6, "Y visto desde arriba, el plano dibuja… ¡un círculo perfecto!"),
+    (18.6, 23.6, "V:¡EUREKA! ¡Desde arriba es un círculo perfecto!"),
     (23.6, 28.0, "Es el «truco del núcleo»: subir de dimensión para separar lo inseparable"),
     (28.0, 32.5, "!¡Sígueme! En el próximo, más magia en 3D"),
 ]
 VOZ = {
-    "gancho": "¿Separar esto con una línea? ¡Imposible… en 2D!",
+    "gancho": "¿Un plano que dibuja un círculo? ¡Mira!",
     0: "Puntos azules en el centro. Rosas, alrededor. Hay que separarlos.",
     2: "¡Truco! Les doy altura: cuanto más lejos del centro, más arriba.",
-    4: "Y visto desde arriba, el plano dibuja… ¡un círculo perfecto!",
     5: "Es el truco del núcleo: subir de dimensión para separar lo inseparable.",
 }
 EFECTOS = ([(0.4, "pop"), (4.8, "whoosh"), (6.0, "error"), (7.2, "error"),
@@ -36,8 +35,11 @@ EFECTOS = ([(0.4, "pop"), (4.8, "whoosh"), (6.0, "error"), (7.2, "error"),
 PORTADA = dict(titulo=["El truco", "de la tercera", "dimensión"], amarilla=1, t=16.5,
                gesto="explica")
 
+TEASER = {'t': 21.5, 'texto': 'Un plano que dibuja un círculo', 'pregunta': '◀◀  ¿Cómo es posible?', 'y': 0.6}
+
 reel = Reel(14, "El truco de la\ntercera dimensión", ESCENAS, 32.5, voz=VOZ, efectos=EFECTOS,
-            serie=SERIE_CERO, musica={"bpm": 98}, portada=PORTADA, tres_d=True)
+            serie=SERIE_CERO, musica={"bpm": 98}, portada=PORTADA, tres_d=True,
+            teaser=TEASER, retratos=True)
 ax = reel.ax
 ax.computed_zorder = False
 ax.set_xlim(-2.3, 2.3)

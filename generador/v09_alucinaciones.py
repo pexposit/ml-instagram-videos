@@ -14,22 +14,21 @@ T_BARRAS, T_ELIGE = 4.8, 8.6
 T_RESTO0, T_RESTO_PASO = 9.8, 0.55
 T_SELLO = 16.6
 
-ESCENAS = [  # "!" = habla el robot (subtítulo amarillo); el resto, la narradora
+ESCENAS = [  # "!" robot · "P:" Paco · "V:" Voltio · resto, narradora
     (0.0, 4.4, "Le preguntas algo que no sabe… (esta cuenta no existía en 2019)"),
     (4.4, 9.4, "La IA no busca la verdad: elige la palabra que SUENA más probable"),
-    (9.4, 14.0, "Palabra a palabra, la frase suena perfecta…"),
+    (9.4, 14.0, "P:Pues suena muy convincente. Yo me lo creo"),
     (14.0, 18.4, "!¡Ganó el Premio Nacional de Robótica! …Ups, me lo he inventado.", "piensa"),
     (18.4, 23.2, "Eso es una ALUCINACIÓN: suena muy seguro, pero es falso"),
-    (23.2, 27.6, "Truco: pide fuentes y comprueba los datos importantes"),
+    (23.2, 27.6, "V:¡Truco de laboratorio! Pide fuentes y comprueba los datos"),
     (27.6, 32.0, "!¡Sígueme! Yo también me equivoco… pero aprendo"),
 ]
 VOZ = {
-    "gancho": "¿Por qué la IA se inventa cosas? ¡Te lo confieso!",
+    "gancho": "¡La IA me ha mentido a la cara!",
     0: "Le preguntas algo que la IA no puede saber.",
     1: "La IA no busca la verdad: elige la palabra que suena más probable.",
     3: "¡Ganó el Premio Nacional de Robótica! … Ups. Me lo he inventado.",
     4: "Eso es una alucinación: suena muy seguro, pero es falso.",
-    5: "Un truco: pide fuentes, y comprueba los datos importantes.",
     6: "¡Sígueme! Yo también me equivoco… pero aprendo.",
 }
 EFECTOS = ([(T_PREGUNTA[0] + k * T_PREGUNTA[1], "pop") for k in range(0, len(PREGUNTA), 2)]
@@ -40,8 +39,11 @@ EFECTOS = ([(T_PREGUNTA[0] + k * T_PREGUNTA[1], "pop") for k in range(0, len(PRE
 PORTADA = dict(titulo=["¿Por qué la IA", "se inventa", "cosas?"], amarilla=1, t=17.5,
                gesto="piensa")
 
+TEASER = {'t': 17.2, 'texto': 'La IA me ha mentido a la cara', 'pregunta': '◀◀  ¿Por qué se lo inventa?', 'y': 0.36}
+
 reel = Reel(6, "¿Por qué la IA\nse inventa cosas?", ESCENAS, 32.0, voz=VOZ, efectos=EFECTOS,
-            serie=SERIE_CERO, musica={"bpm": 92}, portada=PORTADA)
+            serie=SERIE_CERO, musica={"bpm": 92}, portada=PORTADA,
+            teaser=TEASER, retratos=True)
 ax = reel.ax
 ax.set_xlim(0, 10)
 ax.set_ylim(0, 7.8)

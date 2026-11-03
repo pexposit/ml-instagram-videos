@@ -37,30 +37,31 @@ T_A0, T_A1 = 9.4, 14.6                     # bola principal
 T_B0, T_B1 = 15.2, 18.6                    # bola atascada
 T_C0, T_C1 = 19.6, 22.8                    # muchas bolas
 
-ESCENAS = [  # "!" = habla el robot (subtítulo amarillo); el resto, la narradora
+ESCENAS = [  # "!" robot · "P:" Paco · "V:" Voltio · resto, narradora
     (0.0, 4.4, "Imagina el error de una IA como un paisaje de montañas"),
     (4.4, 9.0, "Arriba se equivoca mucho. En el fondo del valle, acierta"),
     (9.0, 15.0, "La IA no ve el paisaje: solo nota hacia dónde baja… y da un paso"),
     (15.0, 19.4, "!¡Ups! Me he quedado en un valle pequeñito…", "piensa"),
-    (19.4, 24.0, "Por eso se prueba desde muchos sitios y se queda con el mejor"),
-    (24.0, 28.4, "Así se entrenan casi todas las IAs: bajando montañas de error"),
+    (19.4, 24.0, "P:¡Pues que pruebe desde otro sitio, hombre!"),
+    (24.0, 28.4, "V:¡Exacto! ¡Así se entrenan casi todas las IAs!"),
     (28.4, 33.0, "!¡Sígueme para más IA en 3D!"),
 ]
 VOZ = {
-    "gancho": "¡Aprender es bajar una montaña… a ciegas!",
+    "gancho": "¡Me he quedado atrapado en un valle!",
     0: "Imagina el error de una IA como un paisaje de montañas.",
     1: "Arriba, se equivoca mucho. En el fondo del valle, acierta.",
     2: "La IA no ve el paisaje: solo nota hacia dónde baja… y da un paso. Y otro.",
-    4: "Por eso se prueba desde muchos sitios, y se queda con el mejor.",
-    5: "Así se entrenan casi todas las IAs: bajando montañas de error.",
 }
 EFECTOS = ([(0.4, "whoosh"), (T_A0, "pop"), (T_A1, "pop"), (T_B0, "pop"), (T_B1, "error"),
             (T_C0, "whoosh"), (T_C1, "pop")])
 PORTADA = dict(titulo=["Una IA aprende", "bajando", "montañas"], amarilla=2, t=13.0,
                gesto="senala")
 
+TEASER = {'t': 18.0, 'texto': 'Esta bola se ha quedado atrapada', 'pregunta': '◀◀  ¿Qué le ha pasado?', 'y': 0.6}
+
 reel = Reel(13, "Una IA aprende\nbajando montañas", ESCENAS, 33.0, voz=VOZ, efectos=EFECTOS,
-            serie=SERIE_CERO, musica={"bpm": 92}, portada=PORTADA, tres_d=True)
+            serie=SERIE_CERO, musica={"bpm": 92}, portada=PORTADA, tres_d=True,
+            teaser=TEASER, retratos=True)
 ax = reel.ax
 ax.computed_zorder = False
 

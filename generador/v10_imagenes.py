@@ -35,19 +35,18 @@ EJEMPLOS = [paisaje(24, (0.3 + 0.2 * k % 0.5, 0.5 + 0.05 * k), (0.35 + 0.04 * (k
 
 T_P0, T_P1, T_P2, T_FIN = 4.6, 9.0, 15.0, 17.2   # progreso del "limpiado"
 
-ESCENAS = [  # "!" = habla el robot (subtítulo amarillo); el resto, la narradora
+ESCENAS = [  # "!" robot · "P:" Paco · "V:" Voltio · resto, narradora
     (0.0, 4.2, "Le pides: «montañas al atardecer». Y empieza… con puro ruido"),
     (4.2, 9.0, "Una red neuronal mira el ruido… y quita un poquito"),
-    (9.0, 15.0, "Y otra vez. Y otra. En cada paso, la imagen se ve más clara"),
+    (9.0, 15.0, "V:¡Y otra vez! ¡Y otra! ¡En cada paso, más nítida!"),
     (15.0, 19.4, "!¡Como ver formas en las nubes… pero a lo bestia!", "explica"),
-    (19.4, 24.0, "Aprendió viendo millones de imágenes con su descripción"),
-    (24.0, 28.0, "Así funcionan los generadores de imágenes con IA"),
+    (19.4, 24.0, "P:¿Entonces la IA copia fotos de internet?"),
+    (24.0, 28.0, "No las copia: aprendió cómo es un paisaje"),
     (28.0, 32.5, "!¡Sígueme! En el próximo, me verás aprender a andar"),
 ]
 VOZ = {
-    "gancho": "¿Cómo pinto una imagen de la nada? ¡Mira!",
+    "gancho": "¡Esta imagen empezó siendo puro ruido!",
     0: "Le pides: montañas al atardecer. Y empieza… con puro ruido.",
-    2: "Y otra vez. Y otra. En cada paso, la imagen se ve más clara.",
     6: "¡Sígueme! En el próximo, me verás aprender a andar.",
 }
 EFECTOS = ([(0.4, "pop"), (1.6, "whoosh"), (T_P0, "whoosh")]
@@ -56,8 +55,11 @@ EFECTOS = ([(0.4, "pop"), (1.6, "whoosh"), (T_P0, "whoosh")]
 PORTADA = dict(titulo=["Así crea una IA", "una imagen", "de la nada"], amarilla=1, t=14.6,
                gesto="explica")
 
+TEASER = {'t': 14.6, 'texto': 'Esta imagen empezó siendo ruido', 'pregunta': '◀◀  ¿Cómo es posible?', 'y': 0.36}
+
 reel = Reel(7, "Así crea una IA\nuna imagen de la nada", ESCENAS, 32.5, voz=VOZ,
-            efectos=EFECTOS, serie=SERIE_CERO, musica={"bpm": 90}, portada=PORTADA)
+            efectos=EFECTOS, serie=SERIE_CERO, musica={"bpm": 90}, portada=PORTADA,
+            teaser=TEASER, retratos=True)
 ax = reel.ax
 ax.set_xlim(0, 10)
 ax.set_ylim(0, 7.8)

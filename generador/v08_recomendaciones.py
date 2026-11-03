@@ -24,28 +24,30 @@ TU_RUTA = [(5.0, 3.9), (4.3, 4.4), (3.7, 4.8), (3.2, 5.0)]   # te acercas a los 
 T_LIKES = [9.2, 10.6, 12.0]
 OTROS = [(2.8, 4.1), (3.9, 5.6), (2.6, 5.2)]                   # gente parecida a ti
 
-ESCENAS = [  # "!" = habla el robot (subtítulo amarillo); el resto, la narradora
+ESCENAS = [  # "!" robot · "P:" Paco · "V:" Voltio · resto, narradora
     (0.0, 4.4, "Instagram coloca cada vídeo en un mapa: los parecidos, juntos"),
-    (4.4, 8.8, "Y a ti también te coloca, según lo que ves y lo que te gusta"),
-    (8.8, 13.6, "Cada «me gusta» te acerca a ese tipo de vídeos"),
+    (4.4, 8.8, "P:¡Anda ya! Eso es que el móvil me escucha"),
+    (8.8, 13.6, "No: te coloca según lo que ves. Cada «me gusta» te acerca"),
     (13.6, 18.2, "Te enseña lo que está cerca… y lo que vieron otros como tú"),
     (18.2, 22.4, "!¡Por eso no paras de ver vídeos de gatos!", "pulgar"),
-    (22.4, 27.0, "Es un SISTEMA DE RECOMENDACIÓN: cuanto más miras, mejor te conoce"),
+    (22.4, 27.0, "V:¡Un SISTEMA DE RECOMENDACIÓN! Cuanto más miras, más te conoce"),
     (27.0, 31.5, "!¡Dale a «me gusta» y verás más vídeos como este!"),
 ]
 VOZ = {
-    "gancho": "¿Te has preguntado por qué ves lo que ves?",
+    "gancho": "¡Instagram sabe qué vas a ver ahora!",
     0: "Instagram coloca cada vídeo en un mapa. Los parecidos, juntos.",
     3: "Te enseña lo que está cerca de ti… y lo que vieron otros como tú.",
-    5: "Es un sistema de recomendación: cuanto más miras, mejor te conoce.",
 }
 EFECTOS = ([(0.4, "whoosh"), (4.8, "pop")] + [(tl, "pop") for tl in T_LIKES]
            + [(13.9, "whoosh"), (15.2, "pop"), (16.4, "pop"), (18.4, "pop")])
 PORTADA = dict(titulo=["Así decide", "Instagram", "qué ves después"], amarilla=1, t=17.0,
                gesto="senala")
 
+TEASER = {'t': 16.8, 'texto': 'Instagram sabe qué vas a ver ahora', 'pregunta': '◀◀  ¿Cómo lo sabe?', 'y': 0.36}
+
 reel = Reel(5, "Así decide Instagram\nqué ves después", ESCENAS, 31.5, voz=VOZ,
-            efectos=EFECTOS, serie=SERIE_CERO, musica={"bpm": 100}, portada=PORTADA)
+            efectos=EFECTOS, serie=SERIE_CERO, musica={"bpm": 100}, portada=PORTADA,
+            teaser=TEASER, retratos=True)
 ax = reel.ax
 ax.set_xlim(0, 10)
 ax.set_ylim(0, 7.8)

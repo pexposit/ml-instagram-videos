@@ -43,28 +43,30 @@ IX0, IY0, LADO = 0.4, 1.6, 4.0                 # foto
 OX0, OY0 = 5.6, 1.6                             # mapa de salida
 T_FILTRO, T_V1, T_H0, T_H1 = 4.6, 13.0, 13.9, 16.2
 
-ESCENAS = [  # "!" = habla el robot (subtítulo amarillo); el resto, la narradora
+ESCENAS = [  # "!" robot · "P:" Paco · "V:" Voltio · resto, narradora
     (0.0, 4.2, "Para una IA, una foto es una cuadrícula de números"),
     (4.2, 8.6, "Pasa un pequeño FILTRO por encima, trocito a trocito"),
-    (8.6, 13.6, "Este filtro busca bordes verticales… y los resalta"),
+    (8.6, 13.6, "V:¡Este filtro caza bordes verticales! ¡Mira cómo brillan!"),
     (13.6, 18.0, "!¡Y este otro busca bordes horizontales! Ya veo el tejado", "senala"),
     (18.0, 22.8, "Capa tras capa: bordes → formas → ¡una casa!"),
-    (22.8, 27.2, "Es una RED CONVOLUCIONAL: así ven las fotos los móviles"),
+    (22.8, 27.2, "P:Pues yo veo una casa y ya está, sin tanto filtro"),
     (27.2, 31.8, "!¡Sígueme para ver cómo veo yo el mundo!"),
 ]
 VOZ = {
-    "gancho": "¿Quieres ver una foto como la veo yo?",
+    "gancho": "¡Así veo yo tus fotos!",
     0: "Para una IA, una foto es una cuadrícula de números.",
     3: "¡Y este otro busca bordes horizontales! Ya veo el tejado.",
     4: "Capa tras capa: bordes, formas… ¡y una casa!",
-    5: "Es una red convolucional: así ven las fotos los móviles.",
 }
 EFECTOS = ([(0.4, "pop"), (2.0, "pop"), (T_FILTRO, "whoosh"), (T_V1, "pop"), (T_H0, "whoosh"),
             (T_H1, "pop"), (18.3, "whoosh"), (19.6, "whoosh"), (20.9, "pop")])
 PORTADA = dict(titulo=["Así ve", "una foto", "una IA"], amarilla=1, t=11.0, gesto="senala")
 
+TEASER = {'t': 11.5, 'texto': 'Así ve tu móvil esta foto', 'pregunta': '◀◀  ¿Por qué la ve así?', 'y': 0.36}
+
 reel = Reel(11, "Así ve una foto una IA", ESCENAS, 31.8, voz=VOZ, efectos=EFECTOS,
-            serie=SERIE_CERO, musica={"bpm": 98}, portada=PORTADA)
+            serie=SERIE_CERO, musica={"bpm": 98}, portada=PORTADA,
+            teaser=TEASER, retratos=True)
 ax = reel.ax
 ax.set_xlim(0, 10)
 ax.set_ylim(0, 7.8)

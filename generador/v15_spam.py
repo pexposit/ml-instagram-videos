@@ -17,22 +17,20 @@ T_SPAM = T_LEE1 + len(CORREO1) * T_PASO1 + 0.3       # ≈ 13.0
 T_LEE2, T_PASO2 = 17.9, 0.45
 T_OK = T_LEE2 + len(CORREO2) * T_PASO2 + 0.3
 
-ESCENAS = [  # "!" = habla el robot (subtítulo amarillo); el resto, la narradora
+ESCENAS = [  # "!" robot · "P:" Paco · "V:" Voltio · resto, narradora
     (0.0, 4.4, "Llega un correo. El filtro lo lee palabra a palabra"),
     (4.4, 8.8, "Cada palabra suma o resta SOSPECHA, según lo que aprendió"),
     (8.8, 13.0, "!¿«GRATIS»? ¿«PREMIO»? ¡A mí no me engañas!", "piensa"),
-    (13.0, 17.6, "Pasa el límite… ¡directo a la carpeta de spam!"),
+    (13.0, 17.6, "P:¡Pero si era un premio gratis! Yo le daba al clic"),
     (17.6, 22.6, "Otro correo: «¿quedamos mañana?». Poca sospecha: a tu bandeja"),
-    (22.6, 27.2, "Aprendió contando palabras en millones de correos marcados como spam"),
+    (22.6, 27.2, "V:¡Estadística pura! Contó palabras en millones de correos"),
     (27.2, 31.8, "!¡Sígueme! Y nunca hagas clic en premios gratis"),
 ]
 VOZ = {
-    "gancho": "¿Cómo sé que un correo es spam? ¡Te lo enseño!",
+    "gancho": "¡Este correo nunca llegó a tu bandeja!",
     1: "Cada palabra suma o resta sospecha, según lo que aprendió.",
     2: "¿Gratis? ¿Premio? ¡A mí no me engañas!",
-    3: "Pasa el límite… ¡Directo a la carpeta de spam!",
     4: "Otro correo: ¿quedamos mañana? Poca sospecha: a tu bandeja de entrada.",
-    5: "Aprendió contando palabras en millones de correos marcados como spam.",
     6: "¡Sígueme! Y nunca hagas clic en premios gratis.",
 }
 EFECTOS = ([(0.4, "whoosh")] + [(T_LEE1 + k * T_PASO1, "pop") for k in range(len(CORREO1))]
@@ -41,8 +39,11 @@ EFECTOS = ([(0.4, "whoosh")] + [(T_LEE1 + k * T_PASO1, "pop") for k in range(len
 PORTADA = dict(titulo=["Cómo sabe", "tu correo", "que es spam"], amarilla=2, t=12.6,
                gesto="piensa")
 
+TEASER = {'t': 13.4, 'texto': 'Este correo nunca llegó a tu bandeja', 'pregunta': '◀◀  ¿Quién lo paró?', 'y': 0.47}
+
 reel = Reel(12, "Cómo sabe tu correo\nque es spam", ESCENAS, 31.8, voz=VOZ, efectos=EFECTOS,
-            serie=SERIE_CERO, musica={"bpm": 100}, portada=PORTADA)
+            serie=SERIE_CERO, musica={"bpm": 100}, portada=PORTADA,
+            teaser=TEASER, retratos=True)
 ax = reel.ax
 ax.set_xlim(0, 10)
 ax.set_ylim(0, 7.8)

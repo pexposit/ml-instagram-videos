@@ -24,21 +24,20 @@ INTENTOS = [
     (18.0, 1.2, 15, 0.27, 0, 1000, 30),
 ]
 
-ESCENAS = [  # "!" = habla el robot (subtítulo amarillo); el resto, la narradora
+ESCENAS = [  # "!" robot · "P:" Paco · "V:" Voltio · resto, narradora
     (0.0, 4.2, "Esta IA tiene que aprender a andar. Nadie le dice cómo."),
     (4.2, 9.0, "Prueba a mover las piernas… y si se cae, pierde puntos"),
     (9.0, 12.6, "!¡Ay! Otra vez al suelo…"),
     (12.6, 18.0, "Si avanza sin caerse, gana puntos. Y lo intenta miles de veces"),
     (18.0, 24.0, "!¡Mírame! ¡Ya ando yo solito!"),
-    (24.0, 28.6, "Es APRENDIZAJE POR REFUERZO: aprender probando, con premios y castigos"),
+    (24.0, 28.6, "P:¡Como mi nieto con la bici: a base de tortazos!"),
     (28.6, 33.0, "!¡Sígueme para más! Yo sigo practicando…"),
 ]
 VOZ = {
-    "gancho": "¡Hoy aprendo a andar! … Creo.",
+    "gancho": "¡Me caí 999 veces! Mira la mil.",
     0: "Esta IA tiene que aprender a andar. Nadie le dice cómo.",
     1: "Prueba a mover las piernas. Y si se cae, pierde puntos.",
     3: "Si avanza sin caerse, gana puntos. Y lo intenta miles de veces.",
-    5: "Es aprendizaje por refuerzo: aprender probando, con premios y castigos.",
 }
 
 
@@ -53,8 +52,11 @@ EFECTOS = ([(it[0], "servo") for it in INTENTOS]
 PORTADA = dict(titulo=["Una IA", "aprendiendo", "a andar"], amarilla=1, t=6.5,
                gesto="piensa")
 
+TEASER = {'t': 6.3, 'texto': 'Se cayó 999 veces. Mira la 1000', 'pregunta': '◀◀  Empecemos por el principio', 'y': 0.58}
+
 reel = Reel(8, "Una IA aprendiendo\na andar", ESCENAS, 33.0, voz=VOZ, efectos=EFECTOS,
-            serie=SERIE_CERO, musica={"bpm": 104}, portada=PORTADA, asoma=False)
+            serie=SERIE_CERO, musica={"bpm": 104}, portada=PORTADA, asoma=False,
+            teaser=TEASER, retratos=True)
 ax = reel.ax
 ax.set_xlim(0, 10)
 ax.set_ylim(0, 7.8)
